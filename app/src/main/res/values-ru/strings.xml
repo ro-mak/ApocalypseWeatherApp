@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">Даешь Апокалипсис!</string>
+    <string name="show_description_button">Какая погода в этом городе?</string>
+    <string name="textview_dummy_text"></string>
+    <string name="choose_a_city">Выберите город</string>
+    <string name="share_weather_button">Поделиться с друзьями</string>
+    <string name="weather_share_result_ok">Вы возможно поделились с друзьями погодой, по крайней мере у вас есть приложение для этого</string>
+    <string name="weather_share_cancel">Операция отменена пользователем или такого приложения нет</string>
+    <string name="pressure">давление</string>
+    <string name="tomorrow_forecast">прогноз на завтра</string>
+    <string name="week_forecast">прогноз на неделю</string>
+    <string-array name="cities">
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Нью-Йорк</item>
+        <item>Брюссель</item>
+        <item>Бангкок</item>
+        <item>Пекин</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>Москва +5 солнечно</item>
+        <item>Санкт-Петербург +6 облачно</item>
+        <item>Нью-Йорк +10 туман</item>
+        <item>Брюссель +3 облачно</item>
+        <item>Бангкок +20 облачно</item>
+        <item>Пекин +18 солнечно</item>
+    </string-array>
+    <string-array name="pressure">
+        <item>775 мм рт ст</item>
+        <item>770 мм рт ст</item>
+        <item>768 мм рт ст</item>
+        <item>776 мм рт ст</item>
+        <item>759 мм рт ст</item>
+        <item>761 мм рт ст</item>
+    </string-array>
+    <string-array name="tomorrow_forecast">
+        <item>Завтра +4 облачно</item>
+        <item>Завтра +6 облачно</item>
+        <item>Завтра +3 облачно</item>
+        <item>Завтра +5 облачно</item>
+        <item>Завтра +24 облачно</item>
+        <item>Завтра +14 облачно</item>
+    </string-array>
+    <string-array name="week_forecast">
+        <item>
+            Понедельник +5 солнечно \n
+            Вторник +4 облачно \n
+            Среда +7 солнечно \n
+            Четверг 0 дождь со снегом \n
+            Пятница +1 дождь \n
+            Суббота +3 облачно \n
+            Воскресенье +4 солнечно \n
+        </item>
+        <item>Понедельник +6 облачно \n
+            Вторник +6 облачно \n
+            Среда +3 солнечно \n
+            Четверг +8 солнечно \n
+            Пятница +1 туман \n
+            Суббота +4 облачно \n
+            Воскресенье +4 солнечно \n</item>
+        <item>Понедельник +10 туман \n
+            Вторник +3 облачно \n
+            Среда +7 солнечно \n
+            Четверг 0 дождь со снегом \n
+            Пятница +1 дождь \n
+            Суббота +3 облачно \n
+            Воскресенье +4 солнечно \n</item>
+        <item>Понедельник +3 облачно \n
+            Вторник +5 облачно \n
+            Среда +7 солнечно \n
+            Четверг +1 солнечно \n
+            Пятница +1 дождь \n
+            Суббота +3 облачно \n
+            Воскресенье +4 солнечно \n</item>
+        <item>Понедельник +20 облачно \n
+            Вторник +24 облачно \n
+            Среда +27 солнечно \n
+            Четверг 20 облачно \n
+            Пятница +25 дождь \n
+            Суббота +25 облачно \n
+            Воскресенье +4 солнечно \n</item>
+        <item>Понедельник +15 солнечно \n
+            Вторник +14 облачно \n
+            Среда +18 солнечно \n
+            Четверг +20 дождь \n
+            Пятница +19 дождь \n
+            Суббота +13 облачно \n
+            Воскресенье +18 солнечно \n</item>
+    </string-array>
+</resources>

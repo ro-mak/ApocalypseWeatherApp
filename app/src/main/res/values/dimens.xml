@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standard_margin">15dp</dimen>
+    <dimen name="standard_padding">10dp</dimen>
+    <dimen name="recycler_padding">8dp</dimen>
+    <dimen name="RECYCLER_MARGIN">8dp</dimen>
+</resources>

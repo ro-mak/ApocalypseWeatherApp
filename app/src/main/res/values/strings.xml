@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">Hail the apocalypse!</string>
+    <string name="show_description_button">What\'s the weather here?</string>
+    <string name="textview_dummy_text"></string>
+    <string name="choose_a_city">Choose a city</string>
+    <string name="no_message_recieved_textview">No message recieved</string>
+    <string name="share_weather_button">Share with friends </string>
+    <string name="weather_share_result_ok">Successfully shared or maybe there is an app to share weather with</string>
+    <string name="weather_share_cancel">Operation cancelled by user or there is no such app</string>
+    <string name="pressure">pressure</string>
+    <string name="tomorrow_forecast">tomorrow forecast</string>
+    <string name="week_forecast">week forecast</string>
+    <string-array name="cities">
+        <item>Moscow</item>
+        <item>Saint-Petersburg</item>
+        <item>New-York</item>
+        <item>Brussels</item>
+        <item>Bangkok</item>
+        <item>Beijing</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>Moscow +5 sunny</item>
+        <item>Saint-Petersburg +6 cloudy</item>
+        <item>New-York +10 fog</item>
+        <item>Brussels +3 cloudy</item>
+        <item>Bangkok +20 cloudy</item>
+        <item>Beijing +18 sunny</item>
+    </string-array>
+    <string-array name="pressure">
+        <item>775 mmHg</item>
+        <item>770 mmHg</item>
+        <item>768 mmHg</item>
+        <item>776 mmHg</item>
+        <item>759 mmHg</item>
+        <item>761 mmHg</item>
+    </string-array>
+    <string-array name="tomorrow_forecast">
+        <item>tomorrow +4 cloudy</item>
+        <item>tomorrow +6 cloudy</item>
+        <item>tomorrow +3 cloudy</item>
+        <item>tomorrow +5 cloudy</item>
+        <item>tomorrow +24 cloudy</item>
+        <item>tomorrow +14 cloudy</item>
+    </string-array>
+    <string-array name="week_forecast">
+        <item>
+            Monday +5 sunny \n
+            Tuesday +4 cloudy \n
+            Wednesday +7 sunny \n
+            Thursday 0 rainVsSnow \n
+            Friday +1 rainy \n
+            Saturday +3 cloudy \n
+            Sunday +4 sunny \n
+        </item>
+        <item>Monday +6 cloudy \n
+            Tuesday +6 cloudy \n
+            Wednesday +3 sunny \n
+            Thursday +8 sunny \n
+            Friday +1 foggy \n
+            Saturday +4 cloudy \n
+            Sunday +4 sunny</item>
+        <item>Monday +10 fog \n
+            Tuesday +3 cloudy \n
+            Wednesday +7 sunny \n
+            Thursday 0 rainVsSnow \n
+            Friday +1 rainy \n
+            Saturday +3 cloudy \n
+            Sunday +4 sunny</item>
+        <item>Monday +3 cloudy \n
+            Tuesday +5 cloudy \n
+            Wednesday +7 sunny \n
+            Thursday +1 sunny \n
+            Friday +1 rainy \n
+            Saturday +3 cloudy \n
+            Sunday +4 sunny \n</item>
+        <item>Monday +20 cloudy \n
+            Tuesday +24 cloudy \n
+            Wednesday +27 sunny \n
+            Thursday 20 cloudy \n
+            Friday +25 rainy \n
+            Saturday +25 cloudy \n
+            Sunday +4 sunny</item>
+        <item>Monday +15 sunny \n
+            Tuesday +14 cloudy \n
+            Wednesday +18 sunny \n
+            Thursday +20 rainy \n
+            Friday +19 rainy \n
+            Saturday +13 cloudy \n
+            Sunday +18 sunny \n</item>
+    </string-array>
+</resources>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/recycler_view"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/RECYCLER_MARGIN"
+			android:layout_marginBottom="@dimen/RECYCLER_MARGIN"
+			android:layout_centerHorizontal="true"/>
+
+		<TextView
+			android:layout_below="@+id/recycler_view"
+			android:layout_marginTop="@dimen/standard_margin"
+			android:id="@+id/textview_choose_text"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="25sp"
+			android:text="@string/choose_a_city"
+			android:layout_centerHorizontal="true"/>
+
+		<Button
+			android:layout_below="@+id/textview_choose_text"
+			android:layout_marginRight="@dimen/standard_padding"
+			android:layout_marginLeft="@dimen/standard_padding"
+			android:layout_marginTop="@dimen/standard_margin"
+			android:id="@+id/show_description_button"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/show_description_button"/>
+
+		<TextView
+			android:layout_below="@+id/show_description_button"
+			android:layout_marginTop="@dimen/standard_margin"
+			android:id="@+id/textview_description"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/textview_dummy_text"/>
+
+		<RelativeLayout
+			android:layout_below="@+id/textview_description"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<CheckBox
+				android:id="@+id/checkbox_pressure"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/pressure"/>
+
+			<CheckBox
+				android:id="@+id/checkbox_tommorow_forecast"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/tomorrow_forecast"
+				android:layout_below="@+id/checkbox_pressure"/>
+
+			<CheckBox
+				android:id="@+id/checkbox_week_forecast"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/week_forecast"
+				android:layout_below="@id/checkbox_tommorow_forecast"/>
+
+		</RelativeLayout>
+
+	</RelativeLayout>
+
+</ScrollView>
+
