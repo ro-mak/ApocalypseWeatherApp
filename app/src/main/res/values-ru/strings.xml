@@ -1,4 +1,5 @@
 <resources>
+    <string name="count_down">Акокалипсис через:</string>
     <string name="app_name">Даешь Апокалипсис!</string>
     <string name="show_description_button">Какая погода в этом городе?</string>
     <string name="textview_dummy_text"></string>

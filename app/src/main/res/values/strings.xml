@@ -1,4 +1,5 @@
 <resources>
+    <string name="count_down">Apocalypse in:</string>
     <string name="app_name">Hail the apocalypse!</string>
     <string name="show_description_button">What\'s the weather here?</string>
     <string name="textview_dummy_text"></string>
