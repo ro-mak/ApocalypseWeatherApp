@@ -2,11 +2,11 @@ package ru.makproductions.apocalypseweatherapp;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+
 
 public class ShowWeatherActivity extends AppCompatActivity
 {
@@ -24,7 +24,6 @@ public class ShowWeatherActivity extends AppCompatActivity
 		setContentView(R.layout.activity_show_weather);
 
 		ShowWeatherFragment showWeatherFragment = ShowWeatherFragment.init(getIntent().getBundleExtra(WEATHER_BUNDLE));
-
 		android.support.v4.app.FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.show_weather, showWeatherFragment);
 		transaction.commit();

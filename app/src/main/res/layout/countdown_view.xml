@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
-        android:id="@+id/countdown_view"
+        android:id="@+id/countdown_title_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:gravity="center_horizontal"
         android:text="@string/count_down"
-        android:gravity="center"
-        ></TextView>
+        android:textSize="@dimen/timer_text_size"></TextView>
+    <TextView
+        android:layout_below="@id/countdown_title_view"
+        android:id="@+id/countdown_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/timer_text_size"></TextView>
+
 </android.widget.RelativeLayout>

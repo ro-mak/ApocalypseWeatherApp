@@ -2,12 +2,13 @@ package ru.makproductions.apocalypseweatherapp;
 
 import android.content.*;
 import android.os.*;
-import android.support.v7.app.*;
+
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.*;
-import android.text.*;
-import android.text.style.*;
 import android.view.*;
-import android.support.v4.app.*;
+
 import android.widget.*;
 
 public class MainActivity extends AppCompatActivity implements WeatherListListener

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,19 +19,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
-import android.graphics.*;
-import android.view.*;
 import android.util.*;
-import android.content.*;
-import android.app.*;
-import android.support.v7.app.*;
-import android.support.v4.app.*;
+
+
 
 public class WeatherListFragment extends Fragment
 {
     private static final String WEATHER_MESSAGE = "weather_message";
     private static final String TOWN_NUMBER = "townNumber";
-    private static final String TAG = "WeatherList###############";
+    private static final String TAG = "WeatherList########";
     private static final String PRESSURE = "PRESSURE";
     private static final String TOMMOROW_FORECAST = "TOMMOROW_FORECAST";
     private static final String WEEK_FORECAST = "WEEK_FORECAST";
@@ -60,7 +57,7 @@ public class WeatherListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
         View rootView = inflater.inflate(R.layout.weather_list_fragment, container, false);
-		Activity activity = getActivity();
+		FragmentActivity activity = getActivity();
         RecyclerView weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 		TextView chooseText = (TextView)rootView.findViewById(R.id.textview_choose_text);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -113,7 +110,7 @@ public class WeatherListFragment extends Fragment
 
 
 	@Override
-	public void onDestroy()
+	public void onPause()
 	{
 		Log.d(TAG, "onPauseeee!!!!!!");
         SharedPreferences.Editor editor = saveTown.edit();
@@ -122,14 +119,13 @@ public class WeatherListFragment extends Fragment
 		editor.putBoolean(WEEK_FORECAST, weekForecast);
 		editor.putBoolean(TOMMOROW_FORECAST, tommorowForecast);
 		editor.commit();
-		super.onDestroy();
+		super.onPause();
 
 	}
 
 	@Override
 	public void onResume()
 	{
-		// TODO: Implement this method
 		pressure = saveTown.getBoolean(PRESSURE, false);
 		weekForecast = saveTown.getBoolean(WEEK_FORECAST, false);
 		tommorowForecast = saveTown.getBoolean(TOMMOROW_FORECAST, false);
@@ -152,8 +148,7 @@ public class WeatherListFragment extends Fragment
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
 		{
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            MyViewHolder myViewHolder = new MyViewHolder(inflater, parent);
-            return myViewHolder;
+            return new MyViewHolder(inflater, parent);
         }
 
         @Override
