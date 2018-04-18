@@ -21,7 +21,7 @@ public class ShowWeatherFragment extends Fragment {
     private static final String APOCALYPSE_COUNTDOWN_FRAGMENT = "APOCALYPSE_COUNTDOWN_FRAGMENT";
     private static final String DATE_OF_DOOM = "DATE_OF_DOOM";
 
-    private static final long TIME_TO_APOCALYPSE = 1526938394452L;
+    private static final long TIME_TO_APOCALYPSE = 1546290000000L;
     private String weather_message;
 
     private static final String WEATHER_MESSAGE = "weather_message";

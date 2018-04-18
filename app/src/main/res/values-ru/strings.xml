@@ -10,6 +10,11 @@
     <string name="pressure">давление</string>
     <string name="tomorrow_forecast">прогноз на завтра</string>
     <string name="week_forecast">прогноз на неделю</string>
+    <string name="year">г</string>
+    <string name="day">д</string>
+    <string name="hour">ч</string>
+    <string name="minute">м</string>
+    <string name="second">с</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>

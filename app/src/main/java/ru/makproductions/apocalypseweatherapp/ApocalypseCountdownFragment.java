@@ -22,6 +22,8 @@ public class ApocalypseCountdownFragment extends Fragment {
     private static final String KEY_RUNNING = "running";
     private static final String KEY_WAS_RUNNING = "wasRunning";
     private static final String DATE_OF_DOOM = "DATE_OF_DOOM";
+    private static final long SECONDS_IN_DAY = 3600 * 24;
+    private static final long SECONDS_IN_YEAR = 3600 * 365 * 24;
     private long seconds;
     private boolean running;
     private boolean wasRunning;
@@ -46,29 +48,47 @@ public class ApocalypseCountdownFragment extends Fragment {
         currentTime = Calendar.getInstance().getTimeInMillis();
         countDownTime = dateOfDoom - currentTime;
         Log.d("DateOfDoom", dateOfDoom + " " + args);
+        Log.d("CurrentTime", currentTime + " " + args);
+        running = true;
         runCountdown(rootView);
         return rootView;
     }
 
+    @Override
+    public void onDetach() {
+        running = false;
+        super.onDetach();
+    }
+
     private void runCountdown(View rootView) {
-        seconds = countDownTime;
-        final TextView timeView = (TextView)
-                rootView.findViewById(R.id.countdown_view);
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                long hours = seconds / SECONDS_IN_HOUR;
-                long minutes = (seconds % SECONDS_IN_HOUR) / SECONDS_IN_MUNUTE;
-                long secs = seconds % SECONDS_IN_MUNUTE;
-                String time = String.format(Locale.US, "%d:%02d:%02d", hours,
-                        minutes, secs);
-                timeView.setText(time);
-                if (running) {
-                    seconds--;
+        if(running) {
+            seconds = countDownTime / 1000;
+            final TextView timeView = (TextView)
+                    rootView.findViewById(R.id.countdown_view);
+            final Handler handler = new Handler();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if(running) {
+                        long years = seconds / SECONDS_IN_YEAR;
+                        long days = (seconds % SECONDS_IN_YEAR) / SECONDS_IN_DAY;
+                        long hours = (seconds % SECONDS_IN_DAY) / SECONDS_IN_HOUR;
+                        long minutes = (seconds % SECONDS_IN_HOUR) / SECONDS_IN_MUNUTE;
+                        long secs = seconds % SECONDS_IN_MUNUTE;
+                        String y = getResources().getString(R.string.year);
+                        String d = getResources().getString(R.string.day);
+                        String h = getResources().getString(R.string.hour);
+                        String m = getResources().getString(R.string.minute);
+                        String s = getResources().getString(R.string.second);
+
+                        String time = String.format(Locale.US, "%d %s %d %s %d %s %02d %s %02d %s", years, y, days, d, hours, h,
+                                minutes, m, secs, s);
+                        timeView.setText(time);
+                        seconds--;
+                        handler.postDelayed(this, DELAY);
+                    }
                 }
-                handler.postDelayed(this, DELAY);
-            }
-        });
+            });
+        }
     }
 }
