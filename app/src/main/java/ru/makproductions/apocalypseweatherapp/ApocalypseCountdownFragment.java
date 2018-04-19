@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class ApocalypseCountdownFragment extends Fragment {
@@ -50,6 +50,11 @@ public class ApocalypseCountdownFragment extends Fragment {
         Log.d("DateOfDoom", dateOfDoom + " " + args);
         Log.d("CurrentTime", currentTime + " " + args);
         running = true;
+        TextView apocalypseMessage = rootView.findViewById(R.id.countdown_title_view);
+        TextView apocalypseTimer = rootView.findViewById(R.id.countdown_view);
+        FragmentActivity activity = getActivity();
+        UtilMethods.changeFontTextView(apocalypseMessage,activity);
+        UtilMethods.changeFontTextView(apocalypseTimer,activity);
         runCountdown(rootView);
         return rootView;
     }
