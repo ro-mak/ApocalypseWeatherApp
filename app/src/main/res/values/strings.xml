@@ -28,9 +28,9 @@
         <item>Moscow +5 sunny</item>
         <item>Saint-Petersburg +6 cloudy</item>
         <item>New-York +10 fog</item>
-        <item>Brussels +3 cloudy</item>
-        <item>Bangkok +20 cloudy</item>
-        <item>Beijing +18 sunny</item>
+        <item>Brussels +3 rainstorm</item>
+        <item>Bangkok +20 snowstorm</item>
+        <item>Beijing +18 rainWthSnow</item>
     </string-array>
     <string-array name="pressure">
         <item>775 mmHg</item>

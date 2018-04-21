@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -22,6 +23,7 @@ public class ShowWeatherFragment extends Fragment {
     private static final String DATE_OF_DOOM = "DATE_OF_DOOM";
 
     private static final long TIME_TO_APOCALYPSE = 1546290000000L;
+    public static final int positionOfSkyType = 2;
     private String weather_message;
 
     private static final String WEATHER_MESSAGE = "weather_message";
@@ -40,9 +42,11 @@ public class ShowWeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.show_weather_fragment, container, false);
         TextView showWeatherTextView = (TextView) view.findViewById(R.id.show_weather_textview);
+        ImageView weatherImage = (ImageView)view.findViewById(R.id.weather_image);
         Bundle args = this.getArguments();
         if (args != null) weather_message = args.getString(WEATHER_MESSAGE);
         showWeatherTextView.setText(weather_message);
+        setWeatherImage(weatherImage,weather_message);
         Button shareWeatherButton = (Button) view.findViewById(R.id.share_weather_button);
         shareWeatherButton.setOnClickListener(onClickListener);
         FragmentActivity activity = getActivity();
@@ -52,6 +56,27 @@ public class ShowWeatherFragment extends Fragment {
         createNestedFragment(this.getActivity());
 
         return view;
+    }
+
+    private void setWeatherImage(ImageView weatherImage,String weather_message){
+        String[] parsedMessage = weather_message.split(" ");
+        weatherImage.setMinimumHeight(192);
+        weatherImage.setMinimumWidth(192);
+        if(parsedMessage[positionOfSkyType].contains("sunny")){
+            weatherImage.setImageResource(R.mipmap.sunny);
+        }else if(parsedMessage[positionOfSkyType].contains("cloudy")){
+            weatherImage.setImageResource(R.mipmap.cloudy);
+        }else if(parsedMessage[positionOfSkyType].contains("raining")){
+            weatherImage.setImageResource(R.mipmap.raining);
+        }else if(parsedMessage[positionOfSkyType].contains("snowing")){
+            weatherImage.setImageResource(R.mipmap.snowing);
+        }else if(parsedMessage[positionOfSkyType].contains("rainWthSnow")){
+            weatherImage.setImageResource(R.mipmap.rain_with_snow);
+        }else if(parsedMessage[positionOfSkyType].contains("rainstorm")){
+            weatherImage.setImageResource(R.mipmap.rainstorm);
+        }else if(parsedMessage[positionOfSkyType].contains("snowstorm")){
+            weatherImage.setImageResource(R.mipmap.snowstorm);
+        }
     }
 
     private void createNestedFragment(FragmentActivity activity) {

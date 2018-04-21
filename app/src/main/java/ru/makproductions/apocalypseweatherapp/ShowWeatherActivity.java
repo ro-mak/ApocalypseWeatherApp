@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 
 public class ShowWeatherActivity extends AppCompatActivity
@@ -27,6 +29,13 @@ public class ShowWeatherActivity extends AppCompatActivity
 		android.support.v4.app.FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.show_weather, showWeatherFragment);
 		transaction.commit();
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.logo_layout);
+        View customView = actionBar.getCustomView();
+        TextView titleView = (TextView) customView.findViewById(R.id.title);
+        UtilMethods.changeFontTextView(titleView, this);
 
     }
 
