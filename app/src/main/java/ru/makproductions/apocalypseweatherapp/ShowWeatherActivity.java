@@ -10,17 +10,18 @@ import android.widget.TextView;
 
 //Activity for details on phones
 public class ShowWeatherActivity extends AppCompatActivity {
-    private static final String WEATHER_MESSAGE = "weather_message";
     private static final String WEATHER_BUNDLE = "weather_bundle";
 
-    private String weather;
+    private WeatherResult weather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_weather);
 
-        ShowWeatherFragment showWeatherFragment = ShowWeatherFragment.init(getIntent().getBundleExtra(WEATHER_BUNDLE));
+        Intent intent = getIntent();
+        if(intent==null)throw new NullPointerException("ShowWeatherActivity intent null");
+        ShowWeatherFragment showWeatherFragment = ShowWeatherFragment.init(getIntent().getExtras());
         android.support.v4.app.FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.show_weather, showWeatherFragment);
         transaction.commit();
@@ -40,7 +41,7 @@ public class ShowWeatherActivity extends AppCompatActivity {
             if (view.getId() == R.id.share_weather_button) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, weather);
+                intent.putExtra(Intent.EXTRA_TEXT, weather.getWeather());
                 PackageManager packageManager = getPackageManager();
                 if (!packageManager.queryIntentActivities(intent, 0).isEmpty()) {
                     startActivity(intent);

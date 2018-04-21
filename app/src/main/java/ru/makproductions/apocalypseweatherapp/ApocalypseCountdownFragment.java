@@ -18,15 +18,11 @@ public class ApocalypseCountdownFragment extends Fragment {
     private static final int SECONDS_IN_HOUR = 3600;
     private static final int SECONDS_IN_MUNUTE = 60;
     private static final int DELAY = 1000;
-    private static final String KEY_SECONDS = "seconds";
-    private static final String KEY_RUNNING = "running";
-    private static final String KEY_WAS_RUNNING = "wasRunning";
     private static final String DATE_OF_DOOM = "DATE_OF_DOOM";
     private static final long SECONDS_IN_DAY = 3600 * 24;
     private static final long SECONDS_IN_YEAR = 3600 * 365 * 24;
     private long seconds;
     private boolean running;
-    private boolean wasRunning;
     private long currentTime;
     private long dateOfDoom;
     private long countDownTime;

@@ -39,7 +39,7 @@ public class WeatherListFragment extends Fragment {
     private int townSelected;
     private final int SUCCESS_CODE = 666;
     private final static int VERTICAL = 1;
-    private String result = "";
+    private WeatherResult result;
     private boolean pressure;
     private boolean tommorowForecast;
     private boolean weekForecast;
@@ -57,14 +57,14 @@ public class WeatherListFragment extends Fragment {
         //RecyclerView init
         View rootView = inflater.inflate(R.layout.weather_list_fragment, container, false);
         FragmentActivity activity = getActivity();
-        RecyclerView weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        RecyclerView weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.cities_recycler_view);
         TextView chooseText = (TextView) rootView.findViewById(R.id.textview_choose_text);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(VERTICAL);
         weatherRecyclerView.setLayoutManager(layoutManager);
         Resources resources = getResources();
         weatherRecyclerView.setAdapter(new RVAdapter(Arrays.asList(resources.getStringArray(R.array.cities)),
-                getEnglishCitiesNamesList(resources)));
+                UtilMethods.getEnglishCitiesNamesList(resources)));
         weatherRecyclerView.setHasFixedSize(true);
         //Get Prefs
         saveTown = activity.getPreferences(MODE_PRIVATE);
@@ -130,19 +130,7 @@ public class WeatherListFragment extends Fragment {
         super.onResume();
     }
 
-    //Get English names to make finding images easier
-    private List<String> getEnglishCitiesNamesList(Resources resources) {
-        Configuration conf = resources.getConfiguration();
-        Locale savedLocale = conf.locale;
-        conf.locale = Locale.ENGLISH; // whatever you want here
-        resources.updateConfiguration(conf, null); // second arg null means don't change
-        // retrieve resources from desired locale
-        String[] str = resources.getStringArray(R.array.cities);
-        // restore original locale
-        conf.locale = savedLocale;
-        resources.updateConfiguration(conf, null);
-        return Arrays.asList(str);
-    }
+
     //RecyclerView
     private class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
         List<String> cities;
@@ -164,9 +152,11 @@ public class WeatherListFragment extends Fragment {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             String cityName = cities.get(position);
+            //Gets a city name in English casts to lower case and transforms to resource syntax
             String cityToShow = citiesToShow.get(position).toLowerCase();
-            cityToShow = formatCityName(cityToShow);
+            cityToShow = UtilMethods.formatCityName(cityToShow);
             Log.d(TAG, "Name: " + cityToShow);
+
             holder.city.setText(cityName);
             try {
                 imageId = getResources().getIdentifier(cityToShow, "mipmap", getActivity().getPackageName());
@@ -174,17 +164,6 @@ public class WeatherListFragment extends Fragment {
                 Log.d(TAG, e.getMessage() + "/n Name: " + cityToShow);
             }
             holder.cityImage.setImageResource(imageId);
-        }
-
-        //So as to find an image by city name
-        private String formatCityName(String name) {
-            char[] charArray = name.toCharArray();
-            for (int i = 0; i < name.length(); i++) {
-                if (charArray[i] == '-') {
-                    charArray[i] = '_';
-                }
-            }
-            return new String(charArray);
         }
 
         @Override
@@ -197,7 +176,7 @@ public class WeatherListFragment extends Fragment {
             private ImageView cityImage;
 
             MyViewHolder(LayoutInflater inflater, ViewGroup parent) {
-                super(inflater.inflate(R.layout.category_list_item, parent, false));
+                super(inflater.inflate(R.layout.city_list_item, parent, false));
                 cityImage = (ImageView) itemView.findViewById(R.id.city_image_view);
                 city = (TextView) itemView.findViewById(R.id.city);
                 UtilMethods.changeFontTextView(city, getActivity());
@@ -207,8 +186,7 @@ public class WeatherListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 townSelected = getAdapterPosition();
-                result = CitiesSpec.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast);
-                weatherListListener.onListItemClick(result);
+                showDescription();
             }
         }
     }
@@ -217,8 +195,7 @@ public class WeatherListFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (view.getId() == R.id.show_description_button) {
-                result = CitiesSpec.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast);
-                weatherListListener.onListItemClick(result);
+                showDescription();
             }
 
             if (view.getId() == R.id.checkbox_pressure) {
@@ -230,4 +207,9 @@ public class WeatherListFragment extends Fragment {
             }
         }
     };
+
+    private void showDescription() {
+        result = WeatherResult.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast);
+        weatherListListener.onListItemClick(result);
+    }
 }

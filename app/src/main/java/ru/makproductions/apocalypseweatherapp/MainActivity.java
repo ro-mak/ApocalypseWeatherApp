@@ -84,14 +84,14 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     }
 
     @Override
-    public void onListItemClick(String result) {
+    public void onListItemClick(WeatherResult result) {
         showWeather(this, result);
     }
 
-    public static void showWeather(FragmentActivity activity, String result) {
+    public static void showWeather(FragmentActivity activity, WeatherResult result) {
         View fragmentContainer = activity.findViewById(R.id.fragment_container);
         Bundle bundle = new Bundle();
-        bundle.putString(WEATHER_MESSAGE, result);
+        bundle.putParcelable(WEATHER_MESSAGE, result);
         //if tablet use first, if not use second
         if (fragmentContainer != null) {
             ShowWeatherFragment showWeatherFragment = ShowWeatherFragment.init(bundle);
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
             transaction.commit();
         } else {
             Intent intent = new Intent(activity, ShowWeatherActivity.class);
-            intent.putExtra(WEATHER_BUNDLE, bundle);
+            intent.putExtras(bundle);
             activity.startActivity(intent);
         }
     }
