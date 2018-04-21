@@ -26,7 +26,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.util.*;
 
-
+//Main fragment with list of cities and options
 public class WeatherListFragment extends Fragment {
     private static final String WEATHER_MESSAGE = "weather_message";
     private static final String TOWN_NUMBER = "townNumber";
@@ -43,9 +43,7 @@ public class WeatherListFragment extends Fragment {
     private boolean pressure;
     private boolean tommorowForecast;
     private boolean weekForecast;
-
     private WeatherListListener weatherListListener;
-
 
     @Override
     public void onAttach(Context context) {
@@ -56,6 +54,7 @@ public class WeatherListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //RecyclerView init
         View rootView = inflater.inflate(R.layout.weather_list_fragment, container, false);
         FragmentActivity activity = getActivity();
         RecyclerView weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
@@ -66,11 +65,15 @@ public class WeatherListFragment extends Fragment {
         Resources resources = getResources();
         weatherRecyclerView.setAdapter(new RVAdapter(Arrays.asList(resources.getStringArray(R.array.cities)),
                 getEnglishCitiesNamesList(resources)));
+        weatherRecyclerView.setHasFixedSize(true);
+        //Get Prefs
         saveTown = activity.getPreferences(MODE_PRIVATE);
-
+        //Check boxes and buttons init
         CheckBox checkBoxPressure = (CheckBox) rootView.findViewById(R.id.checkbox_pressure);
         CheckBox checkBoxTommorowForecast = (CheckBox) rootView.findViewById(R.id.checkbox_tommorow_forecast);
         CheckBox checkBoxWeekForecast = (CheckBox) rootView.findViewById(R.id.checkbox_week_forecast);
+        showDescriptionButton = (Button) rootView.findViewById(R.id.show_description_button);
+        //Get values from bundle or prefs
         if (savedInstanceState != null) {
             townSelected = savedInstanceState.getInt(TOWN_NUMBER);
         } else {
@@ -82,14 +85,12 @@ public class WeatherListFragment extends Fragment {
             weekForecast = saveTown.getBoolean(WEEK_FORECAST, false);
             checkBoxWeekForecast.setChecked(weekForecast);
         }
-        showDescriptionButton = (Button) rootView.findViewById(R.id.show_description_button);
-        weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        weatherRecyclerView.setHasFixedSize(true);
-
+        //ClickListeners
         checkBoxPressure.setOnClickListener(onClickListener);
         checkBoxTommorowForecast.setOnClickListener(onClickListener);
         checkBoxWeekForecast.setOnClickListener(onClickListener);
         showDescriptionButton.setOnClickListener(onClickListener);
+        //Fonts
         UtilMethods.changeFontTextView(chooseText, activity);
         UtilMethods.changeFontTextView(checkBoxPressure, activity);
         UtilMethods.changeFontTextView(checkBoxTommorowForecast, activity);
@@ -129,25 +130,23 @@ public class WeatherListFragment extends Fragment {
         super.onResume();
     }
 
+    //Get English names to make finding images easier
     private List<String> getEnglishCitiesNamesList(Resources resources) {
         Configuration conf = resources.getConfiguration();
         Locale savedLocale = conf.locale;
         conf.locale = Locale.ENGLISH; // whatever you want here
         resources.updateConfiguration(conf, null); // second arg null means don't change
-
-// retrieve resources from desired locale
+        // retrieve resources from desired locale
         String[] str = resources.getStringArray(R.array.cities);
-
-// restore original locale
+        // restore original locale
         conf.locale = savedLocale;
         resources.updateConfiguration(conf, null);
         return Arrays.asList(str);
     }
-
+    //RecyclerView
     private class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
         List<String> cities;
         List<String> citiesToShow;
-
 
         RVAdapter(List<String> cities, List<String> citiesToShow) {
             this.cities = cities;
@@ -167,25 +166,25 @@ public class WeatherListFragment extends Fragment {
             String cityName = cities.get(position);
             String cityToShow = citiesToShow.get(position).toLowerCase();
             cityToShow = formatCityName(cityToShow);
-            Log.d(TAG,  "Name: "+cityToShow);
+            Log.d(TAG, "Name: " + cityToShow);
             holder.city.setText(cityName);
             try {
                 imageId = getResources().getIdentifier(cityToShow, "mipmap", getActivity().getPackageName());
-            }catch (NullPointerException e){
-                Log.d(TAG,e.getMessage() + "/n Name: "+cityToShow);
+            } catch (NullPointerException e) {
+                Log.d(TAG, e.getMessage() + "/n Name: " + cityToShow);
             }
             holder.cityImage.setImageResource(imageId);
         }
 
         //So as to find an image by city name
-        private String formatCityName(String name){
+        private String formatCityName(String name) {
             char[] charArray = name.toCharArray();
             for (int i = 0; i < name.length(); i++) {
-                if(charArray[i]=='-'){
+                if (charArray[i] == '-') {
                     charArray[i] = '_';
                 }
             }
-           return new String(charArray);
+            return new String(charArray);
         }
 
         @Override

@@ -15,6 +15,13 @@
     <string name="hour">ч</string>
     <string name="minute">м</string>
     <string name="second">с</string>
+    <string name="weather_type_sunny">солнечно</string>
+    <string name="weather_type_cloudy">облачно</string>
+    <string name="weather_typer_raining">идет_дождь</string>
+    <string name="weather_type_snowing">идет_снег</string>
+    <string name="weather_type_rain_with_snow">дождь_со_снегом</string>
+    <string name="weather_type_rainstorm">дождь_с_грозами</string>
+    <string name="weather_type_snowstorm">буран</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>
@@ -25,11 +32,11 @@
     </string-array>
     <string-array name="descriptions">
         <item>Москва +5 солнечно</item>
-        <item>Санкт-Петербург +6 облачно</item>
-        <item>Нью-Йорк +10 туман</item>
-        <item>Брюссель +3 облачно</item>
-        <item>Бангкок +20 облачно</item>
-        <item>Пекин +18 солнечно</item>
+        <item>Санкт-Петербург +6 дождь_с_грозами</item>
+        <item>Нью-Йорк +10 идет_дождь</item>
+        <item>Брюссель +3 идет_снег</item>
+        <item>Бангкок +20 буран</item>
+        <item>Пекин +18 дождь_со_снегом</item>
     </string-array>
     <string-array name="pressure">
         <item>775 мм рт ст</item>

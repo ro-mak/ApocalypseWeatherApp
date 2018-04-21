@@ -4,6 +4,6 @@
     <dimen name="standard_padding">10dp</dimen>
     <dimen name="recycler_padding">8dp</dimen>
     <dimen name="RECYCLER_MARGIN">8dp</dimen>
-    <dimen name="timer_text_size">30sp</dimen>
+    <dimen name="timer_text_size">25sp</dimen>
     <dimen name="weather_text_size">20sp</dimen>
 </resources>
