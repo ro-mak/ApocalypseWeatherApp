@@ -20,10 +20,12 @@
     <string name="weather_type_cloudy">cloudy</string>
     <string name="weather_typer_raining">raining</string>
     <string name="weather_type_snowing">snowing</string>
-    <string name="weather_type_rain_with_snow">rainWthSnow</string>
+    <string name="weather_type_rain_with_snow">rain_with_snow</string>
     <string name="weather_type_rainstorm">rainstorm</string>
     <string name="weather_type_snowstorm">snowstorm</string>
     <string name="image_loading">image loading...</string>
+    <string name="weather_details">Weather details</string>
+    <string name="openweather_api_key">f6dd80eedee31d9a4c220bc12dddce47</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>
@@ -38,7 +40,7 @@
         <item>New-York +10 fog</item>
         <item>Brussels +3 rainstorm</item>
         <item>Bangkok +20 snowstorm</item>
-        <item>Beijing +18 rainWthSnow</item>
+        <item>Beijing +18 rain_with_snow</item>
     </string-array>
     <string-array name="pressure">
         <item>775 mmHg</item>
@@ -60,7 +62,7 @@
         <item>Monday +5 sunny </item>
         <item>Tuesday +4 cloudy</item>
         <item>Wednesday +7 sunny</item>
-        <item>Thursday 0 rainVsSnow</item>
+        <item>Thursday 0 rain_with_snow</item>
         <item>Friday +1 rainy</item>
         <item>Saturday +3 cloudy</item>
         <item>Sunday +4 sunny</item>
@@ -78,7 +80,7 @@
         <item>Monday +10 fog </item>
         <item>Tuesday +3 cloudy </item>
         <item>Wednesday +7 sunny</item>
-        <item>Thursday 0 rainVsSnow  </item>
+        <item>Thursday 0 rain_with_snow</item>
         <item>Friday +1 rainy</item>
         <item>Saturday +3 cloudy</item>
         <item>Sunday +4 sunny</item>
@@ -87,7 +89,7 @@
         <item>Monday +10 fog </item>
         <item>Tuesday +3 cloudy </item>
         <item>Wednesday +7 sunny</item>
-        <item>Thursday 0 rainVsSnow  </item>
+        <item>Thursday 0 rain_with_snow</item>
         <item>Friday +1 rainy</item>
         <item>Saturday +3 cloudy</item>
         <item>Sunday +4 sunny</item>
@@ -96,7 +98,7 @@
         <item>Monday +10 fog </item>
         <item>Tuesday +3 cloudy </item>
         <item>Wednesday +7 sunny</item>
-        <item>Thursday 0 rainVsSnow  </item>
+        <item>Thursday 0 rain_with_snow</item>
         <item>Friday +1 rainy</item>
         <item>Saturday +3 cloudy</item>
         <item>Sunday +4 sunny</item>
@@ -105,7 +107,7 @@
         <item>Monday +10 fog </item>
         <item>Tuesday +3 cloudy </item>
         <item>Wednesday +7 sunny</item>
-        <item>Thursday 0 rainVsSnow  </item>
+        <item>Thursday 0 rain_with_snow</item>
         <item>Friday +1 rainy</item>
         <item>Saturday +3 cloudy</item>
         <item>Sunday +4 sunny</item>

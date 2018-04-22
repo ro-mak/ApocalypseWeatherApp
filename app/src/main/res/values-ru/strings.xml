@@ -23,6 +23,7 @@
     <string name="weather_type_rainstorm">дождь_с_грозами</string>
     <string name="weather_type_snowstorm">буран</string>
     <string name="image_loading">изображение грузится...</string>
+    <string name="weather_details">Дополнительные сведения</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>
@@ -60,7 +61,7 @@
         <item>Вторник +4 облачно</item>
         <item>Среда +7 солнечно</item>
         <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет дождь</item>
+        <item>Пятница +1 идет_дождь</item>
         <item>Суббота +3 облачно</item>
         <item>Воскресенье +4 солнечно</item>
     </string-array>
@@ -69,7 +70,7 @@
         <item>Вторник +4 облачно</item>
         <item>Среда +7 солнечно</item>
         <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет дождь</item>
+        <item>Пятница +1 идет_дождь</item>
         <item>Суббота +3 облачно</item>
         <item>Воскресенье +4 солнечно</item>
     </string-array>
@@ -78,7 +79,7 @@
         <item>Вторник +4 облачно</item>
         <item>Среда +7 солнечно</item>
         <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет дождь</item>
+        <item>Пятница +1 идет_дождь</item>
         <item>Суббота +3 облачно</item>
         <item>Воскресенье +4 солнечно</item>
     </string-array>
@@ -87,7 +88,7 @@
         <item>Вторник +4 облачно</item>
         <item>Среда +7 солнечно</item>
         <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет дождь</item>
+        <item>Пятница +1 идет_дождь</item>
         <item>Суббота +3 облачно</item>
         <item>Воскресенье +4 солнечно</item>
     </string-array>
@@ -96,7 +97,7 @@
         <item>Вторник +4 облачно</item>
         <item>Среда +7 солнечно</item>
         <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет дождь</item>
+        <item>Пятница +1 идет_дождь</item>
         <item>Суббота +3 облачно</item>
         <item>Воскресенье +4 солнечно</item>
     </string-array>
@@ -105,7 +106,7 @@
         <item>Вторник +4 облачно</item>
         <item>Среда +7 солнечно</item>
         <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет дождь</item>
+        <item>Пятница +1 идет_дождь</item>
         <item>Суббота +3 облачно</item>
         <item>Воскресенье +4 солнечно</item>
     </string-array>

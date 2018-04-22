@@ -3,6 +3,7 @@ package ru.makproductions.apocalypseweatherapp;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.*;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.*;
 
@@ -39,5 +40,26 @@ public class UtilMethods {
             }
         }
         return new String(charArray);
+    }
+
+    public static void setWeatherImage(Resources resources, ImageView weatherImage, String weather_message, int positionOfSkyType) {
+        String parsedMessage = weather_message.split(" ")[positionOfSkyType];
+        weatherImage.setMinimumHeight(192);
+        weatherImage.setMinimumWidth(192);
+        if (parsedMessage.contains(resources.getString(R.string.weather_type_sunny))) {
+            weatherImage.setImageResource(R.mipmap.sunny);
+        } else if (parsedMessage.contains(resources.getString(R.string.weather_type_cloudy))) {
+            weatherImage.setImageResource(R.mipmap.cloudy);
+        } else if (parsedMessage.contains(resources.getString(R.string.weather_typer_raining))) {
+            weatherImage.setImageResource(R.mipmap.raining);
+        } else if (parsedMessage.contains(resources.getString(R.string.weather_type_snowing))) {
+            weatherImage.setImageResource(R.mipmap.snowing);
+        } else if (parsedMessage.contains(resources.getString(R.string.weather_type_rain_with_snow))) {
+            weatherImage.setImageResource(R.mipmap.rain_with_snow);
+        } else if (parsedMessage.contains(resources.getString(R.string.weather_type_rainstorm))) {
+            weatherImage.setImageResource(R.mipmap.rainstorm);
+        } else if (parsedMessage.contains(resources.getString(R.string.weather_type_snowstorm))) {
+            weatherImage.setImageResource(R.mipmap.snowstorm);
+        }
     }
 }

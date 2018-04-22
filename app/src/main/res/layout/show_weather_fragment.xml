@@ -4,50 +4,51 @@
     android:layout_height="match_parent">
 
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical">
+
         <FrameLayout
-            android:layout_weight="1"
             android:id="@+id/countdown_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="" />
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
+
         <ImageView
             android:id="@+id/weather_image"
-            android:layout_weight="3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
             android:contentDescription="" />
 
         <TextView
             android:id="@+id/show_weather_textview"
-            android:layout_weight="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="@dimen/weather_text_size"
-            android:text="@string/no_message_recieved_textview" />
+            android:layout_weight="2"
+            android:text="@string/no_message_recieved_textview"
+            android:textSize="@dimen/weather_text_size" />
 
         <FrameLayout
-            android:layout_weight="1"
             android:id="@+id/weather_details_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="" />
+            android:layout_gravity=""
+            android:layout_weight="1"
+            android:padding="@dimen/recycler_padding" />
 
         <Button
-            android:layout_weight="1"
             android:id="@+id/share_weather_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:text="@string/share_weather_button" />
-
 
     </LinearLayout>
 </ScrollView>

@@ -3,6 +3,7 @@ package ru.makproductions.apocalypseweatherapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,8 +35,11 @@ public class WeatherDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.weather_details_fragment, container, false);
+        TextView titleText = rootView.findViewById(R.id.details_title);
+        FragmentActivity activity = getActivity();
+        UtilMethods.changeFontTextView(titleText,activity);
         RecyclerView forecastRecyclerView = (RecyclerView) rootView.findViewById(R.id.forecast_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         forecastRecyclerView.setLayoutManager(layoutManager);
         forecastRecyclerView.setHasFixedSize(HAS_FIXED_SIZE_TRUE);
@@ -68,7 +74,8 @@ public class WeatherDetailsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ForecastViewHolder holder, int position) {
-            holder.forecastTextView.setText(forecastList.get(position));
+            holder.forecastTextView.setText(forecastList.get(position).replaceAll("_"," "));
+            holder.setForecastImageView(position);
         }
 
         @Override
@@ -82,9 +89,14 @@ public class WeatherDetailsFragment extends Fragment {
 
             public ForecastViewHolder(LayoutInflater inflater, ViewGroup parent) {
                 super(inflater.inflate(R.layout.forecast_list_item, parent, false));
+
                 forecastTextView = itemView.findViewById(R.id.forecast_textview);
                 UtilMethods.changeFontTextView(forecastTextView,getActivity());
                 forecastImageView = itemView.findViewById(R.id.forecast_image_view);
+            }
+            public void setForecastImageView(int position){
+                UtilMethods.setWeatherImage(getResources(),
+                        forecastImageView,forecastList.get(position),UtilVariables.positionOfSkyType);
             }
         }
     }

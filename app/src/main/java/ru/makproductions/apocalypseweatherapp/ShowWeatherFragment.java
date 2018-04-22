@@ -23,7 +23,7 @@ public class ShowWeatherFragment extends Fragment {
     private static final String DATE_OF_DOOM = "DATE_OF_DOOM";
 
     private static final long TIME_TO_APOCALYPSE = 1546290000000L;
-    public static final int positionOfSkyType = 2;
+
     public static final String TAG = "ShowWeatherFragment!!!";
     public static final String WEATHER_DETAILS_FRAGMENT = "WEATHER_DETAILS_FRAGMENT";
     private String weather_message;
@@ -55,7 +55,7 @@ public class ShowWeatherFragment extends Fragment {
         }
         if (weather_message != null) {
             showWeatherTextView.setText(weather_message.replaceAll("_", " "));
-            setWeatherImage(weatherImage, weather_message);
+            UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message,UtilVariables.positionOfSkyType);
         }
         Button shareWeatherButton = (Button) view.findViewById(R.id.share_weather_button);
         shareWeatherButton.setOnClickListener(onClickListener);
@@ -66,28 +66,6 @@ public class ShowWeatherFragment extends Fragment {
         createNestedFragment(this.getActivity());
 
         return view;
-    }
-
-    private void setWeatherImage(ImageView weatherImage, String weather_message) {
-        String parsedMessage = weather_message.split(" ")[positionOfSkyType];
-        //Log.d(TAG, "setWeatherImage: " + parsedMessage);
-        weatherImage.setMinimumHeight(192);
-        weatherImage.setMinimumWidth(192);
-        if (parsedMessage.contains(getString(R.string.weather_type_sunny))) {
-            weatherImage.setImageResource(R.mipmap.sunny);
-        } else if (parsedMessage.contains(getString(R.string.weather_type_cloudy))) {
-            weatherImage.setImageResource(R.mipmap.cloudy);
-        } else if (parsedMessage.contains(getString(R.string.weather_typer_raining))) {
-            weatherImage.setImageResource(R.mipmap.raining);
-        } else if (parsedMessage.contains(getString(R.string.weather_type_snowing))) {
-            weatherImage.setImageResource(R.mipmap.snowing);
-        } else if (parsedMessage.contains(getString(R.string.weather_type_rain_with_snow))) {
-            weatherImage.setImageResource(R.mipmap.rain_with_snow);
-        } else if (parsedMessage.contains(getString(R.string.weather_type_rainstorm))) {
-            weatherImage.setImageResource(R.mipmap.rainstorm);
-        } else if (parsedMessage.contains(getString(R.string.weather_type_snowstorm))) {
-            weatherImage.setImageResource(R.mipmap.snowstorm);
-        }
     }
 
     private void createNestedFragment(FragmentActivity activity) {
@@ -122,7 +100,7 @@ public class ShowWeatherFragment extends Fragment {
             if (view.getId() == R.id.share_weather_button) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, weather_message);
+                intent.putExtra(Intent.EXTRA_TEXT, weather_message + "\n"+ weatherResult.getWeekForecast());
                 FragmentActivity activity = getActivity();
                 PackageManager packageManager = activity.getPackageManager();
                 if (!packageManager.queryIntentActivities(intent, 0).isEmpty()) {
