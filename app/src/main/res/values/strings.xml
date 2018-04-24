@@ -16,6 +16,16 @@
     <string name="hour">h</string>
     <string name="minute">m</string>
     <string name="second">s</string>
+    <string name="weather_type_sunny">sunny</string>
+    <string name="weather_type_cloudy">cloudy</string>
+    <string name="weather_typer_raining">raining</string>
+    <string name="weather_type_snowing">snowing</string>
+    <string name="weather_type_rain_with_snow">rain_with_snow</string>
+    <string name="weather_type_rainstorm">rainstorm</string>
+    <string name="weather_type_snowstorm">snowstorm</string>
+    <string name="image_loading">image loading...</string>
+    <string name="weather_details">Weather details</string>
+    <string name="openweather_api_key">f6dd80eedee31d9a4c220bc12dddce47</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>
@@ -28,9 +38,9 @@
         <item>Moscow +5 sunny</item>
         <item>Saint-Petersburg +6 cloudy</item>
         <item>New-York +10 fog</item>
-        <item>Brussels +3 cloudy</item>
-        <item>Bangkok +20 cloudy</item>
-        <item>Beijing +18 sunny</item>
+        <item>Brussels +3 rainstorm</item>
+        <item>Bangkok +20 snowstorm</item>
+        <item>Beijing +18 rain_with_snow</item>
     </string-array>
     <string-array name="pressure">
         <item>775 mmHg</item>
@@ -48,50 +58,58 @@
         <item>tomorrow +24 cloudy</item>
         <item>tomorrow +14 cloudy</item>
     </string-array>
-    <string-array name="week_forecast">
-        <item>
-            Monday +5 sunny \n
-            Tuesday +4 cloudy \n
-            Wednesday +7 sunny \n
-            Thursday 0 rainVsSnow \n
-            Friday +1 rainy \n
-            Saturday +3 cloudy \n
-            Sunday +4 sunny \n
-        </item>
-        <item>Monday +6 cloudy \n
-            Tuesday +6 cloudy \n
-            Wednesday +3 sunny \n
-            Thursday +8 sunny \n
-            Friday +1 foggy \n
-            Saturday +4 cloudy \n
-            Sunday +4 sunny</item>
-        <item>Monday +10 fog \n
-            Tuesday +3 cloudy \n
-            Wednesday +7 sunny \n
-            Thursday 0 rainVsSnow \n
-            Friday +1 rainy \n
-            Saturday +3 cloudy \n
-            Sunday +4 sunny</item>
-        <item>Monday +3 cloudy \n
-            Tuesday +5 cloudy \n
-            Wednesday +7 sunny \n
-            Thursday +1 sunny \n
-            Friday +1 rainy \n
-            Saturday +3 cloudy \n
-            Sunday +4 sunny \n</item>
-        <item>Monday +20 cloudy \n
-            Tuesday +24 cloudy \n
-            Wednesday +27 sunny \n
-            Thursday 20 cloudy \n
-            Friday +25 rainy \n
-            Saturday +25 cloudy \n
-            Sunday +4 sunny</item>
-        <item>Monday +15 sunny \n
-            Tuesday +14 cloudy \n
-            Wednesday +18 sunny \n
-            Thursday +20 rainy \n
-            Friday +19 rainy \n
-            Saturday +13 cloudy \n
-            Sunday +18 sunny \n</item>
+    <string-array name="moscow_week_forecast">
+        <item>Monday +5 sunny </item>
+        <item>Tuesday +4 cloudy</item>
+        <item>Wednesday +7 sunny</item>
+        <item>Thursday 0 rain_with_snow</item>
+        <item>Friday +1 rainy</item>
+        <item>Saturday +3 cloudy</item>
+        <item>Sunday +4 sunny</item>
+    </string-array>
+    <string-array name="saint_petersburg_week_forecast">
+        <item>Monday +6 cloudy </item>
+        <item>Tuesday +6 cloudy </item>
+        <item>Wednesday +3 sunny</item>
+        <item>Thursday +8 sunny </item>
+        <item>Friday +1 foggy</item>
+        <item>Saturday +4 cloudy</item>
+        <item>Sunday +4 sunny</item>
+    </string-array>
+    <string-array name="new_york_week_forecast">
+        <item>Monday +10 fog </item>
+        <item>Tuesday +3 cloudy </item>
+        <item>Wednesday +7 sunny</item>
+        <item>Thursday 0 rain_with_snow</item>
+        <item>Friday +1 rainy</item>
+        <item>Saturday +3 cloudy</item>
+        <item>Sunday +4 sunny</item>
+    </string-array>
+    <string-array name="brussels_week_forecast">
+        <item>Monday +10 fog </item>
+        <item>Tuesday +3 cloudy </item>
+        <item>Wednesday +7 sunny</item>
+        <item>Thursday 0 rain_with_snow</item>
+        <item>Friday +1 rainy</item>
+        <item>Saturday +3 cloudy</item>
+        <item>Sunday +4 sunny</item>
+    </string-array>
+    <string-array name="bangkok_week_forecast">
+        <item>Monday +10 fog </item>
+        <item>Tuesday +3 cloudy </item>
+        <item>Wednesday +7 sunny</item>
+        <item>Thursday 0 rain_with_snow</item>
+        <item>Friday +1 rainy</item>
+        <item>Saturday +3 cloudy</item>
+        <item>Sunday +4 sunny</item>
+    </string-array>
+    <string-array name="beijing_week_forecast">
+        <item>Monday +10 fog </item>
+        <item>Tuesday +3 cloudy </item>
+        <item>Wednesday +7 sunny</item>
+        <item>Thursday 0 rain_with_snow</item>
+        <item>Friday +1 rainy</item>
+        <item>Saturday +3 cloudy</item>
+        <item>Sunday +4 sunny</item>
     </string-array>
 </resources>

@@ -1,5 +1,5 @@
 package ru.makproductions.apocalypseweatherapp;
 
  interface WeatherListListener {
-     void onListItemClick(String result);
+     void onListItemClick(WeatherResult result);
 }
