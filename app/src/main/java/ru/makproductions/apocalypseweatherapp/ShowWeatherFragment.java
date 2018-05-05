@@ -35,7 +35,7 @@ public class ShowWeatherFragment extends Fragment {
         ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
         if (bundle != null) {
             showWeatherFragment.setArguments(bundle);
-        }else{
+        } else {
             throw new NullPointerException("ShowWeatherFragment init bundle null");
         }
         return showWeatherFragment;
@@ -49,13 +49,17 @@ public class ShowWeatherFragment extends Fragment {
         ImageView weatherImage = (ImageView) view.findViewById(R.id.weather_image);
         Bundle args = this.getArguments();
 
-        if (args.getParcelable(WEATHER_MESSAGE) != null){
+        if (args.getParcelable(WEATHER_MESSAGE) != null) {
             weatherResult = args.getParcelable(WEATHER_MESSAGE);
-            if(weatherResult!=null)weather_message = weatherResult.getWeather();
+            if (weatherResult != null) {
+                weather_message = weatherResult.getWeather();
+            } else {
+                Log.e(TAG, "onCreateView: ShowWeatherFragment: weatherResult.weather =  " + weatherResult.getWeather());
+            }
         }
         if (weather_message != null) {
             showWeatherTextView.setText(weather_message.replaceAll("_", " "));
-            UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message,UtilVariables.positionOfSkyType);
+            UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message, UtilVariables.positionOfSkyType);
         }
         Button shareWeatherButton = (Button) view.findViewById(R.id.share_weather_button);
         shareWeatherButton.setOnClickListener(onClickListener);
@@ -76,19 +80,19 @@ public class ShowWeatherFragment extends Fragment {
         bundle.putLong(DATE_OF_DOOM, TIME_TO_APOCALYPSE);
         if (countdownFragment == null) {
             countdownFragment = ApocalypseCountdownFragment.init(bundle);
-            createFragment(fragmentManager,countdownFragment,APOCALYPSE_COUNTDOWN_FRAGMENT,R.id.countdown_container);
+            createFragment(fragmentManager, countdownFragment, APOCALYPSE_COUNTDOWN_FRAGMENT, R.id.countdown_container);
         }
         WeatherDetailsFragment weatherDetailsFragment =
                 (WeatherDetailsFragment) fragmentManager.findFragmentByTag(WEATHER_DETAILS_FRAGMENT);
         if (weatherDetailsFragment == null) {
-            bundle.putParcelable(WEATHER_MESSAGE,weatherResult);
+            bundle.putParcelable(WEATHER_MESSAGE, weatherResult);
             weatherDetailsFragment = WeatherDetailsFragment.init(bundle);
-            createFragment(fragmentManager,weatherDetailsFragment,
-                    WEATHER_DETAILS_FRAGMENT,R.id.weather_details_container);
+            createFragment(fragmentManager, weatherDetailsFragment,
+                    WEATHER_DETAILS_FRAGMENT, R.id.weather_details_container);
         }
     }
 
-    private void createFragment(FragmentManager fragmentManager, Fragment fragment, String tag,int resourceId){
+    private void createFragment(FragmentManager fragmentManager, Fragment fragment, String tag, int resourceId) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(resourceId, fragment, tag);
         fragmentTransaction.commit();
@@ -100,7 +104,7 @@ public class ShowWeatherFragment extends Fragment {
             if (view.getId() == R.id.share_weather_button) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, weather_message + "\n"+ weatherResult.getWeekForecast());
+                intent.putExtra(Intent.EXTRA_TEXT, weather_message + "\n" + weatherResult.getWeekForecast());
                 FragmentActivity activity = getActivity();
                 PackageManager packageManager = activity.getPackageManager();
                 if (!packageManager.queryIntentActivities(intent, 0).isEmpty()) {

@@ -25,7 +25,7 @@
     <string name="weather_type_snowstorm">snowstorm</string>
     <string name="image_loading">image loading...</string>
     <string name="weather_details">Weather details</string>
-    <string name="openweather_api_key">f6dd80eedee31d9a4c220bc12dddce47</string>
+    <string name="openweather_api_key">d5699a9f9221ade876095bbb79295acf</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>
