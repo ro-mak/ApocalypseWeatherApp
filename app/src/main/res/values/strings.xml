@@ -26,6 +26,8 @@
     <string name="image_loading">image loading...</string>
     <string name="weather_details">Weather details</string>
     <string name="openweather_api_key">d5699a9f9221ade876095bbb79295acf</string>
+    <string name="options_menu_item">Options</string>
+    <string name="show_on_top">Show on top</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>
@@ -33,6 +35,14 @@
         <item>Brussels</item>
         <item>Bangkok</item>
         <item>Beijing</item>
+    </string-array>
+    <string-array name="cities_to_find">
+        <item>moscow</item>
+        <item>sankt-peterburg</item>
+        <item>new york</item>
+        <item>brussels</item>
+        <item>bangkok</item>
+        <item>beijing</item>
     </string-array>
     <string-array name="descriptions">
         <item>Moscow +5 sunny</item>

@@ -10,7 +10,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -96,7 +99,6 @@ public class WeatherListFragment extends Fragment {
         UtilMethods.changeFontTextView(checkBoxTommorowForecast, activity);
         UtilMethods.changeFontTextView(checkBoxWeekForecast, activity);
         UtilMethods.changeFontTextView(showDescriptionButton, activity);
-
         return rootView;
     }
 
@@ -181,6 +183,7 @@ public class WeatherListFragment extends Fragment {
                 city = (TextView) itemView.findViewById(R.id.city);
                 UtilMethods.changeFontTextView(city, getActivity());
                 itemView.setOnClickListener(this);
+                registerForContextMenu(itemView);
             }
 
             @Override
@@ -189,6 +192,12 @@ public class WeatherListFragment extends Fragment {
                 showDescription();
             }
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(Menu.NONE,R.id.show_on_top_item,Menu.NONE,R.string.show_on_top);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {

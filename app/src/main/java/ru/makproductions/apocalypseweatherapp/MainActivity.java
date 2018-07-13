@@ -16,6 +16,15 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     private static final String TAG = "HeyHOO###############";
     private final int SUCCESS_CODE = 666;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+
     private static final String WEATHER_MESSAGE = "weather_message";
 
     private static final String WEATHER_BUNDLE = "weather_bundle";

@@ -24,6 +24,8 @@
     <string name="weather_type_snowstorm">буран</string>
     <string name="image_loading">изображение грузится...</string>
     <string name="weather_details">Дополнительные сведения</string>
+    <string name="options_menu_item">Настройки</string>
+    <string name="show_on_top">В начало списка</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>
@@ -31,6 +33,14 @@
         <item>Брюссель</item>
         <item>Бангкок</item>
         <item>Пекин</item>
+    </string-array>
+    <string-array name="cities_to_find">
+        <item>moscow</item>
+        <item>sankt-peterburg</item>
+        <item>new york</item>
+        <item>brussels</item>
+        <item>bangkok</item>
+        <item>beijing</item>
     </string-array>
     <string-array name="descriptions">
         <item>Москва +5 солнечно</item>

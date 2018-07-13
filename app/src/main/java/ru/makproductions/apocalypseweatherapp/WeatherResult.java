@@ -22,6 +22,8 @@ import java.util.concurrent.ExecutionException;
 
 class WeatherResult implements Parcelable {
     private static final String TAG = "WeatherResult";
+    public static final int WEATHER_ARRAY_INDEX = 0;
+    public static final String GET_WEATHER_DESCRIPTION = "getWeatherDescription: ";
     private String weather;
     private String pressure;
     private String tomorrowForecast;
@@ -38,17 +40,16 @@ class WeatherResult implements Parcelable {
         final WeatherResult weatherResult = new WeatherResult();
         Resources resources = context.getResources();
         final String city = UtilMethods.getEnglishCitiesNamesList
-                        (resources).get(position).toLowerCase();
-        String cityToSearch = UtilMethods.
-                transliterateFromRussianToEnglish(resources.
-                        getStringArray(R.array.cities)[position]);
+                (resources).get(position).toLowerCase();
+        String cityToSearch = resources.
+                getStringArray(R.array.cities_to_find)[position];
         weatherLoader = new WeatherLoader(cityToSearch).execute(context);
-        Log.e(TAG, "getWeatherDescription: !!!cityToSearch: " + cityToSearch);
+        Log.e(TAG, GET_WEATHER_DESCRIPTION + "!!!cityToSearch: " + cityToSearch);
         UtilMethods.formatCityName(city);
         try {
             jsonWeather = weatherLoader.get();
         } catch (Exception e) {
-            Log.e(TAG, "getWeatherDescription: " + e.getMessage());
+            Log.e(TAG, GET_WEATHER_DESCRIPTION + e.getMessage());
             e.printStackTrace();
         }
         updateWeatherData(context, city, position, pressure, tommorowForecast, weekForecast, weatherResult);
@@ -59,21 +60,22 @@ class WeatherResult implements Parcelable {
     private static void updateWeatherData(Context context, String city, int position, boolean pressure,
                                           boolean tommorowForecast, boolean weekForecast, WeatherResult weatherResult) {
         if (jsonWeather == null) {
-            Log.e(TAG, "getWeatherDescription: JSONWEATHER NULL ");
+            Log.e(TAG, GET_WEATHER_DESCRIPTION + " JSONWEATHER NULL ");
             Log.e(TAG, "updateWeatherData: city = " + city);
         }
-        Log.e(TAG, "getWeatherDescription: city " + city);
+        Log.e(TAG, GET_WEATHER_DESCRIPTION + " city " + city);
         int weekCityId = context.getResources().getIdentifier(city + "_week_forecast", "array", context.getPackageName());
         String[] descriptions = context.getResources().getStringArray(R.array.descriptions);
 
         try {
             if (jsonWeather != null) {
-                Log.d(TAG, "getWeatherDescription: " + jsonWeather.toString());
-                weatherResult.weather = city + " " + jsonWeather.getJSONObject("main").getString("temp") + " sunny";
-                Log.e(TAG, "getWeatherDescription: " + weatherResult.weather);
+                Log.d(TAG, GET_WEATHER_DESCRIPTION + jsonWeather.toString());
+                weatherResult.weather = city + " " + jsonWeather.getJSONObject("main").getString("temp")
+                        + " " + jsonWeather.getJSONArray("weather").getJSONObject(WEATHER_ARRAY_INDEX).getString("description");
+                Log.e(TAG, GET_WEATHER_DESCRIPTION + weatherResult.weather);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "getWeatherDescription: " + e.getMessage());
+            Log.e(TAG, GET_WEATHER_DESCRIPTION + e.getMessage());
         }
         if (pressure) {
             weatherResult.pressure = context.getResources().getStringArray(R.array.pressure)[position];

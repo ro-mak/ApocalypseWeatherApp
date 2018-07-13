@@ -14,7 +14,7 @@ import java.util.Locale;
 public class WeatherLoader extends AsyncTask<Context, Integer, JSONObject> {
 
     private static final String TAG = "WeatherLoader";
-    private static final String OPEN_WEATHER_API_MAP = "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&lang=ru&appid=%s";
+    private static final String OPEN_WEATHER_API_MAP = "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s";
     private static final String NEW_LINE = "\n";
     private static final int ALL_GOOD = 200;
     private static final String RESPONSE = "cod";

@@ -66,7 +66,7 @@ public class UtilMethods {
                 }
             }
             //if there is a non alphabetical sign add it to the word
-            if(!added)result.append(letters[i]);
+            if(!added)result.append(" ");
             added = false;
         }
         if(result.toString().isEmpty()){
