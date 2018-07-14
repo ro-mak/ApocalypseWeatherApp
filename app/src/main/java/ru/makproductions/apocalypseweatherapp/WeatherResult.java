@@ -30,19 +30,16 @@ class WeatherResult implements Parcelable {
     private List<String> weekForecast;
     private static JSONObject jsonWeather;
     private static AsyncTask<Context, Integer, JSONObject> weatherLoader;
-
     WeatherResult() {
     }
 
     static WeatherResult getWeatherDescription(final Context context, final int position, final boolean pressure,
-                                               final boolean tommorowForecast, final boolean weekForecast) {
+                                               final boolean tommorowForecast, final boolean weekForecast,final CitiesHandler citiesHandler) {
 
         final WeatherResult weatherResult = new WeatherResult();
         Resources resources = context.getResources();
-        final String city = UtilMethods.getEnglishCitiesNamesList
-                (resources).get(position).toLowerCase();
-        String cityToSearch = resources.
-                getStringArray(R.array.cities_to_find)[position];
+        final String city = citiesHandler.getCitiesInEnglish().get(position).toLowerCase();
+        String cityToSearch = citiesHandler.getCitiesToFind().get(position);
         weatherLoader = new WeatherLoader(cityToSearch).execute(context);
         Log.e(TAG, GET_WEATHER_DESCRIPTION + "!!!cityToSearch: " + cityToSearch);
         UtilMethods.formatCityName(city);

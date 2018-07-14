@@ -55,7 +55,7 @@ public class WeatherListFragment extends Fragment {
     private boolean tommorowForecast;
     private boolean weekForecast;
     private WeatherListListener weatherListListener;
-
+    private CitiesHandler citiesHandler;
     @Override
     public void onAttach(Context context) {
         weatherListListener = (WeatherListListener) context;
@@ -74,12 +74,10 @@ public class WeatherListFragment extends Fragment {
         layoutManager.setOrientation(VERTICAL);
         weatherRecyclerView.setLayoutManager(layoutManager);
         Resources resources = getResources();
-        List<String> cities = Arrays.asList(resources.getStringArray(R.array.cities));
-        RVAdapter adapter = new RVAdapter(cities,
-                UtilMethods.getEnglishCitiesNamesList(resources));
+        citiesHandler = new CitiesHandler(resources);
+        RVAdapter adapter = new RVAdapter(citiesHandler.getCities(),
+                citiesHandler.getCitiesInEnglish());
         weatherRecyclerView.setAdapter(adapter);
-
-
         weatherRecyclerView.setHasFixedSize(true);
         //Get Prefs
         saveTown = activity.getPreferences(MODE_PRIVATE);
@@ -118,9 +116,7 @@ public class WeatherListFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(TOWN_NUMBER, townSelected);
-
     }
-
 
     @Override
     public void onPause() {
@@ -132,7 +128,6 @@ public class WeatherListFragment extends Fragment {
         editor.putBoolean(TOMMOROW_FORECAST, tommorowForecast);
         editor.commit();
         super.onPause();
-
     }
 
     @Override
@@ -143,7 +138,6 @@ public class WeatherListFragment extends Fragment {
         townSelected = saveTown.getInt(TOWN_NUMBER, 0);
         super.onResume();
     }
-
 
     //RecyclerView
     private class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
@@ -185,7 +179,7 @@ public class WeatherListFragment extends Fragment {
             return cities.size();
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener {
+        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
             private TextView city;
             private ImageView cityImage;
 
@@ -195,7 +189,6 @@ public class WeatherListFragment extends Fragment {
                 city = (TextView) itemView.findViewById(R.id.city);
                 UtilMethods.changeFontTextView(city, getActivity());
                 itemView.setOnClickListener(this);
-               // registerForContextMenu(itemView);
                 itemView.setOnCreateContextMenuListener(this);
             }
 
@@ -204,34 +197,23 @@ public class WeatherListFragment extends Fragment {
                 townSelected = getAdapterPosition();
                 showDescription();
             }
+
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                MenuItem showOnTop = menu.add(Menu.NONE,R.id.show_on_top_item,Menu.NONE,R.string.show_on_top);
+                MenuItem showOnTop = menu.add(Menu.NONE, R.id.show_on_top_item, Menu.NONE, R.string.show_on_top);
                 showOnTop.setOnMenuItemClickListener(onContextMenuClick);
-
             }
 
-            private void sendToTop(int index){
-                List<String> newCitiesList = new ArrayList<>();
-                List<String> newCitiesToShowList = new ArrayList<>();
-                String topCity = cities.get(index);
-                String topCityToShow = citiesToShow.get(index);
-                newCitiesList.add(topCity);
-                newCitiesToShowList.add(topCityToShow);
-                for(String line : cities){
-                    if(!line.equals(topCity))newCitiesList.add(line);
-                }
-                for(String line : citiesToShow){
-                    if(!line.equals(topCityToShow))newCitiesToShowList.add(line);
-                }
-                cities = newCitiesList;
-                citiesToShow = newCitiesToShowList;
+            private void sendToTop(int index) {
+                citiesHandler.sendToTop(index);
+                cities = citiesHandler.getCities();
+                citiesToShow = citiesHandler.getCitiesInEnglish();
             }
 
             private final MenuItem.OnMenuItemClickListener onContextMenuClick = new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    if(item.getItemId() == R.id.show_on_top_item) {
+                    if (item.getItemId() == R.id.show_on_top_item) {
                         sendToTop(getAdapterPosition());
                         notifyDataSetChanged();
                         return true;
@@ -242,15 +224,12 @@ public class WeatherListFragment extends Fragment {
         }
     }
 
-
-
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (view.getId() == R.id.show_description_button) {
                 showDescription();
             }
-
             if (view.getId() == R.id.checkbox_pressure) {
                 pressure = !pressure;
             } else if (view.getId() == R.id.checkbox_tommorow_forecast) {
@@ -262,7 +241,7 @@ public class WeatherListFragment extends Fragment {
     };
 
     private void showDescription() {
-        result = WeatherResult.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast);
+        result = WeatherResult.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast,citiesHandler);
         weatherListListener.onListItemClick(result);
     }
 }

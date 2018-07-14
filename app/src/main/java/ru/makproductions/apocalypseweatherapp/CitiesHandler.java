@@ -1,0 +1,53 @@
+package ru.makproductions.apocalypseweatherapp;
+
+import android.content.res.Resources;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class CitiesHandler {
+    private List<String> citiesList;
+    private List<String> citiesInEnglishList;
+    private List<String> citiesToFind;
+    private Resources resources;
+    public CitiesHandler(Resources resources){
+        this.resources = resources;
+        citiesList = Arrays.asList(resources.getStringArray(R.array.cities));
+        citiesToFind = Arrays.asList(resources.getStringArray(R.array.cities_to_find));
+        citiesInEnglishList = UtilMethods.getEnglishCitiesNamesList(resources);
+    }
+    public List<String> getCities (){
+        return citiesList;
+    }
+    public List<String> getCitiesInEnglish(){
+        return citiesInEnglishList;
+    }
+
+    public List<String> getCitiesToFind() {
+        return citiesToFind;
+    }
+    public void sendToTop(int index) {
+        List<String> newCitiesList = new ArrayList<>();
+        List<String> newCitiesInEnglishList = new ArrayList<>();
+        List<String> newCitiesToFindList = new ArrayList<>();
+        String topCity = citiesList.get(index);
+        String topCityToShow = citiesInEnglishList.get(index);
+        String topCityToFind = citiesToFind.get(index);
+        newCitiesList.add(topCity);
+        newCitiesInEnglishList.add(topCityToShow);
+        newCitiesToFindList.add(topCityToFind);
+        for (String line : citiesList) {
+            if (!line.equals(topCity)) newCitiesList.add(line);
+        }
+        for (String line : citiesInEnglishList) {
+            if (!line.equals(topCityToShow)) newCitiesInEnglishList.add(line);
+        }
+        for (String line : citiesToFind) {
+            if (!line.equals(topCityToFind)) newCitiesToFindList.add(line);
+        }
+        citiesList = newCitiesList;
+        citiesInEnglishList = newCitiesInEnglishList;
+        citiesToFind = newCitiesToFindList;
+    }
+}
