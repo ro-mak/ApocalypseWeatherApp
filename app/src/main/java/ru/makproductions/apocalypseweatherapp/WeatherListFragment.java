@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,7 +46,6 @@ public class WeatherListFragment extends Fragment {
     public static final String NEW_LINE = "/n";
     public static final String SPACE = " ";
     public static final String MIPMAP_TYPE = "mipmap";
-    private Button showDescriptionButton;
     private SharedPreferences saveTown;
     private int townSelected;
     private final int SUCCESS_CODE = 666;
@@ -81,34 +81,22 @@ public class WeatherListFragment extends Fragment {
         weatherRecyclerView.setHasFixedSize(true);
         //Get Prefs
         saveTown = activity.getPreferences(MODE_PRIVATE);
-        //Check boxes and buttons init
-        CheckBox checkBoxPressure = (CheckBox) rootView.findViewById(R.id.checkbox_pressure);
-        CheckBox checkBoxTommorowForecast = (CheckBox) rootView.findViewById(R.id.checkbox_tommorow_forecast);
-        CheckBox checkBoxWeekForecast = (CheckBox) rootView.findViewById(R.id.checkbox_week_forecast);
-        showDescriptionButton = (Button) rootView.findViewById(R.id.show_description_button);
+
         //Get values from bundle or prefs
         if (savedInstanceState != null) {
             townSelected = savedInstanceState.getInt(TOWN_NUMBER);
         } else {
             townSelected = saveTown.getInt(TOWN_NUMBER, 0);
             pressure = saveTown.getBoolean(PRESSURE, false);
-            checkBoxPressure.setChecked(pressure);
+
             tommorowForecast = saveTown.getBoolean(TOMMOROW_FORECAST, false);
-            checkBoxTommorowForecast.setChecked(tommorowForecast);
+
             weekForecast = saveTown.getBoolean(WEEK_FORECAST, false);
-            checkBoxWeekForecast.setChecked(weekForecast);
+
         }
-        //ClickListeners
-        checkBoxPressure.setOnClickListener(onClickListener);
-        checkBoxTommorowForecast.setOnClickListener(onClickListener);
-        checkBoxWeekForecast.setOnClickListener(onClickListener);
-        showDescriptionButton.setOnClickListener(onClickListener);
+
         //Fonts
         UtilMethods.changeFontTextView(chooseText, activity);
-        UtilMethods.changeFontTextView(checkBoxPressure, activity);
-        UtilMethods.changeFontTextView(checkBoxTommorowForecast, activity);
-        UtilMethods.changeFontTextView(checkBoxWeekForecast, activity);
-        UtilMethods.changeFontTextView(showDescriptionButton, activity);
         return rootView;
     }
 
@@ -227,16 +215,16 @@ public class WeatherListFragment extends Fragment {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (view.getId() == R.id.show_description_button) {
-                showDescription();
-            }
-            if (view.getId() == R.id.checkbox_pressure) {
-                pressure = !pressure;
-            } else if (view.getId() == R.id.checkbox_tommorow_forecast) {
-                tommorowForecast = !tommorowForecast;
-            } else if (view.getId() == R.id.checkbox_week_forecast) {
-                weekForecast = !weekForecast;
-            }
+//            if (view.getId() == R.id.show_description_button) {
+//                showDescription();
+//            }
+//            if (view.getId() == R.id.checkbox_pressure) {
+//                pressure = !pressure;
+//            } else if (view.getId() == R.id.checkbox_tommorow_forecast) {
+//                tommorowForecast = !tommorowForecast;
+//            } else if (view.getId() == R.id.checkbox_week_forecast) {
+//                weekForecast = !weekForecast;
+//            }
         }
     };
 

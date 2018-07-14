@@ -9,8 +9,8 @@
     <string name="weather_share_result_ok">Successfully shared or maybe there is an app to share weather with</string>
     <string name="weather_share_cancel">Operation cancelled by user or there is no such app</string>
     <string name="pressure">pressure</string>
-    <string name="tomorrow_forecast">tomorrow forecast</string>
-    <string name="week_forecast">week forecast</string>
+    <string name="tomorrow_forecast">Tomorrow forecast</string>
+    <string name="week_forecast">Week forecast</string>
     <string name="year">y</string>
     <string name="day">d</string>
     <string name="hour">h</string>
@@ -24,10 +24,11 @@
     <string name="weather_type_rainstorm">rainstorm</string>
     <string name="weather_type_snowstorm">snowstorm</string>
     <string name="image_loading">image loading...</string>
-    <string name="weather_details">Weather details</string>
+    <string name="weather_details">Click to gather detailed information</string>
     <string name="openweather_api_key">d5699a9f9221ade876095bbb79295acf</string>
     <string name="options_menu_item">Options</string>
     <string name="show_on_top">Show on top</string>
+    <string name="popup_extra_info">Extra information</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>
