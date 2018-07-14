@@ -14,6 +14,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +22,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +40,11 @@ public class WeatherListFragment extends Fragment {
     private static final String PRESSURE = "PRESSURE";
     private static final String TOMMOROW_FORECAST = "TOMMOROW_FORECAST";
     private static final String WEEK_FORECAST = "WEEK_FORECAST";
+    public static final String ON_PAUSE_MESSAGE = "onPauseeee!!!!!!";
+    public static final String NAME = "Name: ";
+    public static final String NEW_LINE = "/n";
+    public static final String SPACE = " ";
+    public static final String MIPMAP_TYPE = "mipmap";
     private Button showDescriptionButton;
     private SharedPreferences saveTown;
     private int townSelected;
@@ -66,8 +74,12 @@ public class WeatherListFragment extends Fragment {
         layoutManager.setOrientation(VERTICAL);
         weatherRecyclerView.setLayoutManager(layoutManager);
         Resources resources = getResources();
-        weatherRecyclerView.setAdapter(new RVAdapter(Arrays.asList(resources.getStringArray(R.array.cities)),
-                UtilMethods.getEnglishCitiesNamesList(resources)));
+        List<String> cities = Arrays.asList(resources.getStringArray(R.array.cities));
+        RVAdapter adapter = new RVAdapter(cities,
+                UtilMethods.getEnglishCitiesNamesList(resources));
+        weatherRecyclerView.setAdapter(adapter);
+
+
         weatherRecyclerView.setHasFixedSize(true);
         //Get Prefs
         saveTown = activity.getPreferences(MODE_PRIVATE);
@@ -112,7 +124,7 @@ public class WeatherListFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Log.d(TAG, "onPauseeee!!!!!!");
+        Log.d(TAG, ON_PAUSE_MESSAGE);
         SharedPreferences.Editor editor = saveTown.edit();
         editor.putInt(TOWN_NUMBER, townSelected);
         editor.putBoolean(PRESSURE, pressure);
@@ -157,13 +169,13 @@ public class WeatherListFragment extends Fragment {
             //Gets a city name in English casts to lower case and transforms to resource syntax
             String cityToShow = citiesToShow.get(position).toLowerCase();
             cityToShow = UtilMethods.formatCityName(cityToShow);
-            Log.d(TAG, "Name: " + cityToShow);
+            Log.d(TAG, NAME + cityToShow);
 
             holder.city.setText(cityName);
             try {
-                imageId = getResources().getIdentifier(cityToShow, "mipmap", getActivity().getPackageName());
+                imageId = getResources().getIdentifier(cityToShow, MIPMAP_TYPE, getActivity().getPackageName());
             } catch (NullPointerException e) {
-                Log.d(TAG, e.getMessage() + "/n Name: " + cityToShow);
+                Log.d(TAG, e.getMessage() + NEW_LINE + SPACE + NAME + cityToShow);
             }
             holder.cityImage.setImageResource(imageId);
         }
@@ -173,7 +185,7 @@ public class WeatherListFragment extends Fragment {
             return cities.size();
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener {
             private TextView city;
             private ImageView cityImage;
 
@@ -183,7 +195,8 @@ public class WeatherListFragment extends Fragment {
                 city = (TextView) itemView.findViewById(R.id.city);
                 UtilMethods.changeFontTextView(city, getActivity());
                 itemView.setOnClickListener(this);
-                registerForContextMenu(itemView);
+               // registerForContextMenu(itemView);
+                itemView.setOnCreateContextMenuListener(this);
             }
 
             @Override
@@ -191,14 +204,45 @@ public class WeatherListFragment extends Fragment {
                 townSelected = getAdapterPosition();
                 showDescription();
             }
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                MenuItem showOnTop = menu.add(Menu.NONE,R.id.show_on_top_item,Menu.NONE,R.string.show_on_top);
+                showOnTop.setOnMenuItemClickListener(onContextMenuClick);
+
+            }
+
+            private void sendToTop(int index){
+                List<String> newCitiesList = new ArrayList<>();
+                List<String> newCitiesToShowList = new ArrayList<>();
+                String topCity = cities.get(index);
+                String topCityToShow = citiesToShow.get(index);
+                newCitiesList.add(topCity);
+                newCitiesToShowList.add(topCityToShow);
+                for(String line : cities){
+                    if(!line.equals(topCity))newCitiesList.add(line);
+                }
+                for(String line : citiesToShow){
+                    if(!line.equals(topCityToShow))newCitiesToShowList.add(line);
+                }
+                cities = newCitiesList;
+                citiesToShow = newCitiesToShowList;
+            }
+
+            private final MenuItem.OnMenuItemClickListener onContextMenuClick = new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if(item.getItemId() == R.id.show_on_top_item) {
+                        sendToTop(getAdapterPosition());
+                        notifyDataSetChanged();
+                        return true;
+                    }
+                    return false;
+                }
+            };
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(Menu.NONE,R.id.show_on_top_item,Menu.NONE,R.string.show_on_top);
-    }
+
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
