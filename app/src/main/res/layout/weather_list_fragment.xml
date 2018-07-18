@@ -7,68 +7,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/cities_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/RECYCLER_MARGIN"
-            android:layout_marginBottom="@dimen/RECYCLER_MARGIN" />
-
         <TextView
             android:id="@+id/textview_choose_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cities_recycler_view"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/standard_margin"
             android:text="@string/choose_a_city"
             android:textSize="25sp" />
 
-        <Button
-            android:id="@+id/show_description_button"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cities_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textview_choose_text"
-            android:layout_marginLeft="@dimen/standard_padding"
-            android:layout_marginRight="@dimen/standard_padding"
-            android:layout_marginTop="@dimen/standard_margin"
-            android:text="@string/show_description_button" />
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/RECYCLER_MARGIN"
+            android:layout_marginBottom="@dimen/RECYCLER_MARGIN" />
 
         <TextView
             android:id="@+id/textview_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/show_description_button"
+            android:layout_below="@+id/cities_recycler_view"
             android:layout_marginTop="@dimen/standard_margin"
             android:text="@string/textview_dummy_text" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/textview_description">
-
-            <CheckBox
-                android:id="@+id/checkbox_pressure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pressure" />
-
-            <CheckBox
-                android:id="@+id/checkbox_tommorow_forecast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/checkbox_pressure"
-                android:text="@string/tomorrow_forecast" />
-
-            <CheckBox
-                android:id="@+id/checkbox_week_forecast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/checkbox_tommorow_forecast"
-                android:text="@string/week_forecast" />
-
-        </RelativeLayout>
 
     </RelativeLayout>
 

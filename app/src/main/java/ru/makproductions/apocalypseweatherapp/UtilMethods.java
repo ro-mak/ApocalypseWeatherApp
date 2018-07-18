@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.*;
 
 import java.util.Arrays;
@@ -12,6 +13,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class UtilMethods {
+
+    public static final String TAG = "UTIL";
+
     public static void changeFontTextView(TextView view, FragmentActivity activity) {
         Typeface font = Typeface.createFromAsset(activity.getAssets(), "fonts/troika.otf");
         view.setTypeface(font);
@@ -40,6 +44,36 @@ public class UtilMethods {
             }
         }
         return new String(charArray);
+    }
+
+    private static String[] alphabet = {"a", "b", "v", "g", "d", "e", "yo", "zh", "z", "i", "y", "k",
+            "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "ts", "ch",
+            "sh", "sh", "", "y", "", "e", "ju", "ja"};
+    private static char[] russianAlphabet = {'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з',
+            'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф',
+            'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я'};
+
+    public static String transliterateFromRussianToEnglish(String line) {
+        char[] letters = line.toLowerCase().toCharArray();
+        StringBuilder result = new StringBuilder();
+        boolean added = false;
+        for (int i = 0; i < letters.length; i++) {
+            for (int j = 0; j < russianAlphabet.length; j++) {
+                if (letters[i] == russianAlphabet[j]) {
+                    result.append(alphabet[j]);
+                    added = true;
+                    break;
+                }
+            }
+            //if there is a non alphabetical sign add it to the word
+            if(!added)result.append(" ");
+            added = false;
+        }
+        if(result.toString().isEmpty()){
+            result.append(line);
+        }
+        Log.e(TAG, "transliterateFromRussianToEnglish: " + result.toString() );
+        return result.toString();
     }
 
     public static void setWeatherImage(Resources resources, ImageView weatherImage, String weather_message, int positionOfSkyType) {
