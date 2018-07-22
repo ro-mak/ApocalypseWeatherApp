@@ -29,6 +29,10 @@
     <string name="options_menu_item">Options</string>
     <string name="show_on_top">Show on top</string>
     <string name="popup_extra_info">Extra information</string>
+    <string name="about_application">About application</string>
+    <string name="about_developer">About developer</string>
+    <string name="nav_options_item">Options</string>
+    <string name="user_name">User name</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>

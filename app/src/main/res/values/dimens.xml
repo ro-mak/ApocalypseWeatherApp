@@ -7,4 +7,8 @@
     <dimen name="timer_text_size">25sp</dimen>
     <dimen name="weather_text_size">20sp</dimen>
     <dimen name="extra_details_dimens">35sp</dimen>
+    <dimen name="nav_header_height">170dp</dimen>
+    <dimen name="nav_header_padding_vertical">30dp</dimen>
+    <dimen name="nav_header_padding_horizontal">20dp</dimen>
+    <dimen name="nav_header_text_size">20dp</dimen>
 </resources>

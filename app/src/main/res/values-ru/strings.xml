@@ -27,6 +27,10 @@
     <string name="options_menu_item">Настройки</string>
     <string name="show_on_top">В начало списка</string>
     <string name="popup_extra_info">Детализированные данные</string>
+    <string name="about_application">О приложении</string>
+    <string name="about_developer">О разработчике</string>
+    <string name="nav_options_item">Настройки</string>
+    <string name="user_name">Имя пользователя</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>

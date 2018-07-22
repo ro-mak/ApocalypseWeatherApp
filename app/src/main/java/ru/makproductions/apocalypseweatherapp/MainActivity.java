@@ -3,8 +3,13 @@ package ru.makproductions.apocalypseweatherapp;
 import android.content.*;
 import android.os.*;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.*;
 import android.view.*;
@@ -12,7 +17,7 @@ import android.view.*;
 import android.widget.*;
 
 //main class
-public class MainActivity extends AppCompatActivity implements WeatherListListener {
+public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "HeyHOO###############";
     private final int SUCCESS_CODE = 666;
@@ -44,6 +49,12 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         //change font of the title on the action bar
         TextView titleView = (TextView) customView.findViewById(R.id.title);
         UtilMethods.changeFontTextView(titleView, this);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,R.string.app_name,R.string.app_name);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -113,5 +124,23 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
             intent.putExtras(bundle);
             activity.startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
