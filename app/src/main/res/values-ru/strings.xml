@@ -30,6 +30,7 @@
     <string name="snow">снег</string>
     <string name="open_weather_map_api_url"><![CDATA[http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&lang=ru&appid=%s]]></string>
     <string name="broken_clouds">пасмурно</string>
+    <string name="thunder_storm">гроза</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>

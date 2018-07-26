@@ -85,6 +85,8 @@ public class UtilMethods {
         boolean snow = false;
         boolean clearSky = false;
         boolean clouds = false;
+        boolean brokenClouds = false;
+        boolean thunderStorm = false;
         for (int i = 0; i < parsedMessage.length; i++) {
             tempString = parsedMessage[i].toLowerCase();
             if (tempString.contains(resources.getString(R.string.clear_sky))) {
@@ -96,11 +98,19 @@ public class UtilMethods {
             if (tempString.contains(resources.getString(R.string.snow))) {
                 snow = true;
             }
-            if (tempString.contains(resources.getString(R.string.clouds))||tempString.contains(resources.getString(R.string.broken_clouds))) {
+            if (tempString.contains(resources.getString(R.string.broken_clouds))) {
+                brokenClouds = true;
+            }
+            if (tempString.contains(resources.getString(R.string.clouds)) && !brokenClouds) {
                 clouds = true;
+            }
+            if (tempString.contains(resources.getString(R.string.thunder_storm))) {
+                thunderStorm = true;
             }
             if (clearSky) {
                 weatherImage.setImageResource(R.mipmap.sunny);
+            } else if (brokenClouds) {
+                weatherImage.setImageResource(R.mipmap.broken_clouds);
             } else if (clouds) {
                 weatherImage.setImageResource(R.mipmap.cloudy);
             } else if (rain && !snow) {
@@ -109,7 +119,10 @@ public class UtilMethods {
                 weatherImage.setImageResource(R.mipmap.snowing);
             } else if (rain && snow) {
                 weatherImage.setImageResource(R.mipmap.rain_with_snow);
+            } else if (thunderStorm){
+                weatherImage.setImageResource(R.mipmap.rainstorm);
             }
+
 //            } else if (tempString.contains(resources.getString(R.string.weather_type_rainstorm))) {
 //                weatherImage.setImageResource(R.mipmap.rainstorm);
 //            } else if (tempString.contains(resources.getString(R.string.weather_type_snowstorm))) {
