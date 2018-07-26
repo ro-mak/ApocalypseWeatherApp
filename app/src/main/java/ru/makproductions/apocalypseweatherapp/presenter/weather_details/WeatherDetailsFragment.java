@@ -128,7 +128,7 @@ public class WeatherDetailsFragment extends Fragment {
             }
             public void setForecastImageView(int position){
                 UtilMethods.setWeatherImage(getResources(),
-                        forecastImageView,forecastList.get(position), UtilVariables.positionOfSkyType);
+                        forecastImageView,forecastList.get(position));
             }
         }
     }

@@ -54,13 +54,13 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         actionBar.setCustomView(R.layout.logo_layout);
         View customView = actionBar.getCustomView();
         //change font of the title on the action bar
-        TextView titleView = (TextView) customView.findViewById(R.id.title);
+        TextView titleView = customView.findViewById(R.id.title);
         UtilMethods.changeFontTextView(titleView, this);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,R.string.app_name,R.string.app_name);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

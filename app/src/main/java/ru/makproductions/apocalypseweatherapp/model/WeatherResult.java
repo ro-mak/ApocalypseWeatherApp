@@ -23,8 +23,8 @@ import ru.makproductions.apocalypseweatherapp.model.weather_map.WeatherMap;
 
 public class WeatherResult implements Parcelable {
     private static final String TAG = "WeatherResult";
-    public static final int WEATHER_ARRAY_INDEX = 0;
-    public static final String GET_WEATHER_DESCRIPTION = "getWeatherDescription: ";
+    private static final int WEATHER_ARRAY_INDEX = 0;
+    private static final String GET_WEATHER_DESCRIPTION = "getWeatherDescription: ";
     private static WeatherMap weatherMap;
     private static Gson gsonObject = new Gson();
     private String weather;
@@ -32,7 +32,7 @@ public class WeatherResult implements Parcelable {
     private String tomorrowForecast;
     private List<String> weekForecast;
     private static AsyncTask<Context, Integer, JSONObject> weatherLoader;
-    WeatherResult() {
+    private WeatherResult() {
     }
 
    public static WeatherResult getWeatherDescription(final Context context, final int position, final boolean pressure,
