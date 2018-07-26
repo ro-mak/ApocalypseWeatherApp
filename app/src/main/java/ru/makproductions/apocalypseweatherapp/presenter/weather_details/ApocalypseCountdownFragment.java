@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.presenter.weather_details;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Locale;
+
+import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 public class ApocalypseCountdownFragment extends Fragment {
     private static final int SECONDS_IN_HOUR = 3600;

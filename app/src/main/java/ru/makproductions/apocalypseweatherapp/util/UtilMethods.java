@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.util;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -11,6 +11,8 @@ import android.widget.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
+import ru.makproductions.apocalypseweatherapp.R;
 
 public class UtilMethods {
 

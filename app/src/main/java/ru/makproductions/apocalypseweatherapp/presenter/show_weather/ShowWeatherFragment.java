@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.presenter.show_weather;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.presenter.weather_details.ApocalypseCountdownFragment;
+import ru.makproductions.apocalypseweatherapp.presenter.weather_details.WeatherDetailsFragment;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //Fragment for weather details
 public class ShowWeatherFragment extends Fragment {
@@ -59,7 +65,7 @@ public class ShowWeatherFragment extends Fragment {
         }
         if (weather_message != null) {
             showWeatherTextView.setText(weather_message.replaceAll("_", " "));
-            UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message, UtilVariables.positionOfSkyType);
+           // UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message, UtilVariables.positionOfSkyType);
         }
         Button shareWeatherButton = (Button) view.findViewById(R.id.share_weather_button);
         shareWeatherButton.setOnClickListener(onClickListener);

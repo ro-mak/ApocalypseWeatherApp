@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.model.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Locale;
+
+import ru.makproductions.apocalypseweatherapp.R;
 
 public class WeatherLoader extends AsyncTask<Context, Integer, JSONObject> {
 

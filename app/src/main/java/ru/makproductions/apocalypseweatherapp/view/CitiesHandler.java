@@ -1,10 +1,13 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.view;
 
 import android.content.res.Resources;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 public class CitiesHandler {
     private List<String> citiesList;

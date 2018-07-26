@@ -1,39 +1,41 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.model;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.google.gson.Gson;
+
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
-class WeatherResult implements Parcelable {
+import ru.makproductions.apocalypseweatherapp.view.CitiesHandler;
+import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.network.WeatherLoader;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
+import ru.makproductions.apocalypseweatherapp.model.weather_map.WeatherMap;
+
+public class WeatherResult implements Parcelable {
     private static final String TAG = "WeatherResult";
     public static final int WEATHER_ARRAY_INDEX = 0;
     public static final String GET_WEATHER_DESCRIPTION = "getWeatherDescription: ";
+    private static WeatherMap weatherMap;
+    private static Gson gsonObject = new Gson();
     private String weather;
     private String pressure;
     private String tomorrowForecast;
     private List<String> weekForecast;
-    private static JSONObject jsonWeather;
     private static AsyncTask<Context, Integer, JSONObject> weatherLoader;
     WeatherResult() {
     }
 
-    static WeatherResult getWeatherDescription(final Context context, final int position, final boolean pressure,
+   public static WeatherResult getWeatherDescription(final Context context, final int position, final boolean pressure,
                                                final boolean tommorowForecast, final boolean weekForecast,final CitiesHandler citiesHandler) {
 
         final WeatherResult weatherResult = new WeatherResult();
@@ -44,7 +46,7 @@ class WeatherResult implements Parcelable {
         Log.e(TAG, GET_WEATHER_DESCRIPTION + "!!!cityToSearch: " + cityToSearch);
         UtilMethods.formatCityName(city);
         try {
-            jsonWeather = weatherLoader.get();
+            weatherMap = gsonObject.fromJson(weatherLoader.get().toString(),WeatherMap.class);
         } catch (Exception e) {
             Log.e(TAG, GET_WEATHER_DESCRIPTION + e.getMessage());
             e.printStackTrace();
@@ -56,22 +58,23 @@ class WeatherResult implements Parcelable {
 
     private static void updateWeatherData(Context context, String city, int position, boolean pressure,
                                           boolean tommorowForecast, boolean weekForecast, WeatherResult weatherResult) {
-        if (jsonWeather == null) {
-            Log.e(TAG, GET_WEATHER_DESCRIPTION + " JSONWEATHER NULL ");
+        if (weatherMap == null) {
+            Log.e(TAG, GET_WEATHER_DESCRIPTION + " WEATHERMAP NULL ");
             Log.e(TAG, "updateWeatherData: city = " + city);
         }
+
         Log.e(TAG, GET_WEATHER_DESCRIPTION + " city " + city);
         int weekCityId = context.getResources().getIdentifier(city + "_week_forecast", "array", context.getPackageName());
         String[] descriptions = context.getResources().getStringArray(R.array.descriptions);
 
         try {
-            if (jsonWeather != null) {
-                Log.d(TAG, GET_WEATHER_DESCRIPTION + jsonWeather.toString());
-                weatherResult.weather = city + " " + jsonWeather.getJSONObject("main").getString("temp")
-                        + " " + jsonWeather.getJSONArray("weather").getJSONObject(WEATHER_ARRAY_INDEX).getString("description");
+            if (weatherMap != null) {
+                Log.d(TAG, GET_WEATHER_DESCRIPTION + weatherMap.toString());
+                weatherResult.weather = city + " " + weatherMap.getMain().getTemp()
+                        + " " + weatherMap.getWeather().get(WEATHER_ARRAY_INDEX).getDescription();
                 Log.e(TAG, GET_WEATHER_DESCRIPTION + weatherResult.weather);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Log.e(TAG, GET_WEATHER_DESCRIPTION + e.getMessage());
         }
         if (pressure) {
@@ -86,11 +89,11 @@ class WeatherResult implements Parcelable {
     }
 
     public String getWeather() {
-        return weather;
+        return this.weather;
     }
 
     public String getPressure() {
-        return pressure;
+        return weatherMap.getMain().getPressure().toString();
     }
 
     public String getTomorrowForecast() {

@@ -1,8 +1,7 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.presenter.weather_list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,25 +12,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 
 import android.util.*;
+
+import ru.makproductions.apocalypseweatherapp.view.CitiesHandler;
+import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //Main fragment with list of cities and options
 public class WeatherListFragment extends Fragment {
@@ -211,22 +207,6 @@ public class WeatherListFragment extends Fragment {
             };
         }
     }
-
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-//            if (view.getId() == R.id.show_description_button) {
-//                showDescription();
-//            }
-//            if (view.getId() == R.id.checkbox_pressure) {
-//                pressure = !pressure;
-//            } else if (view.getId() == R.id.checkbox_tommorow_forecast) {
-//                tommorowForecast = !tommorowForecast;
-//            } else if (view.getId() == R.id.checkbox_week_forecast) {
-//                weekForecast = !weekForecast;
-//            }
-        }
-    };
 
     private void showDescription() {
         result = WeatherResult.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast,citiesHandler);

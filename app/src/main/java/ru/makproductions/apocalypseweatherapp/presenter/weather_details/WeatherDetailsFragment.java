@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.presenter.weather_details;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,8 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.style.TypefaceSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,10 +21,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
+import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
+import ru.makproductions.apocalypseweatherapp.view.TroikaTypefaceSpan;
+
 public class WeatherDetailsFragment extends Fragment {
 
     public static final boolean HAS_FIXED_SIZE_TRUE = true;
     private static final String WEATHER_MESSAGE = "weather_message";
+    private static final String TAG = "##WDFragment##";
     private WeatherResult weatherResult;
     private TextView titleText;
 
@@ -55,6 +61,7 @@ public class WeatherDetailsFragment extends Fragment {
         }
         if(weatherResult!=null) {
             List<String> weekForecast = weatherResult.getWeekForecast();
+            Log.d(TAG,weatherResult.getWeekForecast().toString());
             if (weekForecast != null) {
                 forecastRecyclerView.setAdapter(new ForecastRecyclerViewAdapter(weekForecast));
             }
@@ -121,7 +128,7 @@ public class WeatherDetailsFragment extends Fragment {
             }
             public void setForecastImageView(int position){
                 UtilMethods.setWeatherImage(getResources(),
-                        forecastImageView,forecastList.get(position),UtilVariables.positionOfSkyType);
+                        forecastImageView,forecastList.get(position), UtilVariables.positionOfSkyType);
             }
         }
     }

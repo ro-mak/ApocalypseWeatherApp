@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.presenter.show_weather;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -7,6 +7,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
+import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //Activity for details on phones
 public class ShowWeatherActivity extends AppCompatActivity {

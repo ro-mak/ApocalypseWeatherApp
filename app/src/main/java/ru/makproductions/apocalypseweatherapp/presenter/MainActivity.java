@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp;
+package ru.makproductions.apocalypseweatherapp.presenter;
 
 import android.content.*;
 import android.os.*;
@@ -15,6 +15,13 @@ import android.util.*;
 import android.view.*;
 
 import android.widget.*;
+
+import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.presenter.show_weather.ShowWeatherActivity;
+import ru.makproductions.apocalypseweatherapp.presenter.show_weather.ShowWeatherFragment;
+import ru.makproductions.apocalypseweatherapp.presenter.weather_list.WeatherListListener;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //main class
 public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener {
