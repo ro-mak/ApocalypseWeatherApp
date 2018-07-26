@@ -68,36 +68,53 @@ public class UtilMethods {
                 }
             }
             //if there is a non alphabetical sign add it to the word
-            if(!added)result.append(" ");
+            if (!added) result.append(" ");
             added = false;
         }
-        if(result.toString().isEmpty()){
+        if (result.toString().isEmpty()) {
             result.append(line);
         }
-        Log.e(TAG, "transliterateFromRussianToEnglish: " + result.toString() );
+        Log.e(TAG, "transliterateFromRussianToEnglish: " + result.toString());
         return result.toString();
     }
 
     public static void setWeatherImage(Resources resources, ImageView weatherImage, String weather_message) {
         String[] parsedMessage = weather_message.split(" ");
         String tempString = "";
+        boolean rain = false;
+        boolean snow = false;
+        boolean clearSky = false;
+        boolean clouds = false;
         for (int i = 0; i < parsedMessage.length; i++) {
-            tempString = parsedMessage[i];
-            if (tempString.contains("clear")) {
-                weatherImage.setImageResource(R.mipmap.sunny);
-            } else if (tempString.contains("cloud")) {
-                weatherImage.setImageResource(R.mipmap.cloudy);
-            } else if (tempString.contains("rain")) {
-                weatherImage.setImageResource(R.mipmap.raining);
-            } else if (tempString.contains("snow")&&!tempString.contains("rain")) {
-                weatherImage.setImageResource(R.mipmap.snowing);
-            } else if (tempString.contains("rain")&&tempString.contains("snow")) {
-                weatherImage.setImageResource(R.mipmap.rain_with_snow);
-            } else if (tempString.contains(resources.getString(R.string.weather_type_rainstorm))) {
-                weatherImage.setImageResource(R.mipmap.rainstorm);
-            } else if (tempString.contains(resources.getString(R.string.weather_type_snowstorm))) {
-                weatherImage.setImageResource(R.mipmap.snowstorm);
+            tempString = parsedMessage[i].toLowerCase();
+            if (tempString.contains(resources.getString(R.string.clear_sky))) {
+                clearSky = true;
             }
+            if (tempString.contains(resources.getString(R.string.rain))) {
+                rain = true;
+            }
+            if (tempString.contains(resources.getString(R.string.snow))) {
+                snow = true;
+            }
+            if (tempString.contains(resources.getString(R.string.clouds))) {
+                clouds = true;
+            }
+            if (clearSky) {
+                weatherImage.setImageResource(R.mipmap.sunny);
+            } else if (clouds) {
+                weatherImage.setImageResource(R.mipmap.cloudy);
+            } else if (rain && !snow) {
+                weatherImage.setImageResource(R.mipmap.raining);
+            } else if (snow && !rain) {
+                weatherImage.setImageResource(R.mipmap.snowing);
+            } else if (rain && snow) {
+                weatherImage.setImageResource(R.mipmap.rain_with_snow);
+            }
+//            } else if (tempString.contains(resources.getString(R.string.weather_type_rainstorm))) {
+//                weatherImage.setImageResource(R.mipmap.rainstorm);
+//            } else if (tempString.contains(resources.getString(R.string.weather_type_snowstorm))) {
+//                weatherImage.setImageResource(R.mipmap.snowstorm);
+//            }
         }
         weatherImage.setMinimumHeight(192);
         weatherImage.setMinimumWidth(192);

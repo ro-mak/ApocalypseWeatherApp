@@ -65,7 +65,7 @@ public class WeatherResult implements Parcelable {
 
         Log.e(TAG, GET_WEATHER_DESCRIPTION + " city " + city);
         int weekCityId = context.getResources().getIdentifier(city + "_week_forecast", "array", context.getPackageName());
-        String[] descriptions = context.getResources().getStringArray(R.array.descriptions);
+
 
         try {
             if (weatherMap != null) {
@@ -78,10 +78,10 @@ public class WeatherResult implements Parcelable {
             Log.e(TAG, GET_WEATHER_DESCRIPTION + e.getMessage());
         }
         if (pressure) {
-            weatherResult.pressure = context.getResources().getStringArray(R.array.pressure)[position];
+
         }
         if (tommorowForecast) {
-            weatherResult.tomorrowForecast = context.getResources().getStringArray(R.array.tomorrow_forecast)[position];
+
         }
         if (weekForecast) {
             weatherResult.weekForecast = Arrays.asList(context.getResources().getStringArray(weekCityId));

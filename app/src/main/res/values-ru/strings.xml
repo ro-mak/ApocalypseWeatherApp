@@ -15,14 +15,7 @@
     <string name="hour">ч</string>
     <string name="minute">м</string>
     <string name="second">с</string>
-    <string name="weather_type_sunny">солнечно</string>
-    <string name="weather_type_cloudy">облачно</string>
-    <string name="weather_typer_raining">идет_дождь</string>
-    <string name="weather_type_snowing">идет_снег</string>
-    <string name="weather_type_rain_with_snow">дождь_со_снегом</string>
-    <string name="weather_type_rainstorm">дождь_с_грозами</string>
-    <string name="weather_type_snowstorm">буран</string>
-    <string name="image_loading">изображение грузится...</string>
+    <string name="image_loading">изображение грузится…</string>
     <string name="weather_details">Нажмите, чтобы получить детализированные сведения</string>
     <string name="options_menu_item">Настройки</string>
     <string name="show_on_top">В начало списка</string>
@@ -31,6 +24,11 @@
     <string name="about_developer">О разработчике</string>
     <string name="nav_options_item">Настройки</string>
     <string name="user_name">Имя пользователя</string>
+    <string name="clear_sky">ясно</string>
+    <string name="clouds">обла</string>
+    <string name="rain">дожд</string>
+    <string name="snow">снег</string>
+    <string name="open_weather_map_api_url"><![CDATA[http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&lang=ru&appid=%s]]></string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>
@@ -46,83 +44,5 @@
         <item>brussels</item>
         <item>bangkok</item>
         <item>beijing</item>
-    </string-array>
-    <string-array name="descriptions">
-        <item>Москва +5 солнечно</item>
-        <item>Санкт-Петербург +6 дождь_с_грозами</item>
-        <item>Нью-Йорк +10 идет_дождь</item>
-        <item>Брюссель +3 идет_снег</item>
-        <item>Бангкок +20 буран</item>
-        <item>Пекин +18 дождь_со_снегом</item>
-    </string-array>
-    <string-array name="pressure">
-        <item>775 мм рт ст</item>
-        <item>770 мм рт ст</item>
-        <item>768 мм рт ст</item>
-        <item>776 мм рт ст</item>
-        <item>759 мм рт ст</item>
-        <item>761 мм рт ст</item>
-    </string-array>
-    <string-array name="tomorrow_forecast">
-        <item>Завтра +4 облачно</item>
-        <item>Завтра +6 облачно</item>
-        <item>Завтра +3 облачно</item>
-        <item>Завтра +5 облачно</item>
-        <item>Завтра +24 облачно</item>
-        <item>Завтра +14 облачно</item>
-    </string-array>
-    <string-array name="moscow_week_forecast">
-        <item>Понедельник +5 солнечно </item>
-        <item>Вторник +4 облачно</item>
-        <item>Среда +7 солнечно</item>
-        <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет_дождь</item>
-        <item>Суббота +3 облачно</item>
-        <item>Воскресенье +4 солнечно</item>
-    </string-array>
-    <string-array name="saint_petersburg_week_forecast">
-        <item>Понедельник +5 солнечно </item>
-        <item>Вторник +4 облачно</item>
-        <item>Среда +7 солнечно</item>
-        <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет_дождь</item>
-        <item>Суббота +3 облачно</item>
-        <item>Воскресенье +4 солнечно</item>
-    </string-array>
-    <string-array name="new_york_week_forecast">
-        <item>Понедельник +5 солнечно </item>
-        <item>Вторник +4 облачно</item>
-        <item>Среда +7 солнечно</item>
-        <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет_дождь</item>
-        <item>Суббота +3 облачно</item>
-        <item>Воскресенье +4 солнечно</item>
-    </string-array>
-    <string-array name="brussels_week_forecast">
-        <item>Понедельник +5 солнечно </item>
-        <item>Вторник +4 облачно</item>
-        <item>Среда +7 солнечно</item>
-        <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет_дождь</item>
-        <item>Суббота +3 облачно</item>
-        <item>Воскресенье +4 солнечно</item>
-    </string-array>
-    <string-array name="bangkok_week_forecast">
-        <item>Понедельник +5 солнечно </item>
-        <item>Вторник +4 облачно</item>
-        <item>Среда +7 солнечно</item>
-        <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет_дождь</item>
-        <item>Суббота +3 облачно</item>
-        <item>Воскресенье +4 солнечно</item>
-    </string-array>
-    <string-array name="beijing_week_forecast">
-        <item>Понедельник +5 солнечно </item>
-        <item>Вторник +4 облачно</item>
-        <item>Среда +7 солнечно</item>
-        <item>Четверг 0 дождь_со_снегом</item>
-        <item>Пятница +1 идет_дождь</item>
-        <item>Суббота +3 облачно</item>
-        <item>Воскресенье +4 солнечно</item>
     </string-array>
 </resources>

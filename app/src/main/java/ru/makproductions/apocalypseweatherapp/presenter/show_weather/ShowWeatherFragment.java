@@ -52,8 +52,8 @@ public class ShowWeatherFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.show_weather_fragment, container, false);
-        TextView showWeatherTextView = (TextView) view.findViewById(R.id.show_weather_textview);
-        ImageView weatherImage = (ImageView) view.findViewById(R.id.weather_image);
+        TextView showWeatherTextView =  view.findViewById(R.id.show_weather_textview);
+        ImageView weatherImage =  view.findViewById(R.id.weather_image);
         Bundle args = this.getArguments();
 
         if (args.getParcelable(WEATHER_MESSAGE) != null) {
@@ -68,7 +68,7 @@ public class ShowWeatherFragment extends Fragment {
             showWeatherTextView.setText(weather_message.replaceAll("_", " "));
             UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message);
         }
-        Button shareWeatherButton = (Button) view.findViewById(R.id.share_weather_button);
+        Button shareWeatherButton = view.findViewById(R.id.share_weather_button);
         shareWeatherButton.setOnClickListener(onClickListener);
         FragmentActivity activity = getActivity();
         UtilMethods.changeFontTextView(showWeatherTextView, activity);
