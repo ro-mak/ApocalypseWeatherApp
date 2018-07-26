@@ -38,6 +38,7 @@
     <string name="rain">rain</string>
     <string name="snow">snow</string>
     <string name="open_weather_map_api_url"><![CDATA[http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s]]></string>
+    <string name="broken_clouds">broken</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>

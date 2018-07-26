@@ -96,7 +96,7 @@ public class UtilMethods {
             if (tempString.contains(resources.getString(R.string.snow))) {
                 snow = true;
             }
-            if (tempString.contains(resources.getString(R.string.clouds))) {
+            if (tempString.contains(resources.getString(R.string.clouds))||tempString.contains(resources.getString(R.string.broken_clouds))) {
                 clouds = true;
             }
             if (clearSky) {
