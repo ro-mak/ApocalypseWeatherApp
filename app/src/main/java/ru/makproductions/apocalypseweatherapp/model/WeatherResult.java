@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ru.makproductions.apocalypseweatherapp.view.CitiesHandler;
-import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.model.network.WeatherLoader;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.model.weather_map.WeatherMap;

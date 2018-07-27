@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view;
+package ru.makproductions.apocalypseweatherapp.presenter;
 
 import android.content.res.Resources;
 

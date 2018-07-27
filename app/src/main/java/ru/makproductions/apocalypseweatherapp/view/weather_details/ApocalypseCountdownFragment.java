@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.weather_details;
+package ru.makproductions.apocalypseweatherapp.view.weather_details;
 
 import android.os.Bundle;
 import android.os.Handler;

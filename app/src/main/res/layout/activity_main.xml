@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/fragment_list"
-        class="ru.makproductions.apocalypseweatherapp.presenter.weather_list.WeatherListFragment"
+        class="ru.makproductions.apocalypseweatherapp.view.weather_list.WeatherListFragment"
 		android:layout_width="match_parent"
         android:layout_height="match_parent">
     </fragment>

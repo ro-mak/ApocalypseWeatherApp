@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter;
+package ru.makproductions.apocalypseweatherapp.view;
 
 import android.content.*;
 import android.os.*;
@@ -18,9 +18,9 @@ import android.widget.*;
 
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
-import ru.makproductions.apocalypseweatherapp.presenter.show_weather.ShowWeatherActivity;
-import ru.makproductions.apocalypseweatherapp.presenter.show_weather.ShowWeatherFragment;
-import ru.makproductions.apocalypseweatherapp.presenter.weather_list.WeatherListListener;
+import ru.makproductions.apocalypseweatherapp.view.show_weather.ShowWeatherActivity;
+import ru.makproductions.apocalypseweatherapp.view.show_weather.ShowWeatherFragment;
+import ru.makproductions.apocalypseweatherapp.view.weather_list.WeatherListListener;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //main class

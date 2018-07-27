@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.show_weather;
+package ru.makproductions.apocalypseweatherapp.view.show_weather;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,10 +18,9 @@ import android.widget.TextView;
 
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
-import ru.makproductions.apocalypseweatherapp.presenter.weather_details.ApocalypseCountdownFragment;
-import ru.makproductions.apocalypseweatherapp.presenter.weather_details.WeatherDetailsFragment;
+import ru.makproductions.apocalypseweatherapp.view.weather_details.ApocalypseCountdownFragment;
+import ru.makproductions.apocalypseweatherapp.view.weather_details.WeatherDetailsFragment;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
-import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
 
 //Fragment for weather details
 public class ShowWeatherFragment extends Fragment {

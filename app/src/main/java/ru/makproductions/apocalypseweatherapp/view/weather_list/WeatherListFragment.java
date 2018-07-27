@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.weather_list;
+package ru.makproductions.apocalypseweatherapp.view.weather_list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,7 +24,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.util.*;
 
-import ru.makproductions.apocalypseweatherapp.view.CitiesHandler;
+import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;

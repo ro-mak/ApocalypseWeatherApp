@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.weather_details;
+package ru.makproductions.apocalypseweatherapp.view.weather_details;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -24,8 +24,7 @@ import java.util.List;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
-import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
-import ru.makproductions.apocalypseweatherapp.view.TroikaTypefaceSpan;
+import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
 
 public class WeatherDetailsFragment extends Fragment {
 

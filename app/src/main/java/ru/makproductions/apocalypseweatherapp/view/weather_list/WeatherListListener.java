@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.weather_list;
+package ru.makproductions.apocalypseweatherapp.view.weather_list;
 
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
 
