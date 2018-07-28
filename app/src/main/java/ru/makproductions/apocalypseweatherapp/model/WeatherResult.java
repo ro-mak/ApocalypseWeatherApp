@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.model.network.WeatherLoader;
-import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.model.weather_map.WeatherMap;
+import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 public class WeatherResult implements Parcelable {
     private static final String TAG = "WeatherResult";
@@ -31,11 +31,12 @@ public class WeatherResult implements Parcelable {
     private String tomorrowForecast;
     private List<String> weekForecast;
     private static AsyncTask<Context, Integer, JSONObject> weatherLoader;
+
     private WeatherResult() {
     }
 
-   public static WeatherResult getWeatherDescription(final Context context, final int position, final boolean pressure,
-                                               final boolean tommorowForecast, final boolean weekForecast,final CitiesHandler citiesHandler) {
+    public static WeatherResult getWeatherDescription(final Context context, final int position, final boolean pressure,
+                                                      final boolean tommorowForecast, final boolean weekForecast, final CitiesHandler citiesHandler) {
 
         final WeatherResult weatherResult = new WeatherResult();
         Resources resources = context.getResources();
@@ -45,7 +46,7 @@ public class WeatherResult implements Parcelable {
         Log.e(TAG, GET_WEATHER_DESCRIPTION + "!!!cityToSearch: " + cityToSearch);
         UtilMethods.formatCityName(city);
         try {
-            weatherMap = gsonObject.fromJson(weatherLoader.get().toString(),WeatherMap.class);
+            weatherMap = gsonObject.fromJson(weatherLoader.get().toString(), WeatherMap.class);
         } catch (Exception e) {
             Log.e(TAG, GET_WEATHER_DESCRIPTION + e.getMessage());
             e.printStackTrace();

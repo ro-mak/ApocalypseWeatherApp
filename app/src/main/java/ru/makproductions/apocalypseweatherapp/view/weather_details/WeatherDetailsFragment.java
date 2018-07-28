@@ -23,8 +23,8 @@ import java.util.List;
 
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
-import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 public class WeatherDetailsFragment extends Fragment {
 
@@ -48,7 +48,7 @@ public class WeatherDetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.weather_details_fragment, container, false);
         titleText = rootView.findViewById(R.id.details_title);
         FragmentActivity activity = getActivity();
-        UtilMethods.changeFontTextView(titleText,activity);
+        UtilMethods.changeFontTextView(titleText, activity);
         RecyclerView forecastRecyclerView = (RecyclerView) rootView.findViewById(R.id.forecast_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -58,31 +58,31 @@ public class WeatherDetailsFragment extends Fragment {
         if (args != null) {
             weatherResult = args.getParcelable(WEATHER_MESSAGE);
         }
-        if(weatherResult!=null) {
+        if (weatherResult != null) {
             List<String> weekForecast = weatherResult.getWeekForecast();
-            Log.d(TAG,weatherResult.getWeekForecast().toString());
+            Log.d(TAG, weatherResult.getWeekForecast().toString());
             if (weekForecast != null) {
                 forecastRecyclerView.setAdapter(new ForecastRecyclerViewAdapter(weekForecast));
             }
-        }else{
+        } else {
             throw new NullPointerException("WeatherDetailsFragment!!! weatherResult is null");
         }
         titleText.setOnClickListener(new TitleTextOnClickListener());
         return rootView;
     }
 
-    private class TitleTextOnClickListener implements View.OnClickListener{
+    private class TitleTextOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            PopupMenu popupMenu = new PopupMenu(getActivity(),v);
+            PopupMenu popupMenu = new PopupMenu(getActivity(), v);
             Menu menu = popupMenu.getMenu();
-            popupMenu.getMenuInflater().inflate(R.menu.popup_menu,menu);
+            popupMenu.getMenuInflater().inflate(R.menu.popup_menu, menu);
             Typeface typeFace = Typeface.createFromAsset(getActivity().getAssets(), "fonts/troika.otf");
-            TroikaTypefaceSpan typefaceSpan = new TroikaTypefaceSpan("",typeFace);
-            for(int i = 0; i < menu.size();i++){
+            TroikaTypefaceSpan typefaceSpan = new TroikaTypefaceSpan("", typeFace);
+            for (int i = 0; i < menu.size(); i++) {
                 MenuItem menuItem = menu.getItem(i);
                 SpannableString title = new SpannableString(menuItem.getTitle());
-                title.setSpan(typefaceSpan,0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                title.setSpan(typefaceSpan, 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 menuItem.setTitle(title);
             }
             popupMenu.show();
@@ -105,7 +105,7 @@ public class WeatherDetailsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ForecastViewHolder holder, int position) {
-            holder.forecastTextView.setText(forecastList.get(position).replaceAll("_"," "));
+            holder.forecastTextView.setText(forecastList.get(position).replaceAll("_", " "));
             holder.setForecastImageView(position);
         }
 
@@ -122,12 +122,13 @@ public class WeatherDetailsFragment extends Fragment {
                 super(inflater.inflate(R.layout.forecast_list_item, parent, false));
 
                 forecastTextView = itemView.findViewById(R.id.forecast_textview);
-                UtilMethods.changeFontTextView(forecastTextView,getActivity());
+                UtilMethods.changeFontTextView(forecastTextView, getActivity());
                 forecastImageView = itemView.findViewById(R.id.forecast_image_view);
             }
-            public void setForecastImageView(int position){
+
+            public void setForecastImageView(int position) {
                 UtilMethods.setWeatherImage(getResources(),
-                        forecastImageView,forecastList.get(position));
+                        forecastImageView, forecastList.get(position));
             }
         }
     }

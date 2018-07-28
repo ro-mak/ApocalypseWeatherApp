@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.util.*;
-
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.presenter.city_search_recycler.CitySearchRecyclerAdapter;
 import ru.makproductions.apocalypseweatherapp.presenter.city_search_recycler.CitySearchTextWatcher;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
+
+import static android.content.Context.MODE_PRIVATE;
 
 //Main fragment with list of cities and options
 public class WeatherListFragment extends Fragment implements View.OnClickListener {
@@ -70,7 +69,7 @@ public class WeatherListFragment extends Fragment implements View.OnClickListene
         weatherRecyclerView.setAdapter(adapter);
         weatherRecyclerView.setHasFixedSize(true);
 
-        cityButtonAnimation = AnimationUtils.loadAnimation(activity,R.anim.button_alpha);
+        cityButtonAnimation = AnimationUtils.loadAnimation(activity, R.anim.button_alpha);
         //Get Prefs
         saveTown = activity.getPreferences(MODE_PRIVATE);
 
@@ -120,7 +119,7 @@ public class WeatherListFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if(id == R.id.add_city_button){
+        if (id == R.id.add_city_button) {
             v.startAnimation(cityButtonAnimation);
         }
     }

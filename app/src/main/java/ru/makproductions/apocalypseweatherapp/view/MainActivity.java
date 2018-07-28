@@ -1,8 +1,7 @@
 package ru.makproductions.apocalypseweatherapp.view;
 
-import android.content.*;
-import android.os.*;
-
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
@@ -11,17 +10,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.*;
-import android.view.*;
-
-import android.widget.*;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.show_weather.ShowWeatherActivity;
 import ru.makproductions.apocalypseweatherapp.view.show_weather.ShowWeatherFragment;
 import ru.makproductions.apocalypseweatherapp.view.weather_list.WeatherListListener;
-import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //main class
 public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener {
@@ -31,10 +31,9 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
 
     private static final String WEATHER_MESSAGE = "weather_message";
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         TextView titleView = customView.findViewById(R.id.title);
         UtilMethods.changeFontTextView(titleView, this);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,R.string.app_name,R.string.app_name);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -136,9 +135,9 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     @Override
     public void onBackPressed() {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }

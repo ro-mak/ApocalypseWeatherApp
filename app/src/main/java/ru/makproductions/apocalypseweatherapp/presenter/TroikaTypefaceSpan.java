@@ -8,20 +8,21 @@ import android.text.style.TypefaceSpan;
 public class TroikaTypefaceSpan extends TypefaceSpan {
     private Typeface newTypeface;
 
-    public TroikaTypefaceSpan(String family,Typeface typefaceSpan) {
+    public TroikaTypefaceSpan(String family, Typeface typefaceSpan) {
         super(family);
         this.newTypeface = typefaceSpan;
     }
 
     @Override
     public void updateMeasureState(TextPaint paint) {
-        apply(paint,newTypeface);
+        apply(paint, newTypeface);
     }
 
     @Override
     public void updateDrawState(TextPaint ds) {
-        apply(ds,newTypeface);
+        apply(ds, newTypeface);
     }
+
     private static void apply(Paint paint, Typeface tf) {
         int oldStyle;
 

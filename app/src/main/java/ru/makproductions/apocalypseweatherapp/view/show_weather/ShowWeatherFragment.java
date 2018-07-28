@@ -18,9 +18,9 @@ import android.widget.TextView;
 
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.weather_details.ApocalypseCountdownFragment;
 import ru.makproductions.apocalypseweatherapp.view.weather_details.WeatherDetailsFragment;
-import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //Fragment for weather details
 public class ShowWeatherFragment extends Fragment {
@@ -51,8 +51,8 @@ public class ShowWeatherFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.show_weather_fragment, container, false);
-        TextView showWeatherTextView =  view.findViewById(R.id.show_weather_textview);
-        ImageView weatherImage =  view.findViewById(R.id.weather_image);
+        TextView showWeatherTextView = view.findViewById(R.id.show_weather_textview);
+        ImageView weatherImage = view.findViewById(R.id.weather_image);
         Bundle args = this.getArguments();
 
         if (args.getParcelable(WEATHER_MESSAGE) != null) {

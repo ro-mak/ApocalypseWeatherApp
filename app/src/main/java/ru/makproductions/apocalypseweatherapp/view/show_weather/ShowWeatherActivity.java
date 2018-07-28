@@ -24,7 +24,7 @@ public class ShowWeatherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_weather);
 
         Intent intent = getIntent();
-        if(intent==null)throw new NullPointerException("ShowWeatherActivity intent null");
+        if (intent == null) throw new NullPointerException("ShowWeatherActivity intent null");
         ShowWeatherFragment showWeatherFragment = ShowWeatherFragment.init(getIntent().getExtras());
         android.support.v4.app.FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.show_weather, showWeatherFragment);

@@ -4,12 +4,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
-import ru.makproductions.apocalypseweatherapp.presenter.city_search_recycler.CitySearchRecyclerAdapter;
-
 public class CitySearchTextWatcher implements TextWatcher {
     private static final String CITY_SEARCH_TEXT_WATCHER = "CitySearchTextWatcher";
     private CitySearchRecyclerAdapter adapter;
     private int position;
+
     public CitySearchTextWatcher(CitySearchRecyclerAdapter adapter) {
         this.adapter = adapter;
         this.position = adapter.getTownSelected();

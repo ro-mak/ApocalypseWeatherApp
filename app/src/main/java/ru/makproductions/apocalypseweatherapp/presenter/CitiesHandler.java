@@ -14,22 +14,26 @@ public class CitiesHandler {
     private List<String> citiesInEnglishList;
     private List<String> citiesToFind;
     private Resources resources;
-    public CitiesHandler(Resources resources){
+
+    public CitiesHandler(Resources resources) {
         this.resources = resources;
         citiesList = Arrays.asList(resources.getStringArray(R.array.cities));
         citiesToFind = Arrays.asList(resources.getStringArray(R.array.cities_to_find));
         citiesInEnglishList = UtilMethods.getEnglishCitiesNamesList(resources);
     }
-    public List<String> getCities (){
+
+    public List<String> getCities() {
         return citiesList;
     }
-    public List<String> getCitiesInEnglish(){
+
+    public List<String> getCitiesInEnglish() {
         return citiesInEnglishList;
     }
 
     public List<String> getCitiesToFind() {
         return citiesToFind;
     }
+
     public void sendToTop(int index) {
         List<String> newCitiesList = new ArrayList<>();
         List<String> newCitiesInEnglishList = new ArrayList<>();

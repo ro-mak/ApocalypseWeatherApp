@@ -1,4 +1,3 @@
-
 package ru.makproductions.apocalypseweatherapp.model.forecast_map;
 
 import com.google.gson.annotations.Expose;

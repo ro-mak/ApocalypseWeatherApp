@@ -135,7 +135,8 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
         cities = citiesHandler.getCities();
         citiesToShow = citiesHandler.getCitiesInEnglish();
     }
-    public int getTownSelected(){
+
+    public int getTownSelected() {
         return townSelected;
     }
 }

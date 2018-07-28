@@ -2,11 +2,11 @@ package ru.makproductions.apocalypseweatherapp.util;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.*;
-import android.support.v4.app.Fragment;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -119,7 +119,7 @@ public class UtilMethods {
                 weatherImage.setImageResource(R.mipmap.snowing);
             } else if (rain && snow) {
                 weatherImage.setImageResource(R.mipmap.rain_with_snow);
-            } else if (thunderStorm){
+            } else if (thunderStorm) {
                 weatherImage.setImageResource(R.mipmap.rainstorm);
             }
 
