@@ -63,6 +63,7 @@ public class ShowWeatherFragment extends Fragment {
                 Log.e(TAG, "onCreateView: ShowWeatherFragment: weatherResult.weather =  " + weatherResult.getWeather());
             }
         }
+
         if (weather_message != null) {
             showWeatherTextView.setText(weather_message.replaceAll("_", " "));
             UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message);

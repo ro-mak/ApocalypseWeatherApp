@@ -10,5 +10,8 @@
 	<style name="AppTheme.Launcher">
 		<item name="android:windowBackground">@drawable/apocalypse_launch</item>
 	</style>
+    <style name="ButtonStyle" parent="Base.Widget.AppCompat.ImageButton">
+    </style>
+
 
 </resources>
