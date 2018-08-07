@@ -2,6 +2,7 @@ package ru.makproductions.apocalypseweatherapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
@@ -14,8 +15,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+
+import ru.makproductions.afilechooser.utils.FileUtils;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
@@ -60,6 +65,15 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
+        ImageView avatar = navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), "Select a file");
+                startActivityForResult(intent,1234);
+                Log.d(TAG,"AVATAR");
+            }
+        });
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -149,4 +163,5 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

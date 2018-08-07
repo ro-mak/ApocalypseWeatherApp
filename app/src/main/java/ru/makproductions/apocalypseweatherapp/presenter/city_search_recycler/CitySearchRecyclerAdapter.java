@@ -117,9 +117,8 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
                         List<String> filteredList = new ArrayList<>();
                         List<String> newShowList = new ArrayList<>();
                         showFilteredMap = new TreeMap<>();
-                        String city = "";
                         for (int i = 0; i < cities.size(); i++) {
-                            city = cities.get(i);
+                            String city = cities.get(i);
                             if (city.toLowerCase().startsWith(lineTyped)) {
                                 filteredList.add(city);
                                 showFilteredMap.put(i, citiesToShow.get(i));
@@ -144,8 +143,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 try {
                     //noinspection unchecked
-                    List<String> resultList = Arrays.asList(convertResultToString(results.values).toString().replaceAll("[\\[\\]]", "").split(","));
-                    citiesFiltered = resultList;
+                    citiesFiltered = Arrays.asList(convertResultToString(results.values).toString().replaceAll("[\\[\\]]", "").split(","));
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.e(TAG, results.values.toString());
@@ -198,13 +196,13 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
         weatherListListener.onListItemClick(result);
     }
 
-    public void sendToTop(int index) {
+    private void sendToTop(int index) {
         citiesHandler.sendToTop(index);
         cities = citiesHandler.getCities();
         citiesToShow = citiesHandler.getCitiesInEnglish();
     }
 
-    public int getTownSelectedToShow() {
+    private int getTownSelectedToShow() {
         int result = 0;
         if (!citiesToShow.equals(citiesToShowFiltered)) {
             for (Map.Entry<Integer, String> entry : showFilteredMap.entrySet()) {
