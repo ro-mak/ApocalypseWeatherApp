@@ -67,7 +67,7 @@ public class WeatherListFragment extends Fragment implements View.OnClickListene
         Resources resources = getResources();
         adapter = new CitySearchRecyclerAdapter(activity, citySearchEditText, weatherListListener);
         weatherRecyclerView.setAdapter(adapter);
-        weatherRecyclerView.setHasFixedSize(true);
+        weatherRecyclerView.setHasFixedSize(false);
 
         cityButtonAnimation = AnimationUtils.loadAnimation(activity, R.anim.button_alpha);
         //Get Prefs

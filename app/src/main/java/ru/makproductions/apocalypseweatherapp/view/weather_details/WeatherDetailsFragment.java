@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,7 +59,7 @@ public class WeatherDetailsFragment extends Fragment {
         }
         if (weatherResult != null) {
             List<String> weekForecast = weatherResult.getWeekForecast();
-            Log.d(TAG, weatherResult.getWeekForecast().toString());
+            //Log.d(TAG, weatherResult.getWeekForecast().toString());
             if (weekForecast != null) {
                 forecastRecyclerView.setAdapter(new ForecastRecyclerViewAdapter(weekForecast));
             }

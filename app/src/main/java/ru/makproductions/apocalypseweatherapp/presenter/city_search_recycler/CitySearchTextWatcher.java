@@ -2,16 +2,14 @@ package ru.makproductions.apocalypseweatherapp.presenter.city_search_recycler;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 
 public class CitySearchTextWatcher implements TextWatcher {
-    private static final String CITY_SEARCH_TEXT_WATCHER = "CitySearchTextWatcher";
+    private static final String TAG = "CitySearchTextWatcher";
+    private static final String CITY_WATCHER = "CITY_WATCHER";
     private CitySearchRecyclerAdapter adapter;
-    private int position;
 
     public CitySearchTextWatcher(CitySearchRecyclerAdapter adapter) {
         this.adapter = adapter;
-        this.position = adapter.getTownSelected();
     }
 
     @Override
@@ -21,11 +19,7 @@ public class CitySearchTextWatcher implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        adapter.sendToTop(position);
-        for (int i = 0; i < adapter.getItemCount(); i++) {
-            Log.d(CITY_SEARCH_TEXT_WATCHER, "NotifyDataSetChanged:" + i);
-            adapter.notifyItemChanged(i);
-        }
+        adapter.getFilter().filter(s.toString());
     }
 
     @Override

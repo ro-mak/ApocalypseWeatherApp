@@ -11,10 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
@@ -22,18 +28,21 @@ import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.weather_list.WeatherListListener;
 
-
-public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRecyclerAdapter.MyViewHolder> {
+public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRecyclerAdapter.MyViewHolder> implements Filterable {
     private final static String TAG = "CitySearchRecAd";
     private static final String NAME = "Name: ";
     private static final String MIPMAP_TYPE = "mipmap";
     private static final String NEW_LINE = "/n";
     private static final String SPACE = " ";
     private List<String> cities;
+    private List<String> citiesFiltered;
     private List<String> citiesToShow;
+    private List<String> citiesToShowFiltered;
+    private Map<Integer, String> showFilteredMap;
     private EditText citySearchEditText;
     private FragmentActivity activity;
     private int townSelected;
+    private String cityToShow;
     private WeatherResult result;
     private boolean pressure;
     private boolean tommorowForecast;
@@ -51,6 +60,8 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
         this.citiesToShow = citiesHandler.getCitiesInEnglish();
         this.citySearchEditText = citySearchEditText;
         this.weatherListListener = weatherListListener;
+        this.citiesFiltered = cities;
+        this.citiesToShowFiltered = citiesToShow;
     }
 
     @Override
@@ -61,30 +72,87 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
 
     private int imageId;
 
+    public void setCities(List<String> cities) {
+        this.cities = cities;
+    }
+
     @Override
     public void onBindViewHolder(CitySearchRecyclerAdapter.MyViewHolder holder, int position) {
-        String cityName = cities.get(position);
-        //Gets a city name in English casts to lower case and transforms to resource syntax
-        String cityToShow = citiesToShow.get(position).toLowerCase();
-        cityIsShown = cityName.toLowerCase().startsWith(citySearchEditText.getText().toString().toLowerCase());
-        if (cityIsShown) {
-            Log.d(TAG, "City:" + cityName + " EditText:" + citySearchEditText.getText());
+        try {
+            String cityName = citiesFiltered.get(position);
+            //Gets a city name in English casts to lower case and transforms to resource syntax
+            cityToShow = citiesToShowFiltered.get(position).toLowerCase();
             cityToShow = UtilMethods.formatCityName(cityToShow);
             Log.d(TAG, NAME + cityToShow);
-
             holder.city.setText(cityName);
             try {
                 imageId = resources.getIdentifier(cityToShow, MIPMAP_TYPE, activity.getPackageName());
             } catch (NullPointerException e) {
+
                 Log.d(TAG, e.getMessage() + NEW_LINE + SPACE + NAME + cityToShow);
             }
             holder.cityImage.setImageResource(imageId);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public int getItemCount() {
-        return cities.size();
+        return citiesFiltered.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                try {
+                    String charSequence = constraint.toString();
+                    String lineTyped = citySearchEditText.getText().toString().toLowerCase();
+                    if (charSequence.isEmpty()) {
+                        citiesFiltered = cities;
+                        citiesToShowFiltered = citiesToShow;
+                    } else {
+                        List<String> filteredList = new ArrayList<>();
+                        List<String> newShowList = new ArrayList<>();
+                        showFilteredMap = new TreeMap<>();
+                        String city = "";
+                        for (int i = 0; i < cities.size(); i++) {
+                            city = cities.get(i);
+                            if (city.toLowerCase().startsWith(lineTyped)) {
+                                filteredList.add(city);
+                                showFilteredMap.put(i, citiesToShow.get(i));
+                            }
+                        }
+
+                        citiesFiltered = filteredList;
+                        for (Map.Entry<Integer, String> entry : showFilteredMap.entrySet()) {
+                            newShowList.add(entry.getValue());
+                        }
+                        citiesToShowFiltered = newShowList;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = citiesFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                try {
+                    //noinspection unchecked
+                    List<String> resultList = Arrays.asList(convertResultToString(results.values).toString().replaceAll("[\\[\\]]", "").split(","));
+                    citiesFiltered = resultList;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(TAG, results.values.toString());
+                }
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class MyViewHolder extends CitySearchViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
@@ -126,7 +194,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     }
 
     private void showDescription() {
-        result = WeatherResult.getWeatherDescription(activity, townSelected, pressure, tommorowForecast, weekForecast, citiesHandler);
+        result = WeatherResult.getWeatherDescription(activity, getTownSelectedToShow(), pressure, tommorowForecast, weekForecast, citiesHandler);
         weatherListListener.onListItemClick(result);
     }
 
@@ -136,7 +204,18 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
         citiesToShow = citiesHandler.getCitiesInEnglish();
     }
 
-    public int getTownSelected() {
-        return townSelected;
+    public int getTownSelectedToShow() {
+        int result = 0;
+        if (!citiesToShow.equals(citiesToShowFiltered)) {
+            for (Map.Entry<Integer, String> entry : showFilteredMap.entrySet()) {
+                if (entry.getValue().equals(citiesToShowFiltered.get(townSelected))) {
+                    result = entry.getKey();
+                    Log.d(TAG, "getTownSelectedToShow: " + result);
+                }
+            }
+        } else {
+            return townSelected;
+        }
+        return result;
     }
 }
