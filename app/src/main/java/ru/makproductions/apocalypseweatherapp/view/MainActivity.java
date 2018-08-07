@@ -1,8 +1,8 @@
 package ru.makproductions.apocalypseweatherapp.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 
 import ru.makproductions.afilechooser.utils.FileUtils;
@@ -32,7 +34,9 @@ import ru.makproductions.apocalypseweatherapp.view.weather_list.WeatherListListe
 public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "HeyHOO###############";
+    private static final int REQUEST_CODE = 3472;
     private final int SUCCESS_CODE = 666;
+    private ImageView avatar;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
-        ImageView avatar = navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
+        avatar = navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), "Select a file");
-                startActivityForResult(intent,1234);
-                Log.d(TAG,"AVATAR");
+                startActivityForResult(intent, REQUEST_CODE);
+                Log.d(TAG, "AVATAR");
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
@@ -119,6 +123,18 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         if (requestCode == SUCCESS_CODE) {
             if (resultCode == RESULT_OK) {
             } else if (resultCode == RESULT_CANCELED) {
+            }
+        } else if (requestCode == REQUEST_CODE) {
+            Log.d(TAG, "onActivityResult: requestCode" + requestCode);
+            Log.d(TAG, "onActivityResult: resultCode" + resultCode);
+            if (resultCode == RESULT_OK) {
+                final Uri uri = data.getData();
+                String path = FileUtils.getPath(this, uri);
+                if (path != null && FileUtils.isLocal(path)) {
+                    File file = new File(path);
+                    Glide.with(this).load(file).into(avatar);
+                    Log.d(TAG, "onActivityResult: " + file);
+                }
             }
         }
     }
