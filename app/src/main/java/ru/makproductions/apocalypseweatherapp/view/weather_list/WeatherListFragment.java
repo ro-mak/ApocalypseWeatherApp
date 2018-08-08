@@ -34,6 +34,7 @@ public class WeatherListFragment extends Fragment implements View.OnClickListene
     private static final String TOMMOROW_FORECAST = "TOMMOROW_FORECAST";
     private static final String WEEK_FORECAST = "WEEK_FORECAST";
     public static final String ON_PAUSE_MESSAGE = "onPauseeee!!!!!!";
+    private static final String FRAGMENT_ACTIVITY_IS_NULL = "FragmentActivity is null";
     private SharedPreferences saveTown;
     private int townSelected;
     private final static int VERTICAL = 1;
@@ -42,6 +43,7 @@ public class WeatherListFragment extends Fragment implements View.OnClickListene
     private boolean weekForecast;
     private WeatherListListener weatherListListener;
     private ImageButton addCityButton;
+    private ImageButton searchCityButton;
     private EditText citySearchEditText;
     private CitySearchRecyclerAdapter adapter;
     private Animation cityButtonAnimation;
@@ -58,13 +60,16 @@ public class WeatherListFragment extends Fragment implements View.OnClickListene
         //RecyclerView init
         View rootView = inflater.inflate(R.layout.weather_list_fragment, container, false);
         FragmentActivity activity = getActivity();
+        if (activity == null) throw new RuntimeException(TAG + FRAGMENT_ACTIVITY_IS_NULL);
         RecyclerView weatherRecyclerView = rootView.findViewById(R.id.cities_recycler_view);
         citySearchEditText = rootView.findViewById(R.id.edittext_choose_text);
         addCityButton = rootView.findViewById(R.id.add_city_button);
+        searchCityButton = rootView.findViewById(R.id.seacrh_city_button);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(VERTICAL);
         weatherRecyclerView.setLayoutManager(layoutManager);
         Resources resources = getResources();
+
         adapter = new CitySearchRecyclerAdapter(activity, citySearchEditText, weatherListListener);
         weatherRecyclerView.setAdapter(adapter);
         weatherRecyclerView.setHasFixedSize(false);
@@ -84,6 +89,7 @@ public class WeatherListFragment extends Fragment implements View.OnClickListene
         }
         citySearchEditText.addTextChangedListener(new CitySearchTextWatcher(adapter));
         addCityButton.setOnClickListener(this);
+        searchCityButton.setOnClickListener(this);
         //Fonts
         UtilMethods.changeFontTextView(citySearchEditText, activity);
         return rootView;
@@ -120,6 +126,8 @@ public class WeatherListFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.add_city_button) {
+            v.startAnimation(cityButtonAnimation);
+        }else if(id == R.id.seacrh_city_button){
             v.startAnimation(cityButtonAnimation);
         }
     }

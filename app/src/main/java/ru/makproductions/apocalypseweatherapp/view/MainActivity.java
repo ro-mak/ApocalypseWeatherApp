@@ -1,11 +1,15 @@
 package ru.makproductions.apocalypseweatherapp.view;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -35,8 +39,10 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     private static final String TAG = "HeyHOO###############";
     private static final int REQUEST_CODE = 3472;
+    private static final int PERMISSIONS_REQUEST_CODE = 5481;
     private final int SUCCESS_CODE = 666;
     private ImageView avatar;
+    private boolean permissionGranted;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,9 +79,13 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), "Select a file");
-                startActivityForResult(intent, REQUEST_CODE);
-                Log.d(TAG, "AVATAR");
+                try {
+                    Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), "Select a file");
+                    startActivityForResult(intent, REQUEST_CODE);
+                    Log.d(TAG, "AVATAR");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
@@ -117,6 +127,15 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         super.onPause();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == PERMISSIONS_REQUEST_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                permissionGranted = true;
+            }
+        }
+    }
+
     //a method previously used in learning purposes to know if sharing was success
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -127,6 +146,9 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         } else if (requestCode == REQUEST_CODE) {
             Log.d(TAG, "onActivityResult: requestCode" + requestCode);
             Log.d(TAG, "onActivityResult: resultCode" + resultCode);
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+                }
             if (resultCode == RESULT_OK) {
                 final Uri uri = data.getData();
                 String path = FileUtils.getPath(this, uri);
