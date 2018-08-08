@@ -199,7 +199,9 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     private void sendToTop(int index) {
         citiesHandler.sendToTop(index);
         cities = citiesHandler.getCities();
+        citiesFiltered = cities;
         citiesToShow = citiesHandler.getCitiesInEnglish();
+        citiesToShowFiltered = citiesToShow;
     }
 
     private int getTownSelectedToShow() {
