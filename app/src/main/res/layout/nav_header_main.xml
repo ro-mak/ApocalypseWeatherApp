@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/default_avatar"
-        android:paddingTop="@dimen/nav_header_padding_vertical" />
+        android:paddingTop="@dimen/nav_avatar_padding_vertical" />
 
     <TextView
         android:layout_width="match_parent"

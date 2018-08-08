@@ -7,14 +7,14 @@
     <dimen name="timer_text_size">25sp</dimen>
     <dimen name="weather_text_size">20sp</dimen>
     <dimen name="extra_details_dimens">35sp</dimen>
-    <dimen name="nav_header_height">110dp</dimen>
-    <dimen name="nav_header_padding_vertical">0dp</dimen>
+    <dimen name="nav_header_height">170dp</dimen>
+    <dimen name="nav_header_padding_vertical">30dp</dimen>
     <dimen name="nav_header_padding_horizontal">20dp</dimen>
     <dimen name="nav_header_text_size">20dp</dimen>
     <dimen name="add_button_margin">10dp</dimen>
     <dimen name="button_left_margin">10dp</dimen>
     <dimen name="button_right_margin">10dp</dimen>
-    <dimen name="nav_avatar_padding_vertical">10dp</dimen>
-    <dimen name="image_width">200</dimen>
-    <dimen name="image_height">200</dimen>
+    <dimen name="nav_avatar_padding_vertical">30dp</dimen>
+    <dimen name="image_width">192</dimen>
+    <dimen name="image_height">192</dimen>
 </resources>

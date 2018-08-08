@@ -71,6 +71,7 @@ public class ShowWeatherFragment extends Fragment {
         Button shareWeatherButton = view.findViewById(R.id.share_weather_button);
         shareWeatherButton.setOnClickListener(onClickListener);
         FragmentActivity activity = getActivity();
+        if(activity==null)throw new RuntimeException(TAG + "FragmentActivity is null");
         UtilMethods.changeFontTextView(showWeatherTextView, activity);
         UtilMethods.changeFontTextView(shareWeatherButton, activity);
 
@@ -113,6 +114,7 @@ public class ShowWeatherFragment extends Fragment {
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, weather_message + "\n" + weatherResult.getWeekForecast());
                 FragmentActivity activity = getActivity();
+                if(activity==null)throw new RuntimeException(TAG + "FragmentActivity is null");
                 PackageManager packageManager = activity.getPackageManager();
                 if (!packageManager.queryIntentActivities(intent, 0).isEmpty()) {
                     startActivity(intent);

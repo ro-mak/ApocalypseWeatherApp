@@ -1,8 +1,10 @@
 package ru.makproductions.apocalypseweatherapp.util;
 
+import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ImageView;
@@ -17,6 +19,8 @@ import ru.makproductions.apocalypseweatherapp.R;
 public class UtilMethods {
 
     public static final String TAG = "UTIL";
+    private static final int MIN_HEIGHT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 200 : 292;
+    private static final int MIN_WIDTH = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 200 : 292;
 
     public static void changeFontTextView(TextView view, FragmentActivity activity) {
         Typeface font = Typeface.createFromAsset(activity.getAssets(), "fonts/troika.otf");
@@ -129,8 +133,8 @@ public class UtilMethods {
 //                weatherImage.setImageResource(R.mipmap.snowstorm);
 //            }
         }
-        weatherImage.setMinimumHeight(192);
-        weatherImage.setMinimumWidth(192);
+        weatherImage.setMinimumHeight(MIN_HEIGHT);
+        weatherImage.setMinimumWidth(MIN_WIDTH);
 
     }
 }
