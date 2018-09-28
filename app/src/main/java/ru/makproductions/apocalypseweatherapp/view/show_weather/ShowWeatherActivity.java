@@ -14,7 +14,10 @@ import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //Activity for details on phones
 public class ShowWeatherActivity extends AppCompatActivity {
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String WEATHER_BUNDLE = "weather_bundle";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String TEXT_PLAIN = "text/plain";
 
     private WeatherResult weather;
 
@@ -31,11 +34,13 @@ public class ShowWeatherActivity extends AppCompatActivity {
         transaction.commit();
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.logo_layout);
-        View customView = actionBar.getCustomView();
-        TextView titleView = (TextView) customView.findViewById(R.id.title);
-        UtilMethods.changeFontTextView(titleView, this);
+        if (actionBar!=null) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setCustomView(R.layout.logo_layout);
+            View customView = actionBar.getCustomView();
+            TextView titleView = customView.findViewById(R.id.title);
+            UtilMethods.changeFontTextView(titleView, this);
+        }
 
     }
 
@@ -44,7 +49,7 @@ public class ShowWeatherActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (view.getId() == R.id.share_weather_button) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
+                intent.setType(TEXT_PLAIN);
                 intent.putExtra(Intent.EXTRA_TEXT, weather.getWeather());
                 PackageManager packageManager = getPackageManager();
                 if (!packageManager.queryIntentActivities(intent, 0).isEmpty()) {

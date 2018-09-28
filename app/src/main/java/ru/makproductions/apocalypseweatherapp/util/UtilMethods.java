@@ -10,6 +10,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -17,13 +19,17 @@ import java.util.Locale;
 import ru.makproductions.apocalypseweatherapp.R;
 
 public class UtilMethods {
-
-    public static final String TAG = "UTIL";
-    private static final int MIN_HEIGHT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 200 : 292;
-    private static final int MIN_WIDTH = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 200 : 292;
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String TAG = "UTIL";
+    private static final int MIN_HEIGHT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 300 : 492;
+    private static final int MIN_WIDTH = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 300 : 492;
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String FONTS_TROIKA_OTF = "fonts/troika.otf";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH = "transliterateFromRussianToEnglish: ";
 
     public static void changeFontTextView(TextView view, FragmentActivity activity) {
-        Typeface font = Typeface.createFromAsset(activity.getAssets(), "fonts/troika.otf");
+        Typeface font = Typeface.createFromAsset(activity.getAssets(), FONTS_TROIKA_OTF);
         view.setTypeface(font);
     }
 
@@ -51,14 +57,13 @@ public class UtilMethods {
         }
         return new String(charArray);
     }
-
+    @SuppressWarnings("HardCodedStringLiteral")
     private static String[] alphabet = {"a", "b", "v", "g", "d", "e", "yo", "zh", "z", "i", "y", "k",
             "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "ts", "ch",
             "sh", "sh", "", "y", "", "e", "ju", "ja"};
     private static char[] russianAlphabet = {'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з',
             'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф',
             'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я'};
-
     public static String transliterateFromRussianToEnglish(String line) {
         char[] letters = line.toLowerCase().toCharArray();
         StringBuilder result = new StringBuilder();
@@ -78,19 +83,20 @@ public class UtilMethods {
         if (result.toString().isEmpty()) {
             result.append(line);
         }
-        Log.e(TAG, "transliterateFromRussianToEnglish: " + result.toString());
+        Log.e(TAG, TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH + result.toString());
         return result.toString();
     }
 
     public static void setWeatherImage(Resources resources, ImageView weatherImage, String weather_message) {
         String[] parsedMessage = weather_message.split(" ");
-        String tempString = "";
+        String tempString;
         boolean rain = false;
         boolean snow = false;
         boolean clearSky = false;
         boolean clouds = false;
         boolean brokenClouds = false;
         boolean thunderStorm = false;
+        boolean fog = false;
         for (int i = 0; i < parsedMessage.length; i++) {
             tempString = parsedMessage[i].toLowerCase();
             if (tempString.contains(resources.getString(R.string.clear_sky))) {
@@ -111,20 +117,27 @@ public class UtilMethods {
             if (tempString.contains(resources.getString(R.string.thunder_storm))) {
                 thunderStorm = true;
             }
+            if (tempString.contains(resources.getString((R.string.fog)))) {
+                fog = true;
+            }
+
             if (clearSky) {
-                weatherImage.setImageResource(R.mipmap.sunny);
+                Glide.with(weatherImage).load(R.mipmap.sunny).into(weatherImage);
             } else if (brokenClouds) {
-                weatherImage.setImageResource(R.mipmap.broken_clouds);
+                Glide.with(weatherImage).load(R.mipmap.broken_clouds).into(weatherImage);
             } else if (clouds) {
-                weatherImage.setImageResource(R.mipmap.cloudy);
+                Glide.with(weatherImage).load(R.mipmap.cloudy).into(weatherImage);
             } else if (rain && !snow) {
-                weatherImage.setImageResource(R.mipmap.raining);
+                Glide.with(weatherImage).load(R.mipmap.raining).into(weatherImage);
             } else if (snow && !rain) {
-                weatherImage.setImageResource(R.mipmap.snowing);
+                Glide.with(weatherImage).load(R.mipmap.snowing).into(weatherImage);
             } else if (rain && snow) {
-                weatherImage.setImageResource(R.mipmap.rain_with_snow);
+                Glide.with(weatherImage).load(R.mipmap.rain_with_snow).into(weatherImage);
             } else if (thunderStorm) {
-                weatherImage.setImageResource(R.mipmap.rainstorm);
+                Glide.with(weatherImage).load(R.mipmap.rainstorm).into(weatherImage);
+            }
+            else if(fog){
+
             }
 
 //            } else if (tempString.contains(resources.getString(R.string.weather_type_rainstorm))) {

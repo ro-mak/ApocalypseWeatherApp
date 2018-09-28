@@ -1,10 +1,11 @@
-<resources>
-    <string name="count_down">Apocalypse in:</string>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <string name="count_down">Apocalypse coming in:</string>
     <string name="app_name">Hail the apocalypse!</string>
     <string name="show_description_button">What\'s the weather here?</string>
-    <string name="textview_dummy_text"></string>
+    <string name="textview_dummy_text" />
     <string name="choose_a_city">Choose a city</string>
-    <string name="no_message_recieved_textview">No message recieved</string>
+    <string name="no_message_recieved_textview">No message received</string>
     <string name="share_weather_button">Share with friends </string>
     <string name="weather_share_result_ok">Successfully shared or maybe there is an app to share weather with</string>
     <string name="weather_share_cancel">Operation cancelled by user or there is no such app</string>
@@ -23,7 +24,7 @@
     <string name="weather_type_rain_with_snow">rain_with_snow</string>
     <string name="weather_type_rainstorm">rainstorm</string>
     <string name="weather_type_snowstorm">snowstorm</string>
-    <string name="image_loading">image loading...</string>
+    <string name="image_loading">image loading…</string>
     <string name="weather_details">Click to gather detailed information</string>
     <string name="openweather_api_key">d5699a9f9221ade876095bbb79295acf</string>
     <string name="options_menu_item">Options</string>
@@ -40,6 +41,7 @@
     <string name="open_weather_map_api_url"><![CDATA[http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s]]></string>
     <string name="broken_clouds">broken</string>
     <string name="thunder_storm">thunderstorm</string>
+    <string name="fog">fog</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>

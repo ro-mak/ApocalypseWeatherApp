@@ -2,7 +2,7 @@
     <string name="count_down">Акокалипсис через:</string>
     <string name="app_name">Даешь Апокалипсис!</string>
     <string name="show_description_button">Какая погода в этом городе?</string>
-    <string name="textview_dummy_text"></string>
+    <string name="textview_dummy_text" />
     <string name="choose_a_city">Выберите город</string>
     <string name="share_weather_button">Поделиться с друзьями</string>
     <string name="weather_share_result_ok">Вы возможно поделились с друзьями погодой, по крайней мере у вас есть приложение для этого</string>
@@ -31,6 +31,7 @@
     <string name="open_weather_map_api_url"><![CDATA[http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&lang=ru&appid=%s]]></string>
     <string name="broken_clouds">пасмурно</string>
     <string name="thunder_storm">гроза</string>
+    <string name="fog">туман</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>

@@ -1,6 +1,7 @@
 package ru.makproductions.apocalypseweatherapp.presenter.city_search_recycler;
 
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,18 +31,24 @@ import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.weather_list.WeatherListListener;
 
 public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRecyclerAdapter.MyViewHolder> implements Filterable {
+    @SuppressWarnings("HardCodedStringLiteral")
     private final static String TAG = "CitySearchRecAd";
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String NAME = "Name: ";
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String MIPMAP_TYPE = "mipmap";
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String NEW_LINE = "/n";
     private static final String SPACE = " ";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String GET_TOWN_SELECTED_TO_SHOW = "getTownSelectedToShow: ";
     private List<String> cities;
     private List<String> citiesFiltered;
     private List<String> citiesToShow;
     private List<String> citiesToShowFiltered;
     private Map<Integer, String> showFilteredMap;
     private EditText citySearchEditText;
-    private FragmentActivity activity;
+    private WeakReference<FragmentActivity> activityWeakReference;
     private int townSelected;
     private String cityToShow;
     private WeatherResult result;
@@ -53,7 +61,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     private boolean cityIsShown = false;
 
     public CitySearchRecyclerAdapter(FragmentActivity activity, EditText citySearchEditText, WeatherListListener weatherListListener) {
-        this.activity = activity;
+        activityWeakReference = new WeakReference<>(activity);
         resources = activity.getResources();
         citiesHandler = new CitiesHandler(resources);
         this.cities = citiesHandler.getCities();
@@ -64,8 +72,9 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
         this.citiesToShowFiltered = citiesToShow;
     }
 
+    @NonNull
     @Override
-    public CitySearchRecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CitySearchRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new CitySearchRecyclerAdapter.MyViewHolder(inflater, parent);
     }
@@ -77,7 +86,8 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     }
 
     @Override
-    public void onBindViewHolder(CitySearchRecyclerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CitySearchRecyclerAdapter.MyViewHolder holder, int position) {
+        if (activityWeakReference == null)return;
         try {
             String cityName = citiesFiltered.get(position);
             //Gets a city name in English casts to lower case and transforms to resource syntax
@@ -86,7 +96,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             Log.d(TAG, NAME + cityToShow);
             holder.city.setText(cityName);
             try {
-                imageId = resources.getIdentifier(cityToShow, MIPMAP_TYPE, activity.getPackageName());
+                imageId = resources.getIdentifier(cityToShow, MIPMAP_TYPE, activityWeakReference.get().getPackageName());
             } catch (NullPointerException e) {
 
                 Log.d(TAG, e.getMessage() + NEW_LINE + SPACE + NAME + cityToShow);
@@ -161,7 +171,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             super(inflater.inflate(R.layout.city_list_item, parent, false));
             cityImage = itemView.findViewById(R.id.city_image_view);
             city = itemView.findViewById(R.id.city);
-            UtilMethods.changeFontTextView(city, activity);
+            if(activityWeakReference!=null)UtilMethods.changeFontTextView(city, activityWeakReference.get());
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
         }
@@ -192,7 +202,8 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     }
 
     private void showDescription() {
-        result = WeatherResult.getWeatherDescription(activity, getTownSelectedToShow(), pressure, tommorowForecast, weekForecast, citiesHandler);
+        if (activityWeakReference==null)return;
+        result = WeatherResult.getWeatherDescription(activityWeakReference.get(), getTownSelectedToShow(), pressure, tommorowForecast, weekForecast, citiesHandler);
         weatherListListener.onListItemClick(result);
     }
 
@@ -210,7 +221,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             for (Map.Entry<Integer, String> entry : showFilteredMap.entrySet()) {
                 if (entry.getValue().equals(citiesToShowFiltered.get(townSelected))) {
                     result = entry.getKey();
-                    Log.d(TAG, "getTownSelectedToShow: " + result);
+                    Log.d(TAG, GET_TOWN_SELECTED_TO_SHOW + result);
                 }
             }
         } else {
