@@ -30,16 +30,24 @@ import ru.makproductions.afilechooser.utils.FileUtils;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
-import ru.makproductions.apocalypseweatherapp.view.show_weather.ShowWeatherActivity;
-import ru.makproductions.apocalypseweatherapp.view.show_weather.ShowWeatherFragment;
-import ru.makproductions.apocalypseweatherapp.view.weather_list.WeatherListListener;
+import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherActivity;
+import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherFragment;
+import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListener;
 
 //main class
 public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener {
-
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String TAG = "HeyHOO###############";
     private static final int REQUEST_CODE = 3472;
     private static final int PERMISSIONS_REQUEST_CODE = 5481;
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String ON_CREATE = "onCreate";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String ACTION_BAR_NULL = "ActionBar == null";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String SELECT_A_FILE = "Select a file";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String AVATAR = "AVATAR";
     private final int SUCCESS_CODE = 666;
     private ImageView avatar;
     private boolean permissionGranted;
@@ -50,20 +58,21 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         return super.onCreateOptionsMenu(menu);
     }
 
-
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String WEATHER_MESSAGE = "weather_message";
-
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String WEATHER_BUNDLE = "weather_bundle";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
-        Log.d(TAG, "onCreate");
+        Log.d(TAG, ON_CREATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //add icon to the action bar
         ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) throw new RuntimeException(TAG + ACTION_BAR_NULL);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.logo_layout);
         View customView = actionBar.getCustomView();
@@ -80,10 +89,10 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), "Select a file");
+                    Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), SELECT_A_FILE);
                     startActivityForResult(intent, REQUEST_CODE);
-                    Log.d(TAG, "AVATAR");
-                }catch (Exception e){
+                    Log.d(TAG, AVATAR);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -129,8 +138,8 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == PERMISSIONS_REQUEST_CODE){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 permissionGranted = true;
             }
         }
@@ -146,9 +155,9 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         } else if (requestCode == REQUEST_CODE) {
             Log.d(TAG, "onActivityResult: requestCode" + requestCode);
             Log.d(TAG, "onActivityResult: resultCode" + resultCode);
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
-                }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+            }
             if (resultCode == RESULT_OK) {
                 final Uri uri = data.getData();
                 String path = FileUtils.getPath(this, uri);

@@ -16,14 +16,28 @@ import java.util.Arrays;
 import java.util.List;
 
 import ru.makproductions.apocalypseweatherapp.model.network.WeatherLoader;
-import ru.makproductions.apocalypseweatherapp.model.weather_map.WeatherMap;
+import ru.makproductions.apocalypseweatherapp.model.weather.map.WeatherMap;
 import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 public class WeatherResult implements Parcelable {
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String TAG = "WeatherResult";
     private static final int WEATHER_ARRAY_INDEX = 0;
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String GET_WEATHER_DESCRIPTION = "getWeatherDescription: ";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String CITY_TO_SEARCH = "!!!cityToSearch: ";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String WEATHERMAP_NULL = " WEATHERMAP NULL ";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String UPDATE_WEATHER_DATA_CITY = "updateWeatherData: city = ";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String CITY_STRING = " city ";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String WEEK_FORECAST_STRING = "_week_forecast";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String DEF_TYPE_ARRAY = "array";
     private static WeatherMap weatherMap;
     private static Gson gsonObject = new Gson();
     private String weather;
@@ -43,7 +57,7 @@ public class WeatherResult implements Parcelable {
         final String city = citiesHandler.getCitiesInEnglish().get(position).toLowerCase();
         String cityToSearch = citiesHandler.getCitiesToFind().get(position);
         weatherLoader = new WeatherLoader(cityToSearch).execute(context);
-        Log.e(TAG, GET_WEATHER_DESCRIPTION + "!!!cityToSearch: " + cityToSearch);
+        Log.e(TAG, GET_WEATHER_DESCRIPTION + CITY_TO_SEARCH + cityToSearch);
         UtilMethods.formatCityName(city);
         try {
             weatherMap = gsonObject.fromJson(weatherLoader.get().toString(), WeatherMap.class);
@@ -59,12 +73,12 @@ public class WeatherResult implements Parcelable {
     private static void updateWeatherData(Context context, String city, int position, boolean pressure,
                                           boolean tommorowForecast, boolean weekForecast, WeatherResult weatherResult) {
         if (weatherMap == null) {
-            Log.e(TAG, GET_WEATHER_DESCRIPTION + " WEATHERMAP NULL ");
-            Log.e(TAG, "updateWeatherData: city = " + city);
+            Log.e(TAG, GET_WEATHER_DESCRIPTION + WEATHERMAP_NULL);
+            Log.e(TAG, UPDATE_WEATHER_DATA_CITY + city);
         }
 
-        Log.e(TAG, GET_WEATHER_DESCRIPTION + " city " + city);
-        int weekCityId = context.getResources().getIdentifier(city + "_week_forecast", "array", context.getPackageName());
+        Log.e(TAG, GET_WEATHER_DESCRIPTION + CITY_STRING + city);
+        int weekCityId = context.getResources().getIdentifier(city + WEEK_FORECAST_STRING, DEF_TYPE_ARRAY, context.getPackageName());
 
 
         try {

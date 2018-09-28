@@ -1,6 +1,5 @@
 package ru.makproductions.apocalypseweatherapp.util;
 
-import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -57,6 +56,7 @@ public class UtilMethods {
         }
         return new String(charArray);
     }
+
     @SuppressWarnings("HardCodedStringLiteral")
     private static String[] alphabet = {"a", "b", "v", "g", "d", "e", "yo", "zh", "z", "i", "y", "k",
             "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "ts", "ch",
@@ -64,6 +64,7 @@ public class UtilMethods {
     private static char[] russianAlphabet = {'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з',
             'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф',
             'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я'};
+
     public static String transliterateFromRussianToEnglish(String line) {
         char[] letters = line.toLowerCase().toCharArray();
         StringBuilder result = new StringBuilder();
@@ -135,8 +136,7 @@ public class UtilMethods {
                 Glide.with(weatherImage).load(R.mipmap.rain_with_snow).into(weatherImage);
             } else if (thunderStorm) {
                 Glide.with(weatherImage).load(R.mipmap.rainstorm).into(weatherImage);
-            }
-            else if(fog){
+            } else if (fog) {
 
             }
 
