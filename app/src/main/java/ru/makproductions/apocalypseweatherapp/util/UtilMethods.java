@@ -123,19 +123,19 @@ public class UtilMethods {
             }
 
             if (clearSky) {
-                Glide.with(weatherImage).load(R.mipmap.sunny).into(weatherImage);
+                Glide.with(weatherImage).load(R.drawable.sunny).into(weatherImage);
             } else if (brokenClouds) {
-                Glide.with(weatherImage).load(R.mipmap.broken_clouds).into(weatherImage);
+                Glide.with(weatherImage).load(R.drawable.broken_clouds).into(weatherImage);
             } else if (clouds) {
-                Glide.with(weatherImage).load(R.mipmap.cloudy).into(weatherImage);
+                Glide.with(weatherImage).load(R.drawable.cloudy).into(weatherImage);
             } else if (rain && !snow) {
-                Glide.with(weatherImage).load(R.mipmap.raining).into(weatherImage);
+                Glide.with(weatherImage).load(R.drawable.raining).into(weatherImage);
             } else if (snow && !rain) {
-                Glide.with(weatherImage).load(R.mipmap.snowing).into(weatherImage);
+                Glide.with(weatherImage).load(R.drawable.snowing).into(weatherImage);
             } else if (rain && snow) {
-                Glide.with(weatherImage).load(R.mipmap.rain_with_snow).into(weatherImage);
+                Glide.with(weatherImage).load(R.drawable.rain_with_snow).into(weatherImage);
             } else if (thunderStorm) {
-                Glide.with(weatherImage).load(R.mipmap.rainstorm).into(weatherImage);
+                Glide.with(weatherImage).load(R.drawable.rainstorm).into(weatherImage);
             } else if (fog) {
 
             }
