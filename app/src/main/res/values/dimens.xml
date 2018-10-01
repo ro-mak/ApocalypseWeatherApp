@@ -10,7 +10,7 @@
     <dimen name="nav_header_height">110dp</dimen>
     <dimen name="nav_header_padding_vertical">0dp</dimen>
     <dimen name="nav_header_padding_horizontal">20dp</dimen>
-    <dimen name="nav_header_text_size">20dp</dimen>
+    <dimen name="nav_header_text_size">20sp</dimen>
     <dimen name="add_button_margin">10dp</dimen>
     <dimen name="button_left_margin">10dp</dimen>
     <dimen name="button_right_margin">10dp</dimen>

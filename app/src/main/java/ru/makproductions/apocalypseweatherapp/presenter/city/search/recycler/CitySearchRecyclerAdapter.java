@@ -96,7 +96,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             Log.d(TAG, NAME + cityToShow);
             holder.city.setText(cityName);
             try {
-                imageId = resources.getIdentifier(cityToShow,DRAWABLE_TYPE, activityWeakReference.get().getPackageName());
+                imageId = resources.getIdentifier(cityToShow, DRAWABLE_TYPE, activityWeakReference.get().getPackageName());
             } catch (NullPointerException e) {
 
                 Log.d(TAG, e.getMessage() + NEW_LINE + SPACE + NAME + cityToShow);

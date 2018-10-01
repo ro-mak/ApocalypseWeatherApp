@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="count_down">Apocalypse coming in:</string>
     <string name="app_name">Hail the apocalypse!</string>
     <string name="show_description_button">What\'s the weather here?</string>
@@ -45,6 +44,7 @@
     <string name="app_logo_loading">App Logo loading…</string>
     <string name="current_temp_string">Current Temp:</string>
     <string name="current_humidity_string">Hum:</string>
+    <string name="feedback_menu_string">Feedback</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>

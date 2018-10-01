@@ -7,7 +7,7 @@
             android:id="@+id/nav_options"
             android:title="@string/nav_options_item" />
     </group>
-    <group android:title="Feedback">
+    <group android:title="@string/feedback_menu_string">
         <item
             android:id="@+id/about_app"
             android:title="@string/about_application" />

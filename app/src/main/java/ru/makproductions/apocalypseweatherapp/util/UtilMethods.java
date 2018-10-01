@@ -5,7 +5,11 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.app.FragmentActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
 
 public class UtilMethods {
     @SuppressWarnings("HardCodedStringLiteral")
@@ -30,6 +35,17 @@ public class UtilMethods {
     public static void changeFontTextView(TextView view, FragmentActivity activity) {
         Typeface font = Typeface.createFromAsset(activity.getAssets(), FONTS_TROIKA_OTF);
         view.setTypeface(font);
+    }
+
+    public static void changeFontMenu(Menu menu, FragmentActivity activity) {
+        Typeface typeFace = Typeface.createFromAsset(activity.getAssets(), FONTS_TROIKA_OTF);
+        TroikaTypefaceSpan typefaceSpan = new TroikaTypefaceSpan("", typeFace);
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem menuItem = menu.getItem(i);
+            SpannableString title = new SpannableString(menuItem.getTitle());
+            title.setSpan(typefaceSpan, 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            menuItem.setTitle(title);
+        }
     }
 
     //Get English names to make finding images easier

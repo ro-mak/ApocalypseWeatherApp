@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
         avatar = navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
+        TextView userNameTextView = navigationView.getHeaderView(0).findViewById(R.id.user_name_text_view);
+        if (userNameTextView != null) UtilMethods.changeFontTextView(userNameTextView, this);
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +113,8 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
+        Menu menu = navigationView.getMenu();
+        UtilMethods.changeFontMenu(menu, this);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if (sensorManager == null) throw new RuntimeException(TAG + SENSOR_SERVICE_IS_NULL);
         temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);

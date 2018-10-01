@@ -1,7 +1,5 @@
 package ru.makproductions.apocalypseweatherapp.view.weather.details;
 
-import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,11 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,7 +19,6 @@ import java.util.List;
 
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
-import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 public class WeatherDetailsFragment extends Fragment {
@@ -92,16 +86,9 @@ public class WeatherDetailsFragment extends Fragment {
             PopupMenu popupMenu = new PopupMenu(getActivity(), v);
             Menu menu = popupMenu.getMenu();
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, menu);
-            Activity activity = getActivity();
+            FragmentActivity activity = getActivity();
             if (activity == null) throw new RuntimeException(TAG + ACTIVITY_NULL);
-            Typeface typeFace = Typeface.createFromAsset(activity.getAssets(), FONTS_TROIKA_OTF);
-            TroikaTypefaceSpan typefaceSpan = new TroikaTypefaceSpan("", typeFace);
-            for (int i = 0; i < menu.size(); i++) {
-                MenuItem menuItem = menu.getItem(i);
-                SpannableString title = new SpannableString(menuItem.getTitle());
-                title.setSpan(typefaceSpan, 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                menuItem.setTitle(title);
-            }
+            UtilMethods.changeFontMenu(menu, activity);
             popupMenu.show();
         }
     }

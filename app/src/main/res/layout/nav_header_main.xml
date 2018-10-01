@@ -15,9 +15,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/default_avatar"
-        android:paddingTop="@dimen/nav_avatar_padding_vertical" />
+        android:paddingTop="@dimen/nav_avatar_padding_vertical"
+        android:contentDescription="@string/image_loading" />
 
     <TextView
+        android:id="@+id/user_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colourTextOnBlack"

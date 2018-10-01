@@ -40,6 +40,7 @@
                 android:layout_marginStart="@dimen/add_button_margin"
                 style="@style/ButtonStyle"
                 android:contentDescription="@string/image_loading" />
+
             <ImageButton
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
