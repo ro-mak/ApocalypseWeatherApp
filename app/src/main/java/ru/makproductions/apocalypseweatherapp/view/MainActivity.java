@@ -115,8 +115,10 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         if (sensorManager == null) throw new RuntimeException(TAG + SENSOR_SERVICE_IS_NULL);
         temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
-        if (temperatureSensor!=null)sensorManager.registerListener(new SensorListener(),temperatureSensor,SensorManager.SENSOR_DELAY_NORMAL);
-        if (humiditySensor!=null)sensorManager.registerListener(new SensorListener(),humiditySensor,SensorManager.SENSOR_DELAY_NORMAL);
+        if (temperatureSensor != null)
+            sensorManager.registerListener(new SensorListener(), temperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if (humiditySensor != null)
+            sensorManager.registerListener(new SensorListener(), humiditySensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private class SensorListener implements SensorEventListener {
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         private static final String C = " C°";
         @SuppressWarnings("HardCodedStringLiteral")
         private static final String PERCENT_HUMIDITY = " %";
+        private static final String SPACE = " ";
 
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -133,14 +136,16 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
             if (type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
                 if (values[0] != 0) {
                     TextView textView = findViewById(R.id.current_temp_text_view);
-                    String measure = getString(R.string.current_temp_string) + values[0] + C;
+                    String measure = getString(R.string.current_temp_string) + SPACE + values[0] + C;
                     textView.setText(measure);
+                    UtilMethods.changeFontTextView(textView, MainActivity.this);
                 }
-            }else if (type == Sensor.TYPE_RELATIVE_HUMIDITY){
-                if (values[0] != 0){
+            } else if (type == Sensor.TYPE_RELATIVE_HUMIDITY) {
+                if (values[0] != 0) {
                     TextView textView = findViewById(R.id.current_humidity_text_view);
-                    String measure = getString(R.string.current_humidity_string) + values[0] + PERCENT_HUMIDITY;
+                    String measure = getString(R.string.current_humidity_string) + SPACE + values[0] + PERCENT_HUMIDITY;
                     textView.setText(measure);
+                    UtilMethods.changeFontTextView(textView, MainActivity.this);
                 }
             }
         }
