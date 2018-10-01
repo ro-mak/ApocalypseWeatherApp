@@ -3,6 +3,10 @@ package ru.makproductions.apocalypseweatherapp.view;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,7 +42,7 @@ import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListe
 //main class
 public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener {
     @SuppressWarnings("HardCodedStringLiteral")
-    private static final String TAG = "HeyHOO###############";
+    private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE = 3472;
     private static final int PERMISSIONS_REQUEST_CODE = 5481;
     @SuppressWarnings("HardCodedStringLiteral")
@@ -49,9 +53,14 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     private static final String SELECT_A_FILE = "Select a file";
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String AVATAR = "AVATAR";
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String SENSOR_SERVICE_IS_NULL = "SensorService is null";
     private final int SUCCESS_CODE = 666;
     private ImageView avatar;
     private boolean permissionGranted;
+    private SensorManager sensorManager;
+    private Sensor temperatureSensor;
+    private Sensor humiditySensor;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,6 +111,44 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (sensorManager == null) throw new RuntimeException(TAG + SENSOR_SERVICE_IS_NULL);
+        temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+        if (temperatureSensor!=null)sensorManager.registerListener(new SensorListener(),temperatureSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        if (humiditySensor!=null)sensorManager.registerListener(new SensorListener(),humiditySensor,SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    private class SensorListener implements SensorEventListener {
+
+        @SuppressWarnings("HardCodedStringLiteral")
+        private static final String C = " C°";
+        @SuppressWarnings("HardCodedStringLiteral")
+        private static final String PERCENT_HUMIDITY = " %";
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float[] values = event.values;
+            int type = event.sensor.getType();
+            if (type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
+                if (values[0] != 0) {
+                    TextView textView = findViewById(R.id.current_temp_text_view);
+                    String measure = getString(R.string.current_temp_string) + values[0] + C;
+                    textView.setText(measure);
+                }
+            }else if (type == Sensor.TYPE_RELATIVE_HUMIDITY){
+                if (values[0] != 0){
+                    TextView textView = findViewById(R.id.current_humidity_text_view);
+                    String measure = getString(R.string.current_humidity_string) + values[0] + PERCENT_HUMIDITY;
+                    textView.setText(measure);
+                }
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
     }
 
     @Override

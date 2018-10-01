@@ -42,6 +42,9 @@
     <string name="broken_clouds">broken</string>
     <string name="thunder_storm">thunderstorm</string>
     <string name="fog">fog</string>
+    <string name="app_logo_loading">App Logo loading…</string>
+    <string name="current_temp_string">Current Temp:</string>
+    <string name="current_humidity_string">Hum:</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>
