@@ -1,19 +1,16 @@
 package ru.makproductions.apocalypseweatherapp.view;
 
-import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -27,40 +24,33 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
-import java.io.File;
-
 import ru.makproductions.afilechooser.utils.FileUtils;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
+import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
+import ru.makproductions.apocalypseweatherapp.view.options.OptionsActivity;
 import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherActivity;
 import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherFragment;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListener;
 
+import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR;
+import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR_PREFS;
+import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR_REQUEST_CODE;
+import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.MAIN_ACTIVITY_TAG;
+import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.ON_ACTIVITY_RESULT;
+import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.PERMISSIONS_REQUEST_CODE;
+import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.SENSOR_SERVICE_IS_NULL;
+
 //main class
 public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener {
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String TAG = "MainActivity";
-    private static final int REQUEST_CODE = 3472;
-    private static final int PERMISSIONS_REQUEST_CODE = 5481;
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String ON_CREATE = "onCreate";
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String ACTION_BAR_NULL = "ActionBar == null";
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String SELECT_A_FILE = "Select a file";
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String AVATAR = "AVATAR";
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String SENSOR_SERVICE_IS_NULL = "SensorService is null";
-    private final int SUCCESS_CODE = 666;
+
     private ImageView avatar;
     private boolean permissionGranted;
     private SensorManager sensorManager;
     private Sensor temperatureSensor;
     private Sensor humiditySensor;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,12 +67,14 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
-        Log.d(TAG, ON_CREATE);
+        Log.d(MAIN_ACTIVITY_TAG, "OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = getSharedPreferences(AVATAR_PREFS, MODE_PRIVATE);
         //add icon to the action bar
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) throw new RuntimeException(TAG + ACTION_BAR_NULL);
+        if (actionBar == null)
+            throw new RuntimeException(UtilVariables.MAIN_ACTIVITY_TAG + getString(R.string.actionbar_runtime_exception_warning));
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.logo_layout);
 
@@ -93,7 +85,16 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
         Toolbar toolbar = findViewById(R.id.toolbar_top);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.app_name, R.string.app_name);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.app_name, R.string.app_name) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                if (sharedPreferences != null) {
+                    String avPath = sharedPreferences.getString(AVATAR, null);
+                    if (avPath != null) UtilMethods.loadAvatar(avPath, MainActivity.this, avatar);
+                }
+                super.onDrawerOpened(drawerView);
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -104,11 +105,11 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), SELECT_A_FILE);
-                    startActivityForResult(intent, REQUEST_CODE);
-                    Log.d(TAG, AVATAR);
+                    Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), UtilVariables.SELECT_A_FILE);
+                    startActivityForResult(intent, UtilVariables.AVATAR_REQUEST_CODE);
+                    Log.d(MAIN_ACTIVITY_TAG, AVATAR);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.e(UtilVariables.MAIN_ACTIVITY_TAG, e.getMessage());
                 }
             }
         });
@@ -116,7 +117,8 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         Menu menu = navigationView.getMenu();
         UtilMethods.changeFontMenu(menu, this);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        if (sensorManager == null) throw new RuntimeException(TAG + SENSOR_SERVICE_IS_NULL);
+        if (sensorManager == null)
+            throw new RuntimeException(MAIN_ACTIVITY_TAG + SENSOR_SERVICE_IS_NULL);
         temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
         if (temperatureSensor != null)
@@ -162,37 +164,37 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     @Override
     protected void onStart() {
-        Log.d(TAG, "onStart");
+        Log.d(MAIN_ACTIVITY_TAG, "onStart");
         super.onStart();
     }
 
     @Override
     protected void onStop() {
-        Log.d(TAG, "onStop");
+        Log.d(MAIN_ACTIVITY_TAG, "onStop");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "onDestroy");
+        Log.d(MAIN_ACTIVITY_TAG, "onDestroy");
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
-        Log.d(TAG, "onResume");
+        Log.d(MAIN_ACTIVITY_TAG, "onResume");
         super.onResume();
     }
 
     @Override
     protected void onRestart() {
-        Log.d(TAG, "onRestart");
+        Log.d(MAIN_ACTIVITY_TAG, "onRestart");
         super.onRestart();
     }
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "onPause");
+        Log.d(MAIN_ACTIVITY_TAG, "onPause");
         super.onPause();
     }
 
@@ -208,27 +210,17 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     //a method previously used in learning purposes to know if sharing was success
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SUCCESS_CODE) {
+        if (requestCode == UtilVariables.SUCCESS_CODE) {
             if (resultCode == RESULT_OK) {
             } else if (resultCode == RESULT_CANCELED) {
             }
-        } else if (requestCode == REQUEST_CODE) {
-            Log.d(TAG, "onActivityResult: requestCode" + requestCode);
-            Log.d(TAG, "onActivityResult: resultCode" + resultCode);
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
-            }
-            if (resultCode == RESULT_OK) {
-                final Uri uri = data.getData();
-                String path = FileUtils.getPath(this, uri);
-                if (path != null && FileUtils.isLocal(path)) {
-                    File file = new File(path);
-                    Glide.with(this).load(file).into(avatar);
-                    Log.d(TAG, "onActivityResult: " + file);
-                }
-            }
+        } else if (requestCode == AVATAR_REQUEST_CODE) {
+            Log.d(MAIN_ACTIVITY_TAG, ON_ACTIVITY_RESULT + "requestCode" + requestCode);
+            Log.d(MAIN_ACTIVITY_TAG, ON_ACTIVITY_RESULT + "resultCode" + resultCode);
+            UtilMethods.changeAvatar(resultCode, data, sharedPreferences, this, avatar);
         }
     }
+
 
     @Override
     public void onListItemClick(WeatherResult result) {
@@ -264,8 +256,20 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_item_options) {
+            startActivity(new Intent(this, OptionsActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        if (id == R.id.nav_options) {
+            startActivity(new Intent(this, OptionsActivity.class));
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

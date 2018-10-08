@@ -45,6 +45,9 @@
     <string name="current_temp_string">Current Temp:</string>
     <string name="current_humidity_string">Hum:</string>
     <string name="feedback_menu_string">Feedback</string>
+    <string name="no_avatar">No avatar</string>
+    <string name="change_avatar">Change avatar</string>
+    <string name="actionbar_runtime_exception_warning">ActionBar == null</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>

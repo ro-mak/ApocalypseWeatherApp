@@ -21,9 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.show.weather.ShowWeatherActivity">
-
-        </activity>
+        <activity android:name=".view.show.weather.ShowWeatherActivity"></activity>
+        <activity android:name=".view.options.OptionsActivity"></activity>
         <activity
             android:name="ru.makproductions.afilechooser.FileChooserActivity"
             android:icon="@drawable/ic_chooser"
