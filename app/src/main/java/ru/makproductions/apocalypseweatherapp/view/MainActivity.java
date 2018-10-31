@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import ru.makproductions.afilechooser.utils.FileUtils;
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.presenter.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
 import ru.makproductions.apocalypseweatherapp.view.options.OptionsActivity;

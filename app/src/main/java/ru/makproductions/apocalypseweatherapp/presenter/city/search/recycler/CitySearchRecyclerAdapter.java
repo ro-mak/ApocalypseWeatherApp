@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.presenter.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListener;

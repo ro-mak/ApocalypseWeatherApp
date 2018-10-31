@@ -18,7 +18,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.model.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.presenter.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 public class WeatherDetailsFragment extends Fragment {

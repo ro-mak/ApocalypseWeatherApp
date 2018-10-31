@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.model;
+package ru.makproductions.apocalypseweatherapp.presenter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,9 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ru.makproductions.apocalypseweatherapp.model.network.WeatherLoader;
+import ru.makproductions.apocalypseweatherapp.presenter.network.WeatherLoader;
 import ru.makproductions.apocalypseweatherapp.model.weather.map.WeatherMap;
-import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 public class WeatherResult implements Parcelable {
