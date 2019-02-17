@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.presenter.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
 //Activity for details on phones

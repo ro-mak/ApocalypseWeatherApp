@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view;
+package ru.makproductions.apocalypseweatherapp.view.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,12 +24,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ru.makproductions.afilechooser.utils.FileUtils;
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.presenter.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
 import ru.makproductions.apocalypseweatherapp.view.options.OptionsActivity;
+import ru.makproductions.apocalypseweatherapp.view.sensors.SensorListener;
 import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherActivity;
 import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherFragment;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListener;
@@ -43,7 +46,7 @@ import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.PERMISSI
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.SENSOR_SERVICE_IS_NULL;
 
 //main class
-public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
     private ImageView avatar;
     private boolean permissionGranted;
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     private Sensor temperatureSensor;
     private Sensor humiditySensor;
     private SharedPreferences sharedPreferences;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,9 +65,11 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String WEATHER_MESSAGE = "weather_message";
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String WEATHER_BUNDLE = "weather_bundle";
-
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    Toolbar toolbar;
+    private SensorListener sensorListener;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +77,59 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         Log.d(MAIN_ACTIVITY_TAG, "OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        ButterKnife.bind(navigationView, this);
         sharedPreferences = getSharedPreferences(AVATAR_PREFS, MODE_PRIVATE);
         //add icon to the action bar
+        initActionBar();
+        initDrawer();
+        initMenu();
+        initSensors();
+    }
+
+    private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null)
             throw new RuntimeException(UtilVariables.MAIN_ACTIVITY_TAG + getString(R.string.actionbar_runtime_exception_warning));
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.logo_layout);
-
+        toolbar = findViewById(R.id.toolbar_top);
         View customView = actionBar.getCustomView();
         //change font of the title on the action bar
         TextView titleView = customView.findViewById(R.id.title);
         UtilMethods.changeFontTextView(titleView, this);
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar_top);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.app_name, R.string.app_name) {
+    private void initDrawer() {
+        avatar = navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
+        onAvatarClick();
+        initToggle();
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        TextView userNameTextView = navigationView.getHeaderView(0).findViewById(R.id.user_name_text_view);
+        if (userNameTextView != null) UtilMethods.changeFontTextView(userNameTextView, this);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initMenu() {
+        Menu menu = navigationView.getMenu();
+        UtilMethods.changeFontMenu(menu, this);
+    }
+
+    private void initSensors() {
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (sensorManager == null)
+            throw new RuntimeException(MAIN_ACTIVITY_TAG + SENSOR_SERVICE_IS_NULL);
+        temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+        if (temperatureSensor != null)
+            sensorManager.registerListener(this, temperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if (humiditySensor != null)
+            sensorManager.registerListener(this, humiditySensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    private void initToggle() {
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.app_name, R.string.app_name) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 if (sharedPreferences != null) {
@@ -95,12 +139,9 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
                 super.onDrawerOpened(drawerView);
             }
         };
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        avatar = navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
-        TextView userNameTextView = navigationView.getHeaderView(0).findViewById(R.id.user_name_text_view);
-        if (userNameTextView != null) UtilMethods.changeFontTextView(userNameTextView, this);
+    }
+
+    private void onAvatarClick() {
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,89 +154,18 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
                 }
             }
         });
-        navigationView.setNavigationItemSelectedListener(this);
-        Menu menu = navigationView.getMenu();
-        UtilMethods.changeFontMenu(menu, this);
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        if (sensorManager == null)
-            throw new RuntimeException(MAIN_ACTIVITY_TAG + SENSOR_SERVICE_IS_NULL);
-        temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
-        if (temperatureSensor != null)
-            sensorManager.registerListener(new SensorListener(), temperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        if (humiditySensor != null)
-            sensorManager.registerListener(new SensorListener(), humiditySensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    private class SensorListener implements SensorEventListener {
 
-        @SuppressWarnings("HardCodedStringLiteral")
-        private static final String C = " C°";
-        @SuppressWarnings("HardCodedStringLiteral")
-        private static final String PERCENT_HUMIDITY = " %";
-        private static final String SPACE = " ";
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            float[] values = event.values;
-            int type = event.sensor.getType();
-            if (type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
-                if (values[0] != 0) {
-                    TextView textView = findViewById(R.id.current_temp_text_view);
-                    String measure = getString(R.string.current_temp_string) + SPACE + values[0] + C;
-                    textView.setText(measure);
-                    UtilMethods.changeFontTextView(textView, MainActivity.this);
-                }
-            } else if (type == Sensor.TYPE_RELATIVE_HUMIDITY) {
-                if (values[0] != 0) {
-                    TextView textView = findViewById(R.id.current_humidity_text_view);
-                    String measure = getString(R.string.current_humidity_string) + SPACE + values[0] + PERCENT_HUMIDITY;
-                    textView.setText(measure);
-                    UtilMethods.changeFontTextView(textView, MainActivity.this);
-                }
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (sensorListener == null) sensorListener = new SensorListener();
+        sensorListener.onChange(event, this);
     }
 
     @Override
-    protected void onStart() {
-        Log.d(MAIN_ACTIVITY_TAG, "onStart");
-        super.onStart();
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-    @Override
-    protected void onStop() {
-        Log.d(MAIN_ACTIVITY_TAG, "onStop");
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d(MAIN_ACTIVITY_TAG, "onDestroy");
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.d(MAIN_ACTIVITY_TAG, "onResume");
-        super.onResume();
-    }
-
-    @Override
-    protected void onRestart() {
-        Log.d(MAIN_ACTIVITY_TAG, "onRestart");
-        super.onRestart();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d(MAIN_ACTIVITY_TAG, "onPause");
-        super.onPause();
     }
 
     @Override

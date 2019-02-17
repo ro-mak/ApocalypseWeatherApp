@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.city.search.recycler;
+package ru.makproductions.apocalypseweatherapp.view.recycler;
 
 import android.text.Editable;
 import android.text.TextWatcher;

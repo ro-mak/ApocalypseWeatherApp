@@ -20,9 +20,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.presenter.city.search.recycler.CitySearchRecyclerAdapter;
-import ru.makproductions.apocalypseweatherapp.presenter.city.search.recycler.CitySearchTextWatcher;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
+import ru.makproductions.apocalypseweatherapp.view.recycler.CitySearchRecyclerAdapter;
+import ru.makproductions.apocalypseweatherapp.view.recycler.CitySearchTextWatcher;
 
 import static android.content.Context.MODE_PRIVATE;
 

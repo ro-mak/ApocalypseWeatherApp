@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.network;
+package ru.makproductions.apocalypseweatherapp.model.network;
 
 import android.content.Context;
 import android.content.res.Resources;

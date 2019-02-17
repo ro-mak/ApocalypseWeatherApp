@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.city.search.recycler;
+package ru.makproductions.apocalypseweatherapp.view.recycler;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.presenter.WeatherResult;
-import ru.makproductions.apocalypseweatherapp.presenter.CitiesHandler;
+import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
+import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListener;
 
