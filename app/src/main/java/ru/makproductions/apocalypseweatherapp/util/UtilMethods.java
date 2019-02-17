@@ -1,21 +1,12 @@
 package ru.makproductions.apocalypseweatherapp.util;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -23,20 +14,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import ru.makproductions.afilechooser.utils.FileUtils;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
-
-import static android.app.Activity.RESULT_OK;
-import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR;
-import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.MAIN_ACTIVITY_TAG;
-import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.ON_ACTIVITY_RESULT;
-import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.PERMISSIONS_REQUEST_CODE;
+import timber.log.Timber;
 
 public class UtilMethods {
     @SuppressWarnings("HardCodedStringLiteral")
@@ -51,33 +35,6 @@ public class UtilMethods {
     public static void changeFontTextView(TextView view, FragmentActivity activity) {
         Typeface font = Typeface.createFromAsset(activity.getAssets(), FONTS_TROIKA_OTF);
         view.setTypeface(font);
-    }
-
-
-    public static void changeAvatar(int resultCode, Intent data, SharedPreferences sharedPreferences, Activity activity, ImageView avatar) {
-        Log.d(TAG, "changeAvatar: Start");
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
-        }
-        if (resultCode == RESULT_OK) {
-            final Uri uri = data.getData();
-            String path = FileUtils.getPath(activity, uri);
-            Log.d(TAG, "changeAvatar: Checking Path");
-            if (path != null && FileUtils.isLocal(path)) {
-                Log.d(TAG, "changeAvatar: Loading");
-                loadAvatar(path, activity, avatar);
-                sharedPreferences.edit().putString(AVATAR, path).apply();
-            }
-        } else {
-            Log.d(TAG, "changeAvatar: RESULT NOT OK");
-        }
-
-    }
-
-    public static void loadAvatar(String path, Activity activity, ImageView avatar) {
-        File file = new File(path);
-        Glide.with(activity).load(file).into(avatar);
-        Log.d(MAIN_ACTIVITY_TAG, ON_ACTIVITY_RESULT + file);
     }
 
     public static void changeFontMenu(Menu menu, FragmentActivity activity) {
@@ -143,7 +100,7 @@ public class UtilMethods {
         if (result.toString().isEmpty()) {
             result.append(line);
         }
-        Log.e(TAG, TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH + result.toString());
+        Timber.e(TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH + result.toString());
         return result.toString();
     }
 

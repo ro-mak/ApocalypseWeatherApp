@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,6 +28,7 @@ import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListener;
+import timber.log.Timber;
 
 public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRecyclerAdapter.MyViewHolder> implements Filterable {
     @SuppressWarnings("HardCodedStringLiteral")
@@ -93,13 +93,13 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             //Gets a city name in English casts to lower case and transforms to resource syntax
             cityToShow = citiesToShowFiltered.get(position).toLowerCase();
             cityToShow = UtilMethods.formatCityName(cityToShow);
-            Log.d(TAG, NAME + cityToShow);
+            Timber.d(NAME + cityToShow);
             holder.city.setText(cityName);
             try {
                 imageId = resources.getIdentifier(cityToShow, DRAWABLE_TYPE, activityWeakReference.get().getPackageName());
             } catch (NullPointerException e) {
 
-                Log.d(TAG, e.getMessage() + NEW_LINE + SPACE + NAME + cityToShow);
+                Timber.d(e.getMessage() + NEW_LINE + SPACE + NAME + cityToShow);
             }
             holder.cityImage.setImageResource(imageId);
         } catch (Exception e) {
@@ -156,7 +156,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
                     citiesFiltered = Arrays.asList(convertResultToString(results.values).toString().replaceAll("[\\[\\]]", "").split(","));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(TAG, results.values.toString());
+                    Timber.e(results.values.toString());
                 }
                 notifyDataSetChanged();
             }
@@ -208,6 +208,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
         weatherListListener.onListItemClick(result);
     }
 
+
     private void sendToTop(int index) {
         citiesHandler.sendToTop(index);
         cities = citiesHandler.getCities();
@@ -222,7 +223,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             for (Map.Entry<Integer, String> entry : showFilteredMap.entrySet()) {
                 if (entry.getValue().equals(citiesToShowFiltered.get(townSelected))) {
                     result = entry.getKey();
-                    Log.d(TAG, GET_TOWN_SELECTED_TO_SHOW + result);
+                    Timber.d(GET_TOWN_SELECTED_TO_SHOW + result);
                 }
             }
         } else {
