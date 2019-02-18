@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
@@ -33,7 +36,10 @@ public class WeatherDetailsFragment extends Fragment {
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String WEATHER_DETAILS_FRAGMENT_WEATHER_RESULT_IS_NULL = "WeatherDetailsFragment!!! weatherResult is null";
     private WeatherResult weatherResult;
-    private TextView titleText;
+    @BindView(R.id.details_title)
+    TextView titleText;
+    @BindView(R.id.forecast_recycler_view)
+    RecyclerView forecastRecyclerView;
 
     public static WeatherDetailsFragment init(Bundle bundle) {
         WeatherDetailsFragment weatherDetailsFragment = new WeatherDetailsFragment();
@@ -47,12 +53,18 @@ public class WeatherDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.weather_details_fragment, container, false);
-        titleText = rootView.findViewById(R.id.details_title);
-        FragmentActivity activity = getActivity();
-        if (activity == null) throw new RuntimeException(TAG + FRAGMENT_ACTIVITY_NULL);
+        ButterKnife.bind(this, rootView);
+        initForecastRecycler();
+        setFonts();
+        return rootView;
+    }
+
+    private void setFonts() {
         UtilMethods.changeFontTextView(titleText);
-        RecyclerView forecastRecyclerView = rootView.findViewById(R.id.forecast_recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
+    }
+
+    private void initForecastRecycler() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         forecastRecyclerView.setLayoutManager(layoutManager);
         forecastRecyclerView.setHasFixedSize(HAS_FIXED_SIZE_TRUE);
@@ -62,35 +74,22 @@ public class WeatherDetailsFragment extends Fragment {
         }
         if (weatherResult != null) {
             List<String> weekForecast = weatherResult.getWeekForecast();
-            //Log.d(TAG, weatherResult.getWeekForecast().toString());
+            //Timber.d(weatherResult.getWeekForecast().toString());
             if (weekForecast != null) {
                 forecastRecyclerView.setAdapter(new ForecastRecyclerViewAdapter(weekForecast));
             }
         } else {
             throw new NullPointerException(WEATHER_DETAILS_FRAGMENT_WEATHER_RESULT_IS_NULL);
         }
-        titleText.setOnClickListener(new TitleTextOnClickListener());
-        return rootView;
     }
 
-    private class TitleTextOnClickListener implements View.OnClickListener {
-        @SuppressWarnings("HardCodedStringLiteral")
-        private static final String TAG = "TitleTextOnClickListener";
-        @SuppressWarnings("HardCodedStringLiteral")
-        private static final String ACTIVITY_NULL = "Activity == null";
-        @SuppressWarnings("HardCodedStringLiteral")
-        private static final String FONTS_TROIKA_OTF = "fonts/troika.otf";
-
-        @Override
-        public void onClick(View v) {
-            PopupMenu popupMenu = new PopupMenu(getActivity(), v);
-            Menu menu = popupMenu.getMenu();
-            popupMenu.getMenuInflater().inflate(R.menu.popup_menu, menu);
-            FragmentActivity activity = getActivity();
-            if (activity == null) throw new RuntimeException(TAG + ACTIVITY_NULL);
-            UtilMethods.changeFontMenu(menu);
-            popupMenu.show();
-        }
+    @OnClick(R.id.details_title)
+    public void onTitleTextClick(View v) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), v);
+        Menu menu = popupMenu.getMenu();
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, menu);
+        UtilMethods.changeFontMenu(menu);
+        popupMenu.show();
     }
 
     private class ForecastRecyclerViewAdapter

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.weather.details.ApocalypseCountdownFragment;
 import ru.makproductions.apocalypseweatherapp.view.weather.details.WeatherDetailsFragment;
+import timber.log.Timber;
 
 //Fragment for weather details
 public class ShowWeatherFragment extends Fragment {
@@ -57,36 +60,47 @@ public class ShowWeatherFragment extends Fragment {
         return showWeatherFragment;
     }
 
+    @BindView(R.id.show_weather_textview)
+    TextView showWeatherTextView;
+    @BindView(R.id.weather_image)
+    ImageView weatherImage;
+    @BindView(R.id.share_weather_button)
+    Button shareWeatherButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.show_weather_fragment, container, false);
-        TextView showWeatherTextView = view.findViewById(R.id.show_weather_textview);
-        ImageView weatherImage = view.findViewById(R.id.weather_image);
+        ButterKnife.bind(this, view);
+        loadArgs();
+        setWeatherMessage();
+        setFonts();
+        createNestedFragment();
+        return view;
+    }
+
+    private void loadArgs() {
         Bundle args = this.getArguments();
         if (args != null && args.getParcelable(WEATHER_MESSAGE) != null) {
             weatherResult = args.getParcelable(WEATHER_MESSAGE);
             if (weatherResult != null) {
                 weather_message = weatherResult.getWeather();
             } else {
-                Log.e(TAG, ON_CREATE_VIEW_SHOW_WEATHER_FRAGMENT_WEATHER_RESULT_WEATHER);
+                Timber.e(ON_CREATE_VIEW_SHOW_WEATHER_FRAGMENT_WEATHER_RESULT_WEATHER);
             }
         }
+    }
 
+    private void setWeatherMessage() {
         if (weather_message != null) {
             showWeatherTextView.setText(weather_message.replaceAll("_", " "));
             UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message);
         }
-        Button shareWeatherButton = view.findViewById(R.id.share_weather_button);
-        shareWeatherButton.setOnClickListener(onClickListener);
-        FragmentActivity activity = getActivity();
-        if (activity == null) throw new RuntimeException(TAG + FRAGMENT_ACTIVITY_IS_NULL);
+    }
+
+    private void setFonts() {
         UtilMethods.changeFontTextView(showWeatherTextView);
         UtilMethods.changeFontTextView(shareWeatherButton);
-
-        createNestedFragment();
-
-        return view;
     }
 
     private void createNestedFragment() {
@@ -115,23 +129,21 @@ public class ShowWeatherFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private final View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (view.getId() == R.id.share_weather_button) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType(TEXT_PLAIN);
-                intent.putExtra(Intent.EXTRA_TEXT, weather_message + "\n" + weatherResult.getWeekForecast());
-                FragmentActivity activity = getActivity();
-                if (activity == null) throw new RuntimeException(TAG + FRAGMENT_ACTIVITY_IS_NULL);
-                PackageManager packageManager = activity.getPackageManager();
-                if (!packageManager.queryIntentActivities(intent, 0).isEmpty()) {
-                    startActivity(intent);
-                    activity.setResult(FragmentActivity.RESULT_OK);
-                } else {
-                    activity.setResult(FragmentActivity.RESULT_CANCELED);
-                }
+    @OnClick(R.id.share_weather_button)
+    public void onShareWeatherButtonClick(View view) {
+        if (view.getId() == R.id.share_weather_button) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType(TEXT_PLAIN);
+            intent.putExtra(Intent.EXTRA_TEXT, weather_message + "\n" + weatherResult.getWeekForecast());
+            FragmentActivity activity = getActivity();
+            if (activity == null) throw new RuntimeException(TAG + FRAGMENT_ACTIVITY_IS_NULL);
+            PackageManager packageManager = activity.getPackageManager();
+            if (!packageManager.queryIntentActivities(intent, 0).isEmpty()) {
+                startActivity(intent);
+                activity.setResult(FragmentActivity.RESULT_OK);
+            } else {
+                activity.setResult(FragmentActivity.RESULT_CANCELED);
             }
         }
-    };
+    }
 }
