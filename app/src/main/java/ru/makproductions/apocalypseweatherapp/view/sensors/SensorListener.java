@@ -25,14 +25,14 @@ public class SensorListener {
                 TextView textView = activity.findViewById(R.id.current_temp_text_view);
                 String measure = activity.getString(R.string.current_temp_string) + SPACE + values[0] + C;
                 textView.setText(measure);
-                UtilMethods.changeFontTextView(textView, activity);
+                UtilMethods.changeFontTextView(textView);
             }
         } else if (type == Sensor.TYPE_RELATIVE_HUMIDITY) {
             if (values[0] != 0) {
                 TextView textView = activity.findViewById(R.id.current_humidity_text_view);
                 String measure = activity.getString(R.string.current_humidity_string) + SPACE + values[0] + PERCENT_HUMIDITY;
                 textView.setText(measure);
-                UtilMethods.changeFontTextView(textView, activity);
+                UtilMethods.changeFontTextView(textView);
             }
         }
     }

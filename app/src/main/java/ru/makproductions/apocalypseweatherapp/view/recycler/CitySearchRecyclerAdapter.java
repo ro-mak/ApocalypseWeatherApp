@@ -2,7 +2,6 @@ package ru.makproductions.apocalypseweatherapp.view.recycler;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -16,13 +15,13 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
@@ -48,7 +47,6 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     private List<String> citiesToShowFiltered;
     private Map<Integer, String> showFilteredMap;
     private EditText citySearchEditText;
-    private WeakReference<FragmentActivity> activityWeakReference;
     private int townSelected;
     private String cityToShow;
     private WeatherResult result;
@@ -60,9 +58,8 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     private CitiesHandler citiesHandler;
     private boolean cityIsShown = false;
 
-    public CitySearchRecyclerAdapter(FragmentActivity activity, EditText citySearchEditText, WeatherListListener weatherListListener) {
-        activityWeakReference = new WeakReference<>(activity);
-        resources = activity.getResources();
+    public CitySearchRecyclerAdapter(EditText citySearchEditText, WeatherListListener weatherListListener) {
+        resources = App.getInstance().getResources();
         citiesHandler = new CitiesHandler(resources);
         this.cities = citiesHandler.getCities();
         this.citiesToShow = citiesHandler.getCitiesInEnglish();
@@ -87,16 +84,15 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
 
     @Override
     public void onBindViewHolder(@NonNull CitySearchRecyclerAdapter.MyViewHolder holder, int position) {
-        if (activityWeakReference == null) return;
         try {
             String cityName = citiesFiltered.get(position);
             //Gets a city name in English casts to lower case and transforms to resource syntax
             cityToShow = citiesToShowFiltered.get(position).toLowerCase();
             cityToShow = UtilMethods.formatCityName(cityToShow);
-            Timber.d(NAME + cityToShow);
+            Timber.d("%s%s", NAME, cityToShow);
             holder.city.setText(cityName);
             try {
-                imageId = resources.getIdentifier(cityToShow, DRAWABLE_TYPE, activityWeakReference.get().getPackageName());
+                imageId = resources.getIdentifier(cityToShow, DRAWABLE_TYPE, App.getInstance().getPackageName());
             } catch (NullPointerException e) {
 
                 Timber.d(e.getMessage() + NEW_LINE + SPACE + NAME + cityToShow);
@@ -163,6 +159,35 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
         };
     }
 
+    private void showDescription() {
+        result = WeatherResult.getWeatherDescription(getTownSelectedToShow(), pressure, tommorowForecast, weekForecast, citiesHandler);
+        weatherListListener.onListItemClick(result);
+    }
+
+    private int getTownSelectedToShow() {
+        int result = 0;
+        if (!citiesToShow.equals(citiesToShowFiltered)) {
+            for (Map.Entry<Integer, String> entry : showFilteredMap.entrySet()) {
+                if (entry.getValue().equals(citiesToShowFiltered.get(townSelected))) {
+                    result = entry.getKey();
+                    Timber.d("%s%s", GET_TOWN_SELECTED_TO_SHOW, result);
+                }
+            }
+        } else {
+            return townSelected;
+        }
+        return result;
+    }
+
+
+    private void sendToTop(int index) {
+        citiesHandler.sendToTop(index);
+        cities = citiesHandler.getCities();
+        citiesFiltered = cities;
+        citiesToShow = citiesHandler.getCitiesInEnglish();
+        citiesToShowFiltered = citiesToShow;
+    }
+
     public class MyViewHolder extends CitySearchViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         private TextView city;
         private ImageView cityImage;
@@ -171,8 +196,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             super(inflater.inflate(R.layout.city_list_item, parent, false));
             cityImage = itemView.findViewById(R.id.city_image_view);
             city = itemView.findViewById(R.id.city);
-            if (activityWeakReference != null)
-                UtilMethods.changeFontTextView(city, activityWeakReference.get());
+            UtilMethods.changeFontTextView(city);
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
         }
@@ -200,35 +224,5 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
                 return false;
             }
         };
-    }
-
-    private void showDescription() {
-        if (activityWeakReference == null) return;
-        result = WeatherResult.getWeatherDescription(activityWeakReference.get(), getTownSelectedToShow(), pressure, tommorowForecast, weekForecast, citiesHandler);
-        weatherListListener.onListItemClick(result);
-    }
-
-
-    private void sendToTop(int index) {
-        citiesHandler.sendToTop(index);
-        cities = citiesHandler.getCities();
-        citiesFiltered = cities;
-        citiesToShow = citiesHandler.getCitiesInEnglish();
-        citiesToShowFiltered = citiesToShow;
-    }
-
-    private int getTownSelectedToShow() {
-        int result = 0;
-        if (!citiesToShow.equals(citiesToShowFiltered)) {
-            for (Map.Entry<Integer, String> entry : showFilteredMap.entrySet()) {
-                if (entry.getValue().equals(citiesToShowFiltered.get(townSelected))) {
-                    result = entry.getKey();
-                    Timber.d(GET_TOWN_SELECTED_TO_SHOW + result);
-                }
-            }
-        } else {
-            return townSelected;
-        }
-        return result;
     }
 }

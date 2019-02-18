@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.v4.app.FragmentActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.Menu;
@@ -18,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
 import timber.log.Timber;
@@ -32,13 +32,13 @@ public class UtilMethods {
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH = "transliterateFromRussianToEnglish: ";
 
-    public static void changeFontTextView(TextView view, FragmentActivity activity) {
-        Typeface font = Typeface.createFromAsset(activity.getAssets(), FONTS_TROIKA_OTF);
+    public static void changeFontTextView(TextView view) {
+        Typeface font = Typeface.createFromAsset(App.getInstance().getAssets(), FONTS_TROIKA_OTF);
         view.setTypeface(font);
     }
 
-    public static void changeFontMenu(Menu menu, FragmentActivity activity) {
-        Typeface typeFace = Typeface.createFromAsset(activity.getAssets(), FONTS_TROIKA_OTF);
+    public static void changeFontMenu(Menu menu) {
+        Typeface typeFace = Typeface.createFromAsset(App.getInstance().getAssets(), FONTS_TROIKA_OTF);
         TroikaTypefaceSpan typefaceSpan = new TroikaTypefaceSpan("", typeFace);
         for (int i = 0; i < menu.size(); i++) {
             MenuItem menuItem = menu.getItem(i);

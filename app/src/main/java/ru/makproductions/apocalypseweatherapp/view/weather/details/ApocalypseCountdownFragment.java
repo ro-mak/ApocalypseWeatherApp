@@ -63,8 +63,8 @@ public class ApocalypseCountdownFragment extends Fragment {
         TextView apocalypseTimer = rootView.findViewById(R.id.countdown_view);
         FragmentActivity activity = getActivity();
         if (activity == null) throw new RuntimeException(TAG + ACTIVITY_NULL);
-        UtilMethods.changeFontTextView(apocalypseMessage, activity);
-        UtilMethods.changeFontTextView(apocalypseTimer, activity);
+        UtilMethods.changeFontTextView(apocalypseMessage);
+        UtilMethods.changeFontTextView(apocalypseTimer);
         runCountdown(rootView);
         return rootView;
     }

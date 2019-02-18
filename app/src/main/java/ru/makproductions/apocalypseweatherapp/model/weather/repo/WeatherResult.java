@@ -1,11 +1,9 @@
 package ru.makproductions.apocalypseweatherapp.model.weather.repo;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -15,14 +13,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.model.network.WeatherLoader;
 import ru.makproductions.apocalypseweatherapp.model.weather.map.WeatherMap;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
+import timber.log.Timber;
 
 public class WeatherResult implements Parcelable {
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String TAG = "WeatherResult";
     private static final int WEATHER_ARRAY_INDEX = 0;
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String GET_WEATHER_DESCRIPTION = "getWeatherDescription: ";
@@ -49,20 +47,19 @@ public class WeatherResult implements Parcelable {
     private WeatherResult() {
     }
 
-    public static WeatherResult getWeatherDescription(final Context context, final int position, final boolean pressure,
+    public static WeatherResult getWeatherDescription(final int position, final boolean pressure,
                                                       final boolean tommorowForecast, final boolean weekForecast, final CitiesHandler citiesHandler) {
-
+        Context context = App.getInstance();
         final WeatherResult weatherResult = new WeatherResult();
-        Resources resources = context.getResources();
         final String city = citiesHandler.getCitiesInEnglish().get(position).toLowerCase();
         String cityToSearch = citiesHandler.getCitiesToFind().get(position);
         weatherLoader = new WeatherLoader(cityToSearch).execute(context);
-        Log.e(TAG, GET_WEATHER_DESCRIPTION + CITY_TO_SEARCH + cityToSearch);
+        Timber.e(GET_WEATHER_DESCRIPTION + CITY_TO_SEARCH + cityToSearch);
         UtilMethods.formatCityName(city);
         try {
             weatherMap = gsonObject.fromJson(weatherLoader.get().toString(), WeatherMap.class);
         } catch (Exception e) {
-            Log.e(TAG, GET_WEATHER_DESCRIPTION + e.getMessage());
+            Timber.e("%s%s", GET_WEATHER_DESCRIPTION, e.getMessage());
             e.printStackTrace();
         }
         updateWeatherData(context, city, position, pressure, tommorowForecast, weekForecast, weatherResult);
@@ -73,23 +70,23 @@ public class WeatherResult implements Parcelable {
     private static void updateWeatherData(Context context, String city, int position, boolean pressure,
                                           boolean tommorowForecast, boolean weekForecast, WeatherResult weatherResult) {
         if (weatherMap == null) {
-            Log.e(TAG, GET_WEATHER_DESCRIPTION + WEATHERMAP_NULL);
-            Log.e(TAG, UPDATE_WEATHER_DATA_CITY + city);
+            Timber.e("%s%s", GET_WEATHER_DESCRIPTION, WEATHERMAP_NULL);
+            Timber.e("%s%s", UPDATE_WEATHER_DATA_CITY, city);
         }
 
-        Log.e(TAG, GET_WEATHER_DESCRIPTION + CITY_STRING + city);
+        Timber.e(GET_WEATHER_DESCRIPTION + CITY_STRING + city);
         int weekCityId = context.getResources().getIdentifier(city + WEEK_FORECAST_STRING, DEF_TYPE_ARRAY, context.getPackageName());
 
 
         try {
             if (weatherMap != null) {
-                Log.d(TAG, GET_WEATHER_DESCRIPTION + weatherMap.toString());
+                Timber.d("%s%s", GET_WEATHER_DESCRIPTION, weatherMap.toString());
                 weatherResult.weather = city + " " + weatherMap.getMain().getTemp()
                         + " " + weatherMap.getWeather().get(WEATHER_ARRAY_INDEX).getDescription();
-                Log.e(TAG, GET_WEATHER_DESCRIPTION + weatherResult.weather);
+                Timber.e("%s%s", GET_WEATHER_DESCRIPTION, weatherResult.weather);
             }
         } catch (Exception e) {
-            Log.e(TAG, GET_WEATHER_DESCRIPTION + e.getMessage());
+            Timber.e("%s%s", GET_WEATHER_DESCRIPTION, e.getMessage());
         }
         if (pressure) {
 

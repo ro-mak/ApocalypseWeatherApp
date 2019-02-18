@@ -39,7 +39,7 @@ public class ShowWeatherActivity extends AppCompatActivity {
             actionBar.setCustomView(R.layout.logo_layout);
             View customView = actionBar.getCustomView();
             TextView titleView = customView.findViewById(R.id.title);
-            UtilMethods.changeFontTextView(titleView, this);
+            UtilMethods.changeFontTextView(titleView);
         }
 
     }

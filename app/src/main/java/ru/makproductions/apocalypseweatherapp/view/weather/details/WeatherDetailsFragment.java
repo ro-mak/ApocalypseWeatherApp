@@ -50,7 +50,7 @@ public class WeatherDetailsFragment extends Fragment {
         titleText = rootView.findViewById(R.id.details_title);
         FragmentActivity activity = getActivity();
         if (activity == null) throw new RuntimeException(TAG + FRAGMENT_ACTIVITY_NULL);
-        UtilMethods.changeFontTextView(titleText, activity);
+        UtilMethods.changeFontTextView(titleText);
         RecyclerView forecastRecyclerView = rootView.findViewById(R.id.forecast_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -88,7 +88,7 @@ public class WeatherDetailsFragment extends Fragment {
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, menu);
             FragmentActivity activity = getActivity();
             if (activity == null) throw new RuntimeException(TAG + ACTIVITY_NULL);
-            UtilMethods.changeFontMenu(menu, activity);
+            UtilMethods.changeFontMenu(menu);
             popupMenu.show();
         }
     }
@@ -131,7 +131,7 @@ public class WeatherDetailsFragment extends Fragment {
                 forecastTextView = itemView.findViewById(R.id.forecast_textview);
                 FragmentActivity activity = getActivity();
                 if (activity == null) throw new RuntimeException(TAG + FRAGMENT_ACTIVITY_NULL);
-                UtilMethods.changeFontTextView(forecastTextView, activity);
+                UtilMethods.changeFontTextView(forecastTextView);
                 forecastImageView = itemView.findViewById(R.id.forecast_image_view);
             }
 

@@ -119,7 +119,7 @@ public class MainActivity extends MvpAppCompatActivity implements WeatherListLis
         View customView = actionBar.getCustomView();
         //change font of the title on the action bar
         TextView titleView = customView.findViewById(R.id.title);
-        UtilMethods.changeFontTextView(titleView, this);
+        UtilMethods.changeFontTextView(titleView);
     }
 
     private void initDrawer() {
@@ -129,13 +129,13 @@ public class MainActivity extends MvpAppCompatActivity implements WeatherListLis
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         TextView userNameTextView = navigationView.getHeaderView(0).findViewById(R.id.user_name_text_view);
-        if (userNameTextView != null) UtilMethods.changeFontTextView(userNameTextView, this);
+        if (userNameTextView != null) UtilMethods.changeFontTextView(userNameTextView);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void initMenu() {
         Menu menu = navigationView.getMenu();
-        UtilMethods.changeFontMenu(menu, this);
+        UtilMethods.changeFontMenu(menu);
     }
 
     private void initSensors() {

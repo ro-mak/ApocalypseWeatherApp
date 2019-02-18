@@ -81,8 +81,8 @@ public class ShowWeatherFragment extends Fragment {
         shareWeatherButton.setOnClickListener(onClickListener);
         FragmentActivity activity = getActivity();
         if (activity == null) throw new RuntimeException(TAG + FRAGMENT_ACTIVITY_IS_NULL);
-        UtilMethods.changeFontTextView(showWeatherTextView, activity);
-        UtilMethods.changeFontTextView(shareWeatherButton, activity);
+        UtilMethods.changeFontTextView(showWeatherTextView);
+        UtilMethods.changeFontTextView(shareWeatherButton);
 
         createNestedFragment();
 
