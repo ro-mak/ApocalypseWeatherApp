@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.weather.list;
+package ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.weather.details;
+package ru.makproductions.apocalypseweatherapp.view.ui.fragments.apocalypse.countdown;
 
 import android.os.Bundle;
 import android.os.Handler;

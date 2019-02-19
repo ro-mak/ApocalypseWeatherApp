@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.weather.list;
+package ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.list;
 
 import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 

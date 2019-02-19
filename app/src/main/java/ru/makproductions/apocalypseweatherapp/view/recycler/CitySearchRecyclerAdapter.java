@@ -26,7 +26,7 @@ import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
-import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListener;
+import ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.list.WeatherListListener;
 import timber.log.Timber;
 
 public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRecyclerAdapter.MyViewHolder> implements Filterable {

@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.weather.details;
+package ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.details;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -135,8 +135,7 @@ public class WeatherDetailsFragment extends Fragment {
             }
 
             void setForecastImageView(int position) {
-                UtilMethods.setWeatherImage(getResources(),
-                        forecastImageView, forecastList.get(position));
+                UtilMethods.setWeatherImage(forecastImageView, forecastList.get(position));
             }
         }
     }

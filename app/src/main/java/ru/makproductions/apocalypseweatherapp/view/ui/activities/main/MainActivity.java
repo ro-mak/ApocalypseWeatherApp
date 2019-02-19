@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.ui;
+package ru.makproductions.apocalypseweatherapp.view.ui.activities.main;
 
 import android.Manifest;
 import android.content.Intent;
@@ -43,11 +43,11 @@ import ru.makproductions.apocalypseweatherapp.presenter.main.MainPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
 import ru.makproductions.apocalypseweatherapp.view.main.MainView;
-import ru.makproductions.apocalypseweatherapp.view.options.OptionsActivity;
 import ru.makproductions.apocalypseweatherapp.view.sensors.SensorListener;
-import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherActivity;
-import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherFragment;
-import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListListener;
+import ru.makproductions.apocalypseweatherapp.view.ui.activities.options.OptionsActivity;
+import ru.makproductions.apocalypseweatherapp.view.ui.activities.show.weather.ShowWeatherActivity;
+import ru.makproductions.apocalypseweatherapp.view.ui.fragments.show.weather.ShowWeatherFragment;
+import ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.list.WeatherListListener;
 import timber.log.Timber;
 
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR;
@@ -69,19 +69,21 @@ public class MainActivity extends MvpAppCompatActivity implements WeatherListLis
     private Sensor temperatureSensor;
     private Sensor humiditySensor;
     private SharedPreferences sharedPreferences;
+
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
     @InjectPresenter
     MainPresenter presenter;
+
     private Toolbar toolbar;
     private SensorListener sensorListener;
     private ActionBarDrawerToggle toggle;
     private IImageLoader imageLoader = new GlideIImageLoader();
 
     @ProvidePresenter
-    public MainPresenter provideRxJavaPresenter() {
+    public MainPresenter provideMainPresenter() {
         MainPresenter presenter = new MainPresenter(AndroidSchedulers.mainThread());
         Timber.e("presenter created");
         return presenter;
@@ -101,12 +103,15 @@ public class MainActivity extends MvpAppCompatActivity implements WeatherListLis
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        sharedPreferences = getSharedPreferences(AVATAR_PREFS, MODE_PRIVATE);
-        //add icon to the action bar
+        loadPrefs();
         initActionBar();
         initDrawer();
         initMenu();
         initSensors();
+    }
+
+    private void loadPrefs() {
+        sharedPreferences = getSharedPreferences(AVATAR_PREFS, MODE_PRIVATE);
     }
 
     private void initActionBar() {

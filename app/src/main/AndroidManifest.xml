@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".view.ui.MainActivity"
+            android:name=".view.ui.activities.main.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
@@ -24,8 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.show.weather.ShowWeatherActivity" />
-        <activity android:name=".view.options.OptionsActivity" />
+        <activity android:name=".view.ui.activities.show.weather.ShowWeatherActivity" />
+        <activity android:name=".view.ui.activities.options.OptionsActivity" />
         <activity
             android:name="ru.makproductions.afilechooser.FileChooserActivity"
             android:icon="@drawable/ic_chooser"

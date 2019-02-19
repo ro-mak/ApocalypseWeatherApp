@@ -48,6 +48,7 @@
     <string name="no_avatar">No avatar</string>
     <string name="change_avatar">Change avatar</string>
     <string name="actionbar_runtime_exception_warning">ActionBar == null</string>
+    <string name="fonts_file">fonts/troika.otf</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>

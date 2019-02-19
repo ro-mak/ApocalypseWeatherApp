@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.show.weather;
+package ru.makproductions.apocalypseweatherapp.view.ui.fragments.show.weather;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,18 +16,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.presenter.show.weather.ShowWeatherFragmentPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
-import ru.makproductions.apocalypseweatherapp.view.weather.details.ApocalypseCountdownFragment;
-import ru.makproductions.apocalypseweatherapp.view.weather.details.WeatherDetailsFragment;
+import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherFragmentView;
+import ru.makproductions.apocalypseweatherapp.view.ui.fragments.apocalypse.countdown.ApocalypseCountdownFragment;
+import ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.details.WeatherDetailsFragment;
 import timber.log.Timber;
 
 //Fragment for weather details
-public class ShowWeatherFragment extends Fragment {
+public class ShowWeatherFragment extends MvpAppCompatFragment implements ShowWeatherFragmentView {
 
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String APOCALYPSE_COUNTDOWN_FRAGMENT = "APOCALYPSE_COUNTDOWN_FRAGMENT";
@@ -49,6 +56,16 @@ public class ShowWeatherFragment extends Fragment {
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String WEATHER_MESSAGE = "weather_message";
     private WeatherResult weatherResult;
+
+    @InjectPresenter
+    ShowWeatherFragmentPresenter presenter;
+
+    @ProvidePresenter
+    public ShowWeatherFragmentPresenter provideShowWeatherFragmentPresenter() {
+        ShowWeatherFragmentPresenter presenter = new ShowWeatherFragmentPresenter(AndroidSchedulers.mainThread());
+        Timber.e("presenter created");
+        return presenter;
+    }
 
     public static ShowWeatherFragment init(Bundle bundle) {
         ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
@@ -72,29 +89,32 @@ public class ShowWeatherFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.show_weather_fragment, container, false);
         ButterKnife.bind(this, view);
-        loadArgs();
-        setWeatherMessage();
+        presenter.loadWeatherResult();
         setFonts();
         createNestedFragment();
+        presenter.setWeatherMessage();
         return view;
     }
 
-    private void loadArgs() {
+    @Override
+    public void loadWeatherResult() {
         Bundle args = this.getArguments();
         if (args != null && args.getParcelable(WEATHER_MESSAGE) != null) {
             weatherResult = args.getParcelable(WEATHER_MESSAGE);
             if (weatherResult != null) {
-                weather_message = weatherResult.getWeather();
+                weather_message = presenter.getWeather(weatherResult);
             } else {
                 Timber.e(ON_CREATE_VIEW_SHOW_WEATHER_FRAGMENT_WEATHER_RESULT_WEATHER);
             }
         }
     }
 
-    private void setWeatherMessage() {
+
+    @Override
+    public void setWeatherMessage() {
         if (weather_message != null) {
             showWeatherTextView.setText(weather_message.replaceAll("_", " "));
-            UtilMethods.setWeatherImage(getResources(), weatherImage, weather_message);
+            UtilMethods.setWeatherImage(weatherImage, weather_message);
         }
     }
 

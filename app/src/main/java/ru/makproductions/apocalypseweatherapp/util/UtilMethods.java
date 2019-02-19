@@ -11,26 +11,24 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.image.GlideIImageLoader;
+import ru.makproductions.apocalypseweatherapp.model.image.IImageLoader;
 import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
 import timber.log.Timber;
 
 public class UtilMethods {
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String TAG = "UTIL";
     private static final int MIN_HEIGHT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 300 : 492;
     private static final int MIN_WIDTH = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 300 : 492;
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String FONTS_TROIKA_OTF = "fonts/troika.otf";
+    private static final String FONTS_TROIKA_OTF = App.getInstance().getString(R.string.fonts_file);
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH = "transliterateFromRussianToEnglish: ";
+    private static IImageLoader imageLoader = new GlideIImageLoader();
 
     public static void changeFontTextView(TextView view) {
         Typeface font = Typeface.createFromAsset(App.getInstance().getAssets(), FONTS_TROIKA_OTF);
@@ -100,67 +98,43 @@ public class UtilMethods {
         if (result.toString().isEmpty()) {
             result.append(line);
         }
-        Timber.e(TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH + result.toString());
+        Timber.e("%s%s", TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH, result.toString());
         return result.toString();
     }
 
-    public static void setWeatherImage(Resources resources, ImageView weatherImage, String weather_message) {
+    public static void setWeatherImage(ImageView weatherImage, String weather_message) {
+        Resources resources = App.getInstance().getResources();
         String[] parsedMessage = weather_message.split(" ");
         String tempString;
-        boolean rain = false;
-        boolean snow = false;
-        boolean clearSky = false;
-        boolean clouds = false;
-        boolean brokenClouds = false;
-        boolean thunderStorm = false;
-        boolean fog = false;
         for (int i = 0; i < parsedMessage.length; i++) {
             tempString = parsedMessage[i].toLowerCase();
             if (tempString.contains(resources.getString(R.string.clear_sky))) {
-                clearSky = true;
-            }
-            if (tempString.contains(resources.getString(R.string.rain))) {
-                rain = true;
-            }
-            if (tempString.contains(resources.getString(R.string.snow))) {
-                snow = true;
-            }
+                imageLoader.loadInto(weatherImage, R.drawable.sunny);
+                break;
+            } else if (tempString.contains(resources.getString(R.string.rain)) && !tempString.contains(resources.getString(R.string.snow))) {
+                imageLoader.loadInto(weatherImage, R.drawable.raining);
+                break;
+            } else if (!tempString.contains(resources.getString(R.string.rain)) && tempString.contains(resources.getString(R.string.snow))) {
+                imageLoader.loadInto(weatherImage, R.drawable.snowing);
+                break;
+            } else
             if (tempString.contains(resources.getString(R.string.broken_clouds))) {
-                brokenClouds = true;
-            }
-            if (tempString.contains(resources.getString(R.string.clouds)) && !brokenClouds) {
-                clouds = true;
-            }
+                imageLoader.loadInto(weatherImage, R.drawable.broken_clouds);
+                break;
+            } else if (tempString.contains(resources.getString(R.string.clouds)) && !tempString.contains(resources.getString(R.string.broken_clouds))) {
+                imageLoader.loadInto(weatherImage, R.drawable.cloudy);
+                break;
+            } else
             if (tempString.contains(resources.getString(R.string.thunder_storm))) {
-                thunderStorm = true;
-            }
+                imageLoader.loadInto(weatherImage, R.drawable.rainstorm);
+                break;
+            } else
             if (tempString.contains(resources.getString((R.string.fog)))) {
-                fog = true;
+                break;
+            } else if (tempString.contains(resources.getString(R.string.rain)) && tempString.contains(resources.getString(R.string.snow))) {
+                imageLoader.loadInto(weatherImage, R.drawable.rain_with_snow);
+                break;
             }
-
-            if (clearSky) {
-                Glide.with(weatherImage).load(R.drawable.sunny).into(weatherImage);
-            } else if (brokenClouds) {
-                Glide.with(weatherImage).load(R.drawable.broken_clouds).into(weatherImage);
-            } else if (clouds) {
-                Glide.with(weatherImage).load(R.drawable.cloudy).into(weatherImage);
-            } else if (rain && !snow) {
-                Glide.with(weatherImage).load(R.drawable.raining).into(weatherImage);
-            } else if (snow && !rain) {
-                Glide.with(weatherImage).load(R.drawable.snowing).into(weatherImage);
-            } else if (rain && snow) {
-                Glide.with(weatherImage).load(R.drawable.rain_with_snow).into(weatherImage);
-            } else if (thunderStorm) {
-                Glide.with(weatherImage).load(R.drawable.rainstorm).into(weatherImage);
-            } else if (fog) {
-
-            }
-
-//            } else if (tempString.contains(resources.getString(R.string.weather_type_rainstorm))) {
-//                weatherImage.setImageResource(R.mipmap.rainstorm);
-//            } else if (tempString.contains(resources.getString(R.string.weather_type_snowstorm))) {
-//                weatherImage.setImageResource(R.mipmap.snowstorm);
-//            }
         }
         weatherImage.setMinimumHeight(MIN_HEIGHT);
         weatherImage.setMinimumWidth(MIN_WIDTH);
