@@ -3,7 +3,6 @@ package ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.details
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,16 +14,24 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.presenter.weather.details.WeatherDetailsPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
+import ru.makproductions.apocalypseweatherapp.view.weather.details.WeatherDetailsView;
+import timber.log.Timber;
 
-public class WeatherDetailsFragment extends Fragment {
+public class WeatherDetailsFragment extends MvpAppCompatFragment implements WeatherDetailsView {
 
     public static final boolean HAS_FIXED_SIZE_TRUE = true;
     @SuppressWarnings("HardCodedStringLiteral")
@@ -40,6 +47,16 @@ public class WeatherDetailsFragment extends Fragment {
     TextView titleText;
     @BindView(R.id.forecast_recycler_view)
     RecyclerView forecastRecyclerView;
+
+    @InjectPresenter
+    WeatherDetailsPresenter presenter;
+
+    @ProvidePresenter
+    public WeatherDetailsPresenter provideWeatherDetailsPresenter() {
+        WeatherDetailsPresenter presenter = new WeatherDetailsPresenter(AndroidSchedulers.mainThread());
+        Timber.e("presenter created");
+        return presenter;
+    }
 
     public static WeatherDetailsFragment init(Bundle bundle) {
         WeatherDetailsFragment weatherDetailsFragment = new WeatherDetailsFragment();

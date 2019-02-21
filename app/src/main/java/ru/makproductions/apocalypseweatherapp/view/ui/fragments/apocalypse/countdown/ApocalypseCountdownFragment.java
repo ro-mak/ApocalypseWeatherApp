@@ -4,22 +4,28 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.Calendar;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.presenter.apocalypse.countdown.ApocalypseCountdownPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
+import ru.makproductions.apocalypseweatherapp.view.apocalypse.countdown.ApocalypseCountdownView;
 import timber.log.Timber;
 
-public class ApocalypseCountdownFragment extends Fragment {
+public class ApocalypseCountdownFragment extends MvpAppCompatFragment implements ApocalypseCountdownView {
     private static final int SECONDS_IN_HOUR = 3600;
     private static final int SECONDS_IN_MUNUTE = 60;
     private static final int DELAY = 1000;
@@ -39,6 +45,16 @@ public class ApocalypseCountdownFragment extends Fragment {
     TextView apocalypseMessage;
     @BindView(R.id.countdown_view)
     TextView apocalypseTimer;
+
+    @InjectPresenter
+    ApocalypseCountdownPresenter presenter;
+
+    @ProvidePresenter
+    public ApocalypseCountdownPresenter provideApocalypseCountdownPresenter() {
+        ApocalypseCountdownPresenter presenter = new ApocalypseCountdownPresenter(AndroidSchedulers.mainThread());
+        Timber.e("presenter created");
+        return presenter;
+    }
 
     //Fragment nested in ShowWeatherFragment
     public static ApocalypseCountdownFragment init(Bundle bundle) {
