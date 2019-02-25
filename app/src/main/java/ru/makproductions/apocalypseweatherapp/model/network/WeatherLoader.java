@@ -1,5 +1,7 @@
 package ru.makproductions.apocalypseweatherapp.model.network;
 
+import java.util.Locale;
+
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,7 +23,7 @@ public class WeatherLoader {
     public WeatherLoader() {
     }
 
-    public static Single<WeatherMap> loadWeather(String cityName, String units, String appId) {
+    public static Single<WeatherMap> loadWeather(String cityName, String units, String appId, Locale locale) {
         Timber.e("LoadWeather");
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Timber.e(message));
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -32,10 +34,14 @@ public class WeatherLoader {
                 .baseUrl(App.getInstance().getResources().getString(R.string.open_weather_map_api_url))
                 .client(okHttpClient.build())
                 .build();
+
         weatherLoader = retrofit.create(IRetrofitWeatherLoader.class);
         return Single.create((SingleOnSubscribe<WeatherMap>) emitter -> {
             Timber.e("Loading...");
-            WeatherMap weatherMap = weatherLoader.loadWeather(cityName, units, appId).blockingGet();
+            String language = "en";
+            if (locale.getCountry().equals("RU")) language = "ru";
+            Timber.e("Locale = " + locale.getCountry());
+            WeatherMap weatherMap = weatherLoader.loadWeather(cityName, units, appId, language).blockingGet();
             if (weatherMap != null) {
                 emitter.onSuccess(weatherMap);
             } else {

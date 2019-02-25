@@ -7,5 +7,5 @@ import ru.makproductions.apocalypseweatherapp.model.weather.map.WeatherMap;
 
 public interface IRetrofitWeatherLoader {
     @GET("/data/2.5/weather")
-    Single<WeatherMap> loadWeather(@Query("q") String cityName, @Query("units") String units, @Query("appid") String appId);
+    Single<WeatherMap> loadWeather(@Query("q") String cityName, @Query("units") String units, @Query("appid") String appId, @Query("lang") String language);
 }

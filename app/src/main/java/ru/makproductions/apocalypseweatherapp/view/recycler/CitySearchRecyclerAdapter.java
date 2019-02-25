@@ -156,7 +156,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     }
 
     private void showDescription() {
-        presenter.loadWeather(getTownSelectedToShow(), citiesHandler);
+        presenter.loadWeather(getTownSelectedToShow(), citiesHandler, App.getInstance().getResources().getConfiguration().locale);
     }
 
     private int getTownSelectedToShow() {

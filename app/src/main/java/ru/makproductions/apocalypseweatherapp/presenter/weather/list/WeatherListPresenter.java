@@ -3,6 +3,8 @@ package ru.makproductions.apocalypseweatherapp.presenter.weather.list;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.Locale;
+
 import io.reactivex.Scheduler;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
@@ -49,7 +51,7 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
         }
 
         @Override
-        public void loadWeather(int townSelectedToShow, CitiesHandler citiesHandler) {
+        public void loadWeather(int townSelectedToShow, CitiesHandler citiesHandler, Locale locale) {
             Timber.e("LoadWeather");
             SingleObserver<WeatherMap> singleObserver = new SingleObserver<WeatherMap>() {
                 @Override
@@ -69,7 +71,7 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
             };
             String city = citiesHandler.getCitiesToFind().get(townSelectedToShow);
             Timber.e("GET_WEATHER_DESCRIPTION" + "CITY_TO_SEARCH " + city);
-            WeatherLoader.loadWeather(city, UtilVariables.METRIC, UtilVariables.API_KEY)
+            WeatherLoader.loadWeather(city, UtilVariables.METRIC, UtilVariables.API_KEY, locale)
                     .observeOn(scheduler)
                     .subscribe(singleObserver);
         }
