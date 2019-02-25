@@ -14,12 +14,6 @@ public class Main {
     @SerializedName("humidity")
     @Expose
     private Integer humidity;
-    @SerializedName("temp_min")
-    @Expose
-    private Double tempMin;
-    @SerializedName("temp_max")
-    @Expose
-    private Double tempMax;
 
     public Double getTemp() {
         return temp;
@@ -44,21 +38,4 @@ public class Main {
     public void setHumidity(Integer humidity) {
         this.humidity = humidity;
     }
-
-    public Double getTempMin() {
-        return tempMin;
-    }
-
-    public void setTempMin(Double tempMin) {
-        this.tempMin = tempMin;
-    }
-
-    public Double getTempMax() {
-        return tempMax;
-    }
-
-    public void setTempMax(Double tempMax) {
-        this.tempMax = tempMax;
-    }
-
 }

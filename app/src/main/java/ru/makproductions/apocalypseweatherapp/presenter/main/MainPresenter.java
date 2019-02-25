@@ -13,11 +13,13 @@ import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.ON_ACTIV
 
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainView> {
+
     private Scheduler scheduler;
 
     public MainPresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
     }
+
 
     public void loadAvatar(String avPath) {
         File file = new File(avPath);

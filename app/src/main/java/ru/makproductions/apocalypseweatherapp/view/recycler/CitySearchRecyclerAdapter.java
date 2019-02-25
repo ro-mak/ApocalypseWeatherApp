@@ -24,9 +24,8 @@ import java.util.TreeMap;
 import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
-import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.presenter.main.ICityListPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
-import ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.list.WeatherListListener;
 import timber.log.Timber;
 
 public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRecyclerAdapter.MyViewHolder> implements Filterable {
@@ -49,24 +48,19 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     private EditText citySearchEditText;
     private int townSelected;
     private String cityToShow;
-    private WeatherResult result;
-    private boolean pressure;
-    private boolean tommorowForecast;
-    private boolean weekForecast;
-    private WeatherListListener weatherListListener;
     private Resources resources;
     private CitiesHandler citiesHandler;
-    private boolean cityIsShown = false;
+    private ICityListPresenter presenter;
 
-    public CitySearchRecyclerAdapter(EditText citySearchEditText, WeatherListListener weatherListListener) {
+    public CitySearchRecyclerAdapter(EditText citySearchEditText, ICityListPresenter presenter) {
         resources = App.getInstance().getResources();
         citiesHandler = new CitiesHandler(resources);
         this.cities = citiesHandler.getCities();
         this.citiesToShow = citiesHandler.getCitiesInEnglish();
         this.citySearchEditText = citySearchEditText;
-        this.weatherListListener = weatherListListener;
         this.citiesFiltered = cities;
         this.citiesToShowFiltered = citiesToShow;
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -84,6 +78,8 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
 
     @Override
     public void onBindViewHolder(@NonNull CitySearchRecyclerAdapter.MyViewHolder holder, int position) {
+        holder.position = position;
+        presenter.bindView(holder);
         try {
             String cityName = citiesFiltered.get(position);
             //Gets a city name in English casts to lower case and transforms to resource syntax
@@ -160,8 +156,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     }
 
     private void showDescription() {
-        result = WeatherResult.getWeatherDescription(getTownSelectedToShow(), pressure, tommorowForecast, weekForecast, citiesHandler);
-        weatherListListener.onListItemClick(result);
+        presenter.loadWeather(getTownSelectedToShow(), citiesHandler);
     }
 
     private int getTownSelectedToShow() {
@@ -188,9 +183,17 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
         citiesToShowFiltered = citiesToShow;
     }
 
-    public class MyViewHolder extends CitySearchViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
+    public class MyViewHolder extends CitySearchViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, CityListItemView {
         private TextView city;
         private ImageView cityImage;
+        private final MenuItem.OnMenuItemClickListener onContextMenuClick = item -> {
+            if (item.getItemId() == R.id.show_on_top_item) {
+                sendToTop(getAdapterPosition());
+                notifyDataSetChanged();
+                return true;
+            }
+            return false;
+        };
 
         MyViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.city_list_item, parent, false));
@@ -213,16 +216,16 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
             showOnTop.setOnMenuItemClickListener(onContextMenuClick);
         }
 
-        private final MenuItem.OnMenuItemClickListener onContextMenuClick = new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.show_on_top_item) {
-                    sendToTop(getAdapterPosition());
-                    notifyDataSetChanged();
-                    return true;
-                }
-                return false;
-            }
-        };
+        private int position;
+
+        @Override
+        public void setName(String name) {
+
+        }
+
+        @Override
+        public int getPos() {
+            return position;
+        }
     }
 }

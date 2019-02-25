@@ -3,12 +3,10 @@ package ru.makproductions.apocalypseweatherapp.util;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Arrays;
@@ -17,18 +15,13 @@ import java.util.Locale;
 
 import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.model.image.GlideIImageLoader;
-import ru.makproductions.apocalypseweatherapp.model.image.IImageLoader;
 import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
 import timber.log.Timber;
 
 public class UtilMethods {
-    private static final int MIN_HEIGHT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 300 : 492;
-    private static final int MIN_WIDTH = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 300 : 492;
     private static final String FONTS_TROIKA_OTF = App.getInstance().getString(R.string.fonts_file);
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH = "transliterateFromRussianToEnglish: ";
-    private static IImageLoader imageLoader = new GlideIImageLoader();
 
     public static void changeFontTextView(TextView view) {
         Typeface font = Typeface.createFromAsset(App.getInstance().getAssets(), FONTS_TROIKA_OTF);
@@ -100,44 +93,5 @@ public class UtilMethods {
         }
         Timber.e("%s%s", TRANSLITERATE_FROM_RUSSIAN_TO_ENGLISH, result.toString());
         return result.toString();
-    }
-
-    public static void setWeatherImage(ImageView weatherImage, String weather_message) {
-        Resources resources = App.getInstance().getResources();
-        String[] parsedMessage = weather_message.split(" ");
-        String tempString;
-        for (int i = 0; i < parsedMessage.length; i++) {
-            tempString = parsedMessage[i].toLowerCase();
-            if (tempString.contains(resources.getString(R.string.clear_sky))) {
-                imageLoader.loadInto(weatherImage, R.drawable.sunny);
-                break;
-            } else if (tempString.contains(resources.getString(R.string.rain)) && !tempString.contains(resources.getString(R.string.snow))) {
-                imageLoader.loadInto(weatherImage, R.drawable.raining);
-                break;
-            } else if (!tempString.contains(resources.getString(R.string.rain)) && tempString.contains(resources.getString(R.string.snow))) {
-                imageLoader.loadInto(weatherImage, R.drawable.snowing);
-                break;
-            } else
-            if (tempString.contains(resources.getString(R.string.broken_clouds))) {
-                imageLoader.loadInto(weatherImage, R.drawable.broken_clouds);
-                break;
-            } else if (tempString.contains(resources.getString(R.string.clouds)) && !tempString.contains(resources.getString(R.string.broken_clouds))) {
-                imageLoader.loadInto(weatherImage, R.drawable.cloudy);
-                break;
-            } else
-            if (tempString.contains(resources.getString(R.string.thunder_storm))) {
-                imageLoader.loadInto(weatherImage, R.drawable.rainstorm);
-                break;
-            } else
-            if (tempString.contains(resources.getString((R.string.fog)))) {
-                break;
-            } else if (tempString.contains(resources.getString(R.string.rain)) && tempString.contains(resources.getString(R.string.snow))) {
-                imageLoader.loadInto(weatherImage, R.drawable.rain_with_snow);
-                break;
-            }
-        }
-        weatherImage.setMinimumHeight(MIN_HEIGHT);
-        weatherImage.setMinimumWidth(MIN_WIDTH);
-
     }
 }

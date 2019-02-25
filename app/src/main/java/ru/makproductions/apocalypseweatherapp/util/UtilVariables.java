@@ -13,4 +13,6 @@ public class UtilVariables {
     public static final String SENSOR_SERVICE_IS_NULL = "SensorService is null";
     public static final String ON_ACTIVITY_RESULT = "onActivityResult: ";
     public static final String OPTIONS_ACTIVITY_TAG = "OptionsActivity";
+    public static final String METRIC = "metric";
+    public static final String API_KEY = "d5699a9f9221ade876095bbb79295acf";
 }

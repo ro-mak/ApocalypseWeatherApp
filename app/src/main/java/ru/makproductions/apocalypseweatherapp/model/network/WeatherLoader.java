@@ -1,66 +1,46 @@
 package ru.makproductions.apocalypseweatherapp.model.network;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.os.AsyncTask;
-import android.util.Log;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.Locale;
-
+import io.reactivex.Single;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.weather.map.WeatherMap;
+import timber.log.Timber;
 
-public class WeatherLoader extends AsyncTask<Context, Integer, JSONObject> {
+public class WeatherLoader {
 
-    private static final String TAG = "WeatherLoader";
-    private static final String NEW_LINE = "\n";
-    private static final int ALL_GOOD = 200;
-    private static final String RESPONSE = "cod";
-    private static final String GET_JSONDATA = "getJSONData: ";
-    private static final String REQUEST_METHOD_GET = "GET";
-    private String city;
+    private static IRetrofitWeatherLoader weatherLoader;
 
-    public WeatherLoader(String city) {
-        this.city = city;
+    public WeatherLoader() {
     }
 
-    @Override
-    protected JSONObject doInBackground(Context... context) {
-        Resources resources = context[0].getResources();
-        try {
-            URL url = new URL(String.format(Locale.ENGLISH, resources.getString(R.string.open_weather_map_api_url), city, resources.getString(R.string.openweather_api_key)));
-            Log.d(TAG, GET_JSONDATA + url.toString());
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod(REQUEST_METHOD_GET);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.connect();
-
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder rawData = new StringBuilder(1024);
-            String temp;
-            while ((temp = bufferedReader.readLine()) != null) {
-                rawData.append(temp).append(NEW_LINE);
+    public static Single<WeatherMap> loadWeather(String cityName, String units, String appId) {
+        Timber.e("LoadWeather");
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Timber.e(message));
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor);
+        Retrofit retrofit = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(App.getInstance().getResources().getString(R.string.open_weather_map_api_url))
+                .client(okHttpClient.build())
+                .build();
+        weatherLoader = retrofit.create(IRetrofitWeatherLoader.class);
+        return Single.create((SingleOnSubscribe<WeatherMap>) emitter -> {
+            Timber.e("Loading...");
+            WeatherMap weatherMap = weatherLoader.loadWeather(cityName, units, appId).blockingGet();
+            if (weatherMap != null) {
+                emitter.onSuccess(weatherMap);
+            } else {
+                emitter.onError(new NullPointerException("WeatherMap == null. Load from network failed."));
             }
-            bufferedReader.close();
-            connection.disconnect();
-
-            JSONObject jsonObject = new JSONObject(rawData.toString());
-            Log.e(TAG, GET_JSONDATA + jsonObject.toString());
-            if (jsonObject.getInt(RESPONSE) == ALL_GOOD) {
-                return jsonObject;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, Arrays.toString(e.getStackTrace()));
-            e.printStackTrace();
-            return null;
-        }
-        return null;
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

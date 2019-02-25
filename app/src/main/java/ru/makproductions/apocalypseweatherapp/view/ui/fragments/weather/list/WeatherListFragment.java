@@ -1,10 +1,11 @@
 package ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.list;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,9 +26,12 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.makproductions.apocalypseweatherapp.R;
+import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.presenter.weather.list.WeatherListPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.recycler.CitySearchRecyclerAdapter;
+import ru.makproductions.apocalypseweatherapp.view.ui.activities.show.weather.ShowWeatherActivity;
+import ru.makproductions.apocalypseweatherapp.view.ui.fragments.show.weather.ShowWeatherFragment;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListView;
 import timber.log.Timber;
 
@@ -53,9 +57,6 @@ public class WeatherListFragment extends MvpAppCompatFragment implements Weather
     private boolean pressure;
     private boolean tommorowForecast;
     private boolean weekForecast;
-    private WeatherListListener weatherListListener;
-
-
     private CitySearchRecyclerAdapter adapter;
     private Animation cityButtonAnimation;
 
@@ -67,13 +68,6 @@ public class WeatherListFragment extends MvpAppCompatFragment implements Weather
         WeatherListPresenter presenter = new WeatherListPresenter(AndroidSchedulers.mainThread());
         Timber.e("presenter created");
         return presenter;
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        weatherListListener = (WeatherListListener) context;
-        super.onAttach(context);
     }
 
     @BindView(R.id.edittext_choose_text)
@@ -117,19 +111,47 @@ public class WeatherListFragment extends MvpAppCompatFragment implements Weather
         cityButtonAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.button_alpha);
     }
 
-    private void initRecycler() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(VERTICAL);
-        weatherRecyclerView.setLayoutManager(layoutManager);
-        adapter = new CitySearchRecyclerAdapter(citySearchEditText, weatherListListener);
-        weatherRecyclerView.setAdapter(adapter);
-        weatherRecyclerView.setHasFixedSize(false);
-    }
+    @SuppressWarnings("HardCodedStringLiteral")
+    private static final String WEATHER_MESSAGE = "weather_message";
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(TOWN_NUMBER, townSelected);
+    }
+
+    private void initRecycler() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(VERTICAL);
+        weatherRecyclerView.setLayoutManager(layoutManager);
+        adapter = new CitySearchRecyclerAdapter(citySearchEditText, presenter.getCityListPresenter());
+        weatherRecyclerView.setAdapter(adapter);
+        weatherRecyclerView.setHasFixedSize(false);
+    }
+
+    @Override
+    public void onListItemClick(WeatherResult result) {
+        showWeather(result);
+    }
+
+    public void showWeather(WeatherResult result) {
+        FragmentActivity activity = getActivity();
+        if (activity == null) throw new NullPointerException("MainActivity null");
+        View fragmentContainer = activity.findViewById(R.id.fragment_container);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(WEATHER_MESSAGE, result);
+        //if tablet use first, if not use second
+        if (fragmentContainer != null) {
+            ShowWeatherFragment showWeatherFragment = ShowWeatherFragment.init(bundle);
+            android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, showWeatherFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else {
+            Intent intent = new Intent(activity, ShowWeatherActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
     @Override

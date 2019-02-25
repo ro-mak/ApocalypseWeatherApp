@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import io.reactivex.Scheduler;
-import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherFragmentView;
 
 @InjectViewState

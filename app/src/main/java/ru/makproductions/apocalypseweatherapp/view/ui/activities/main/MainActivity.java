@@ -38,16 +38,12 @@ import ru.makproductions.afilechooser.utils.FileUtils;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.image.GlideIImageLoader;
 import ru.makproductions.apocalypseweatherapp.model.image.IImageLoader;
-import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.presenter.main.MainPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
 import ru.makproductions.apocalypseweatherapp.view.main.MainView;
 import ru.makproductions.apocalypseweatherapp.view.sensors.SensorListener;
 import ru.makproductions.apocalypseweatherapp.view.ui.activities.options.OptionsActivity;
-import ru.makproductions.apocalypseweatherapp.view.ui.activities.show.weather.ShowWeatherActivity;
-import ru.makproductions.apocalypseweatherapp.view.ui.fragments.show.weather.ShowWeatherFragment;
-import ru.makproductions.apocalypseweatherapp.view.ui.fragments.weather.list.WeatherListListener;
 import timber.log.Timber;
 
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR;
@@ -59,10 +55,8 @@ import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.PERMISSI
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.SENSOR_SERVICE_IS_NULL;
 
 //main class
-public class MainActivity extends MvpAppCompatActivity implements WeatherListListener, NavigationView.OnNavigationItemSelectedListener, SensorEventListener, MainView {
+public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener, MainView {
 
-    @SuppressWarnings("HardCodedStringLiteral")
-    private static final String WEATHER_MESSAGE = "weather_message";
     private ImageView avatar;
     private boolean permissionGranted;
     private SensorManager sensorManager;
@@ -223,29 +217,6 @@ public class MainActivity extends MvpAppCompatActivity implements WeatherListLis
             } else {
                 Timber.d("changeAvatar: RESULT NOT OK");
             }
-        }
-    }
-
-    @Override
-    public void onListItemClick(WeatherResult result) {
-        showWeather(result);
-    }
-
-    public void showWeather(WeatherResult result) {
-        View fragmentContainer = findViewById(R.id.fragment_container);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(WEATHER_MESSAGE, result);
-        //if tablet use first, if not use second
-        if (fragmentContainer != null) {
-            ShowWeatherFragment showWeatherFragment = ShowWeatherFragment.init(bundle);
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, showWeatherFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        } else {
-            Intent intent = new Intent(this, ShowWeatherActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
         }
     }
 

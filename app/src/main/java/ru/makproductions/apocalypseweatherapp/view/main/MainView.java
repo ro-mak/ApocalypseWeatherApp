@@ -9,6 +9,5 @@ import java.io.File;
 @StateStrategyType(value = AddToEndSingleStrategy.class)
 public interface MainView extends MvpView {
     void loadAvatar(File file);
-
     void changeAvatar(String path);
 }

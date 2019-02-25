@@ -25,7 +25,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.model.weather.WeatherParser;
 import ru.makproductions.apocalypseweatherapp.presenter.show.weather.ShowWeatherFragmentPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.show.weather.ShowWeatherFragmentView;
@@ -114,7 +115,7 @@ public class ShowWeatherFragment extends MvpAppCompatFragment implements ShowWea
     public void setWeatherMessage() {
         if (weather_message != null) {
             showWeatherTextView.setText(weather_message.replaceAll("_", " "));
-            UtilMethods.setWeatherImage(weatherImage, weather_message);
+            WeatherParser.setWeatherImage(weatherImage, weather_message);
         }
     }
 

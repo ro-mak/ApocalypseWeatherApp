@@ -25,7 +25,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.model.weather.repo.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
+import ru.makproductions.apocalypseweatherapp.model.weather.WeatherParser;
 import ru.makproductions.apocalypseweatherapp.presenter.weather.details.WeatherDetailsPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import ru.makproductions.apocalypseweatherapp.view.weather.details.WeatherDetailsView;
@@ -96,7 +97,7 @@ public class WeatherDetailsFragment extends MvpAppCompatFragment implements Weat
                 forecastRecyclerView.setAdapter(new ForecastRecyclerViewAdapter(weekForecast));
             }
         } else {
-            throw new NullPointerException(WEATHER_DETAILS_FRAGMENT_WEATHER_RESULT_IS_NULL);
+            // throw new NullPointerException(WEATHER_DETAILS_FRAGMENT_WEATHER_RESULT_IS_NULL);
         }
     }
 
@@ -152,7 +153,7 @@ public class WeatherDetailsFragment extends MvpAppCompatFragment implements Weat
             }
 
             void setForecastImageView(int position) {
-                UtilMethods.setWeatherImage(forecastImageView, forecastList.get(position));
+                WeatherParser.setWeatherImage(forecastImageView, forecastList.get(position));
             }
         }
     }
