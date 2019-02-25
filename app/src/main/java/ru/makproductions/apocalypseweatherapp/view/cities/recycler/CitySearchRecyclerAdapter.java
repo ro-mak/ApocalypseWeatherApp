@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.recycler;
+package ru.makproductions.apocalypseweatherapp.view.cities.recycler;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -29,8 +29,6 @@ import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import timber.log.Timber;
 
 public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRecyclerAdapter.MyViewHolder> implements Filterable {
-    @SuppressWarnings("HardCodedStringLiteral")
-    private final static String TAG = "CitySearchRecAd";
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String NAME = "Name: ";
     @SuppressWarnings("HardCodedStringLiteral")

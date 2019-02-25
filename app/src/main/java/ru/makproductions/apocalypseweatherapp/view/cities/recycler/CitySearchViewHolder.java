@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.recycler;
+package ru.makproductions.apocalypseweatherapp.view.cities.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

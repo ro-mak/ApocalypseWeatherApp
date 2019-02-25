@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.view.recycler;
+package ru.makproductions.apocalypseweatherapp.view.cities.recycler;
 
 public interface CityListItemView {
     void setName(String name);

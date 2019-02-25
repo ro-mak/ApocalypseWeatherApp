@@ -2,6 +2,7 @@ package ru.makproductions.apocalypseweatherapp;
 
 import android.app.Application;
 
+import ru.makproductions.apocalypseweatherapp.model.entity.room.db.CitiesDatabase;
 import timber.log.Timber;
 
 public class App extends Application {
@@ -17,5 +18,6 @@ public class App extends Application {
         super.onCreate();
         instance = this;
         Timber.plant(new Timber.DebugTree());
+        CitiesDatabase.create(this);
     }
 }

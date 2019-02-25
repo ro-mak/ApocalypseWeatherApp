@@ -29,7 +29,7 @@ import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.presenter.weather.list.WeatherListPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
-import ru.makproductions.apocalypseweatherapp.view.recycler.CitySearchRecyclerAdapter;
+import ru.makproductions.apocalypseweatherapp.view.cities.recycler.CitySearchRecyclerAdapter;
 import ru.makproductions.apocalypseweatherapp.view.ui.activities.show.weather.ShowWeatherActivity;
 import ru.makproductions.apocalypseweatherapp.view.ui.fragments.show.weather.ShowWeatherFragment;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListView;

@@ -20,7 +20,7 @@ public class WeatherLoader {
 
     private static IRetrofitWeatherLoader weatherLoader;
 
-    public WeatherLoader() {
+    private WeatherLoader() {
     }
 
     public static Single<WeatherMap> loadWeather(String cityName, String units, String appId, Locale locale) {
