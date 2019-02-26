@@ -43,7 +43,7 @@ public class WeatherLoader {
             Timber.e("Loading...");
             String language = "en";
             if (locale.getCountry().equals("RU")) language = "ru";
-            Timber.e("Locale = " + locale.getCountry());
+            Timber.e("Locale = %s", locale.getCountry());
             String cityToFind = citiesHandler.getCitiesToFind().get(townSelectedToShow);
             WeatherMap weatherMap = weatherLoader.loadWeather(cityToFind, units, appId, language).blockingGet();
             if (weatherMap != null) {

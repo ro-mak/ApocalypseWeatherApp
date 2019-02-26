@@ -23,7 +23,7 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
 
     private CityListPresenter cityListPresenter;
     private Scheduler scheduler;
-    ICityWeatherRepo cityWeatherRepo = new CityWeatherRepo();
+    private ICityWeatherRepo cityWeatherRepo = new CityWeatherRepo();
 
     public WeatherListPresenter(Scheduler scheduler) {
         this.cityListPresenter = new CityListPresenter();
