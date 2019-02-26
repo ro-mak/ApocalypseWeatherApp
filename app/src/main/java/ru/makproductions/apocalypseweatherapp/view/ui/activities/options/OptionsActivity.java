@@ -74,7 +74,7 @@ public class OptionsActivity extends MvpAppCompatActivity implements OptionsView
 //            ImageView avatar;
 //            if(navigationView!=null) {
 //                avatar = navigationView.getHeaderView(0).findViewById(R.id.nav_avatar);
-//                UtilMethods.changeAvatar(resultCode, data, getSharedPreferences(UtilVariables.AVATAR_PREFS, MODE_PRIVATE), this, avatar);
+//                UtilMethods.requestReadExternalStoragePermissions(resultCode, data, getSharedPreferences(UtilVariables.AVATAR_PREFS, MODE_PRIVATE), this, avatar);
 //            }
     }
 }

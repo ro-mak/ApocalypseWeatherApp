@@ -20,15 +20,15 @@ public class MainPresenter extends MvpPresenter<MainView> {
         this.scheduler = scheduler;
     }
 
+    private String avatarPath;
 
-    public void loadAvatar(String avPath) {
-        File file = new File(avPath);
+    public void loadAvatar() {
+        File file = new File(avatarPath);
         getViewState().loadAvatar(file);
         Timber.d("%s%s", ON_ACTIVITY_RESULT, file);
     }
 
-    public void changeAvatar(String path) {
-        Timber.d("changeAvatar: Start");
-        getViewState().changeAvatar(path);
+    public void saveAvatarPath(String path) {
+        this.avatarPath = path;
     }
 }

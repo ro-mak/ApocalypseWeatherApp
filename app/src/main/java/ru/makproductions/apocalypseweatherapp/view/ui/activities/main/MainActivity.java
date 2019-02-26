@@ -158,7 +158,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
             public void onDrawerOpened(View drawerView) {
                 if (sharedPreferences != null) {
                     String avPath = sharedPreferences.getString(AVATAR, null);
-                    if (avPath != null) presenter.loadAvatar(avPath);
+                    if (avPath != null) presenter.saveAvatarPath(avPath);
                 }
                 super.onDrawerOpened(drawerView);
             }
@@ -168,8 +168,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     private void onAvatarClick() {
         avatar.setOnClickListener(v -> {
             try {
-                Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), UtilVariables.SELECT_A_FILE);
-                startActivityForResult(intent, UtilVariables.AVATAR_REQUEST_CODE);
+                requestReadExternalStoragePermissions();
                 Timber.d(AVATAR);
             } catch (Exception e) {
                 Timber.e(e);
@@ -194,6 +193,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         if (requestCode == PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 permissionGranted = true;
+                openChooser();
             }
         }
     }
@@ -211,16 +211,17 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
             if (resultCode == RESULT_OK) {
                 final Uri uri = data.getData();
                 String path = FileUtils.getPath(this, uri);
-                Timber.d("changeAvatar: Checking Path");
+                Timber.d("requestReadExternalStoragePermissions: Checking Path");
                 if (FileUtils.isLocal(path)) {
-                    Timber.d("changeAvatar: Loading");
+                    Timber.d("requestReadExternalStoragePermissions: Loading");
                     sharedPreferences.edit().putString(AVATAR, path).apply();
-                    presenter.changeAvatar(path);
+                    presenter.saveAvatarPath(path);
                 }
             } else {
-                Timber.d("changeAvatar: RESULT NOT OK");
+                Timber.d("requestReadExternalStoragePermissions: RESULT NOT OK");
             }
         }
+        presenter.loadAvatar();
     }
 
     @Override
@@ -258,11 +259,22 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         imageLoader.loadInto(avatar, file);
     }
 
-    @Override
-    public void changeAvatar(String path) {
+    public void requestReadExternalStoragePermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                Timber.e("explanation bla bla");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+            }
+        } else {
+            openChooser();
         }
-        presenter.loadAvatar(path);
+    }
+
+    private void openChooser() {
+        Intent intent = Intent.createChooser(FileUtils.createGetContentIntent(), UtilVariables.SELECT_A_FILE);
+        startActivityForResult(intent, UtilVariables.AVATAR_REQUEST_CODE);
     }
 }
