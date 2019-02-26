@@ -14,7 +14,6 @@ import ru.makproductions.apocalypseweatherapp.model.entity.City;
 import ru.makproductions.apocalypseweatherapp.model.entity.CityWeather;
 import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.model.repo.ICityWeatherRepo;
-import ru.makproductions.apocalypseweatherapp.presenter.main.ICityListPresenter;
 import ru.makproductions.apocalypseweatherapp.view.cities.recycler.CityListItemView;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListView;
 import timber.log.Timber;

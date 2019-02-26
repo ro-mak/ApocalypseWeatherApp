@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter.main;
+package ru.makproductions.apocalypseweatherapp.presenter.weather.list;
 
 import java.util.Locale;
 

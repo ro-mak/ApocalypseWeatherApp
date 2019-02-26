@@ -24,7 +24,7 @@ import java.util.TreeMap;
 import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
-import ru.makproductions.apocalypseweatherapp.presenter.main.ICityListPresenter;
+import ru.makproductions.apocalypseweatherapp.presenter.weather.list.ICityListPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 import timber.log.Timber;
 
