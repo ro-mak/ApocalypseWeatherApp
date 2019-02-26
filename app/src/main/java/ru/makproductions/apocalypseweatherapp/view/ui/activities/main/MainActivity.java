@@ -31,12 +31,14 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.makproductions.afilechooser.utils.FileUtils;
+import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.model.image.GlideIImageLoader;
 import ru.makproductions.apocalypseweatherapp.model.image.IImageLoader;
 import ru.makproductions.apocalypseweatherapp.presenter.main.MainPresenter;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
@@ -49,7 +51,6 @@ import timber.log.Timber;
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR;
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR_PREFS;
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.AVATAR_REQUEST_CODE;
-import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.MAIN_ACTIVITY_TAG;
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.ON_ACTIVITY_RESULT;
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.PERMISSIONS_REQUEST_CODE;
 import static ru.makproductions.apocalypseweatherapp.util.UtilVariables.SENSOR_SERVICE_IS_NULL;
@@ -74,11 +75,13 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     private Toolbar toolbar;
     private SensorListener sensorListener;
     private ActionBarDrawerToggle toggle;
-    private IImageLoader imageLoader = new GlideIImageLoader();
+    @Inject
+    IImageLoader imageLoader;
 
     @ProvidePresenter
     public MainPresenter provideMainPresenter() {
         MainPresenter presenter = new MainPresenter(AndroidSchedulers.mainThread());
+        App.getInstance().getAppComponent().inject(this);
         Timber.e("presenter created");
         return presenter;
     }
@@ -111,7 +114,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null)
-            throw new RuntimeException(UtilVariables.MAIN_ACTIVITY_TAG + getString(R.string.actionbar_runtime_exception_warning));
+            throw new RuntimeException(getString(R.string.actionbar_runtime_exception_warning));
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.logo_layout);
         toolbar = findViewById(R.id.toolbar_top);
@@ -140,7 +143,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     private void initSensors() {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if (sensorManager == null)
-            throw new RuntimeException(MAIN_ACTIVITY_TAG + SENSOR_SERVICE_IS_NULL);
+            throw new RuntimeException(SENSOR_SERVICE_IS_NULL);
         temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
         if (temperatureSensor != null)

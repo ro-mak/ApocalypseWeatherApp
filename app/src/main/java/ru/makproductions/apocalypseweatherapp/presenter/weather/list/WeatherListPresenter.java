@@ -5,13 +5,14 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import io.reactivex.Scheduler;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 import ru.makproductions.apocalypseweatherapp.model.entity.City;
 import ru.makproductions.apocalypseweatherapp.model.entity.CityWeather;
 import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
-import ru.makproductions.apocalypseweatherapp.model.repo.CityWeatherRepo;
 import ru.makproductions.apocalypseweatherapp.model.repo.ICityWeatherRepo;
 import ru.makproductions.apocalypseweatherapp.presenter.main.ICityListPresenter;
 import ru.makproductions.apocalypseweatherapp.view.cities.recycler.CityListItemView;
@@ -23,7 +24,8 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
 
     private CityListPresenter cityListPresenter;
     private Scheduler scheduler;
-    private ICityWeatherRepo cityWeatherRepo = new CityWeatherRepo();
+    @Inject
+    ICityWeatherRepo cityWeatherRepo;
 
     public WeatherListPresenter(Scheduler scheduler) {
         this.cityListPresenter = new CityListPresenter();

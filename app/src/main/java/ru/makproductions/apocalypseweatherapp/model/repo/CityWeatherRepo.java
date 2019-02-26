@@ -13,7 +13,6 @@ import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
 import ru.makproductions.apocalypseweatherapp.model.entity.City;
 import ru.makproductions.apocalypseweatherapp.model.entity.CityWeather;
 import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
-import ru.makproductions.apocalypseweatherapp.model.entity.room.RoomCache;
 import ru.makproductions.apocalypseweatherapp.model.network.NetworkStatus;
 import ru.makproductions.apocalypseweatherapp.model.network.WeatherLoader;
 import ru.makproductions.apocalypseweatherapp.model.weather.WeatherParser;
@@ -23,17 +22,25 @@ import timber.log.Timber;
 enum DbEntity {CITY, CITY_WEATHER}
 
 public class CityWeatherRepo implements ICityWeatherRepo {
-    private ICache iCache = new RoomCache();
+
+    private ICache cache;
+
+    private WeatherLoader weatherLoader;
+
+    public CityWeatherRepo(WeatherLoader weatherLoader, ICache cache) {
+        this.weatherLoader = weatherLoader;
+        this.cache = cache;
+    }
 
     @Override
     public Single<WeatherResult> loadWeather(int townSelectedToShow, Locale locale) {
         CitiesHandler citiesHandler = CitiesHandler.getInstance();
         String city = citiesHandler.getCitiesInEnglish().get(townSelectedToShow).toLowerCase();
         if (NetworkStatus.isOnline()) {
-            return WeatherLoader.loadWeather(townSelectedToShow, UtilVariables.METRIC, UtilVariables.API_KEY, locale);
+            return weatherLoader.loadWeather(townSelectedToShow, UtilVariables.METRIC, UtilVariables.API_KEY, locale);
         } else {
             return Single.create((SingleOnSubscribe<WeatherResult>) emitter -> {
-                CityWeather cityWeather = iCache.loadCityWeather(city);
+                CityWeather cityWeather = cache.loadCityWeather(city);
                 if (cityWeather != null) {
                     emitter.onSuccess(WeatherParser.parseCityWeather(cityWeather));
                 } else {
@@ -63,14 +70,14 @@ public class CityWeatherRepo implements ICityWeatherRepo {
                         if (entity.equals(DbEntity.CITY)) {
                             City city = (City) o;
                             if (city != null) {
-                                iCache.saveCity(city);
+                                cache.saveCity(city);
                             } else {
                                 emitter.onError(new NullPointerException("Cannot save the city because it is null"));
                             }
                         } else if (entity.equals(DbEntity.CITY_WEATHER)) {
                             CityWeather cityWeather = (CityWeather) o;
                             if (cityWeather != null) {
-                                iCache.saveCityWeather(cityWeather);
+                                cache.saveCityWeather(cityWeather);
                             } else {
                                 emitter.onError(new NullPointerException("Cannot save the cityWeather because it is null"));
                             }

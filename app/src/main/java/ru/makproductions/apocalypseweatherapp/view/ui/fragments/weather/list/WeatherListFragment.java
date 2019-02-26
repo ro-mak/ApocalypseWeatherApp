@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
 import ru.makproductions.apocalypseweatherapp.presenter.weather.list.WeatherListPresenter;
@@ -66,6 +67,8 @@ public class WeatherListFragment extends MvpAppCompatFragment implements Weather
     @ProvidePresenter
     public WeatherListPresenter provideWeatherListPresenter() {
         WeatherListPresenter presenter = new WeatherListPresenter(AndroidSchedulers.mainThread());
+        App.getInstance().getAppComponent().inject(this);
+        App.getInstance().getAppComponent().inject(presenter);
         Timber.e("presenter created");
         return presenter;
     }
