@@ -8,22 +8,22 @@ import java.util.Locale;
 import io.reactivex.Scheduler;
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
-import ru.makproductions.apocalypseweatherapp.model.cities.CitiesHandler;
+import ru.makproductions.apocalypseweatherapp.model.entity.City;
+import ru.makproductions.apocalypseweatherapp.model.entity.CityWeather;
 import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
-import ru.makproductions.apocalypseweatherapp.model.network.WeatherLoader;
-import ru.makproductions.apocalypseweatherapp.model.weather.map.WeatherMap;
+import ru.makproductions.apocalypseweatherapp.model.repo.CityWeatherRepo;
+import ru.makproductions.apocalypseweatherapp.model.repo.ICityWeatherRepo;
 import ru.makproductions.apocalypseweatherapp.presenter.main.ICityListPresenter;
-import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
-import ru.makproductions.apocalypseweatherapp.util.UtilVariables;
 import ru.makproductions.apocalypseweatherapp.view.cities.recycler.CityListItemView;
 import ru.makproductions.apocalypseweatherapp.view.weather.list.WeatherListView;
 import timber.log.Timber;
 
 @InjectViewState
 public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
-    private static final int WEATHER_ARRAY_INDEX = 0;
+
     private CityListPresenter cityListPresenter;
     private Scheduler scheduler;
+    ICityWeatherRepo cityWeatherRepo = new CityWeatherRepo();
 
     public WeatherListPresenter(Scheduler scheduler) {
         this.cityListPresenter = new CityListPresenter();
@@ -34,15 +34,6 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
         return cityListPresenter;
     }
 
-    private WeatherResult updateWeatherData(WeatherMap weatherMap, int position, CitiesHandler citiesHandler) {
-        WeatherResult weatherResult = WeatherResult.getInstance();
-        final String city = citiesHandler.getCitiesInEnglish().get(position).toLowerCase();
-        UtilMethods.formatCityName(city);
-        weatherResult.setWeather(city + " " + weatherMap.getMain().getTemp()
-                + " " + weatherMap.getWeather().get(WEATHER_ARRAY_INDEX).getDescription());
-        return weatherResult;
-    }
-
     public class CityListPresenter implements ICityListPresenter {
 
         @Override
@@ -51,17 +42,22 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
         }
 
         @Override
-        public void loadWeather(int townSelectedToShow, CitiesHandler citiesHandler, Locale locale) {
+        public void loadWeather(int townSelectedToShow, Locale locale) {
             Timber.e("LoadWeather");
-            SingleObserver<WeatherMap> singleObserver = new SingleObserver<WeatherMap>() {
+            SingleObserver<WeatherResult> singleObserver = new SingleObserver<WeatherResult>() {
                 @Override
                 public void onSubscribe(Disposable d) {
 
                 }
 
                 @Override
-                public void onSuccess(WeatherMap weatherMap) {
-                    getViewState().onListItemClick(updateWeatherData(weatherMap, townSelectedToShow, citiesHandler));
+                public void onSuccess(WeatherResult weatherResult) {
+                    String cityName = weatherResult.getCityName();
+                    double temp = weatherResult.getTemperature();
+                    String description = weatherResult.getWeatherDescription();
+                    cityWeatherRepo.saveCity(new City(cityName));
+                    cityWeatherRepo.saveCityWeather(new CityWeather(cityName, temp, description));
+                    getViewState().onListItemClick(weatherResult);
                 }
 
                 @Override
@@ -69,9 +65,7 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
                     Timber.e(e);
                 }
             };
-            String city = citiesHandler.getCitiesToFind().get(townSelectedToShow);
-            Timber.e("GET_WEATHER_DESCRIPTION" + "CITY_TO_SEARCH " + city);
-            WeatherLoader.loadWeather(city, UtilVariables.METRIC, UtilVariables.API_KEY, locale)
+            cityWeatherRepo.loadWeather(townSelectedToShow, locale)
                     .observeOn(scheduler)
                     .subscribe(singleObserver);
         }

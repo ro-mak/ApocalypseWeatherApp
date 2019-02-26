@@ -51,8 +51,8 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     private ICityListPresenter presenter;
 
     public CitySearchRecyclerAdapter(EditText citySearchEditText, ICityListPresenter presenter) {
+        citiesHandler = CitiesHandler.getInstance();
         resources = App.getInstance().getResources();
-        citiesHandler = new CitiesHandler(resources);
         this.cities = citiesHandler.getCities();
         this.citiesToShow = citiesHandler.getCitiesInEnglish();
         this.citySearchEditText = citySearchEditText;
@@ -154,7 +154,7 @@ public class CitySearchRecyclerAdapter extends RecyclerView.Adapter<CitySearchRe
     }
 
     private void showDescription() {
-        presenter.loadWeather(getTownSelectedToShow(), citiesHandler, App.getInstance().getResources().getConfiguration().locale);
+        presenter.loadWeather(getTownSelectedToShow(), App.getInstance().getResources().getConfiguration().locale);
     }
 
     private int getTownSelectedToShow() {

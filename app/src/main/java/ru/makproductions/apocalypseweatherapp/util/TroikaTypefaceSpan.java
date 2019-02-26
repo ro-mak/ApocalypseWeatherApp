@@ -1,4 +1,4 @@
-package ru.makproductions.apocalypseweatherapp.presenter;
+package ru.makproductions.apocalypseweatherapp.util;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;

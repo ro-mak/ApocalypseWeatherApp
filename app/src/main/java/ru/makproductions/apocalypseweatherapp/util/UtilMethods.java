@@ -15,7 +15,6 @@ import java.util.Locale;
 
 import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
-import ru.makproductions.apocalypseweatherapp.presenter.TroikaTypefaceSpan;
 import timber.log.Timber;
 
 public class UtilMethods {

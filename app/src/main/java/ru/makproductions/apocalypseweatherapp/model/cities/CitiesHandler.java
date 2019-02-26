@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ru.makproductions.apocalypseweatherapp.App;
 import ru.makproductions.apocalypseweatherapp.R;
 import ru.makproductions.apocalypseweatherapp.util.UtilMethods;
 
@@ -14,10 +15,19 @@ public class CitiesHandler {
     private List<String> citiesInEnglishList;
     private List<String> citiesToFind;
 
-    public CitiesHandler(Resources resources) {
+    private static CitiesHandler instance;
+
+    private CitiesHandler(Resources resources) {
         citiesList = Arrays.asList(resources.getStringArray(R.array.cities));
         citiesToFind = Arrays.asList(resources.getStringArray(R.array.cities_to_find));
         citiesInEnglishList = UtilMethods.getEnglishCitiesNamesList(resources);
+    }
+
+    public static CitiesHandler getInstance() {
+        if (instance == null) {
+            instance = new CitiesHandler(App.getInstance().getResources());
+        }
+        return instance;
     }
 
     public List<String> getCities() {

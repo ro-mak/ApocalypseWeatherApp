@@ -1,12 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="count_down">Apocalypse coming in:</string>
     <string name="app_name">Hail the apocalypse!</string>
-    <string name="show_description_button">What\'s the weather here?</string>
+    <string name="show_description_button">What\'s the weatherDescription here?</string>
     <string name="textview_dummy_text" />
     <string name="choose_a_city">Choose a city</string>
     <string name="no_message_recieved_textview">No message received</string>
     <string name="share_weather_button">Share with friends </string>
-    <string name="weather_share_result_ok">Successfully shared or maybe there is an app to share weather with</string>
+    <string name="weather_share_result_ok">Successfully shared or maybe there is an app to share weatherDescription with</string>
     <string name="weather_share_cancel">Operation cancelled by user or there is no such app</string>
     <string name="pressure">pressure</string>
     <string name="tomorrow_forecast">Tomorrow forecast</string>

@@ -21,7 +21,7 @@ public class ShowWeatherFragmentPresenter extends MvpPresenter<ShowWeatherFragme
     }
 
     public String getWeather(WeatherResult weatherResult) {
-        return weatherResult.getWeather();
+        return weatherResult.getWeatherDescription();
     }
 
     public void loadWeatherResult() {

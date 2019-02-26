@@ -2,6 +2,7 @@ package ru.makproductions.apocalypseweatherapp.model.entity.room;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -13,19 +14,20 @@ public class RoomCityWeather {
     @NonNull
     @PrimaryKey
     private String cityName;
-    private float temperature;
+    private double temperature;
     private String weatherDescription;
 
+    @Ignore
     public RoomCityWeather() {
     }
 
-    public RoomCityWeather(String cityName, float temperature, String weatherDescription) {
+    public RoomCityWeather(@NonNull String cityName, double temperature, String weatherDescription) {
         this.cityName = cityName;
         this.temperature = temperature;
         this.weatherDescription = weatherDescription;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
@@ -41,11 +43,12 @@ public class RoomCityWeather {
         this.weatherDescription = weatherDescription;
     }
 
+    @NonNull
     public String getCityName() {
         return cityName;
     }
 
-    public void setCityName(String cityName) {
+    public void setCityName(@NonNull String cityName) {
         this.cityName = cityName;
     }
 

@@ -18,20 +18,40 @@ public class WeatherResult implements Parcelable {
         }
     };
     private static WeatherResult instance;
-    private String weather;
-    private String pressure;
+    private String weatherDescription;
+    private double pressure;
+    private double temperature;
+    private String cityName;
     private String tomorrowForecast;
     private List<String> weekForecast;
+
+    private WeatherResult(Parcel in) {
+        cityName = in.readString();
+        weatherDescription = in.readString();
+        temperature = in.readDouble();
+        pressure = in.readDouble();
+        tomorrowForecast = in.readString();
+        weekForecast = new ArrayList<>();
+        in.readList(weekForecast, null);
+    }
 
     private WeatherResult() {
     }
 
-    private WeatherResult(Parcel in) {
-        weather = in.readString();
-        pressure = in.readString();
-        tomorrowForecast = in.readString();
-        weekForecast = new ArrayList<>();
-        in.readList(weekForecast, null);
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public static WeatherResult getInstance() {
@@ -46,26 +66,28 @@ public class WeatherResult implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(weather);
-        dest.writeString(pressure);
+        dest.writeString(cityName);
+        dest.writeString(weatherDescription);
+        dest.writeDouble(temperature);
+        dest.writeDouble(pressure);
         dest.writeString(tomorrowForecast);
         dest.writeList(weekForecast);
 
     }
 
-    public String getWeather() {
-        return this.weather;
+    public String getWeatherDescription() {
+        return this.weatherDescription;
     }
 
-    public void setWeather(String weather) {
-        this.weather = weather;
+    public void setWeatherDescription(String weatherDescription) {
+        this.weatherDescription = weatherDescription;
     }
 
-    public String getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
-    public void setPressure(String pressure) {
+    public void setPressure(double pressure) {
         this.pressure = pressure;
     }
 

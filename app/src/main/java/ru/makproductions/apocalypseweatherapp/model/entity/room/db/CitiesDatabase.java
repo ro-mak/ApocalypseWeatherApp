@@ -12,6 +12,7 @@ import ru.makproductions.apocalypseweatherapp.model.entity.room.dao.WeatherDao;
 
 @Database(entities = {RoomCity.class, RoomCityWeather.class}, version = 1)
 public abstract class CitiesDatabase extends RoomDatabase {
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String DB_NAME = "ApocalypseDatabase.db";
     private static volatile CitiesDatabase instance;
 
@@ -29,5 +30,5 @@ public abstract class CitiesDatabase extends RoomDatabase {
 
     public abstract CitiesDao getCitiesDao();
 
-    public abstract WeatherDao getImageDao();
+    public abstract WeatherDao getWeatherDao();
 }
