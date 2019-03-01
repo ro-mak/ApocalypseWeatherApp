@@ -1,14 +1,11 @@
 package ru.makproductions.apocalypseweatherapp.model.entity.room;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import static android.arch.persistence.room.ForeignKey.CASCADE;
-
-@Entity(foreignKeys = @ForeignKey(entity = RoomCity.class, parentColumns = "name", childColumns = "cityName", onDelete = CASCADE))
+@Entity
 public class RoomCityWeather {
 
     @NonNull

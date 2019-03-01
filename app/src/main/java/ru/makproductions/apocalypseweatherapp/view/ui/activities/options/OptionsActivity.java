@@ -41,6 +41,7 @@ public class OptionsActivity extends MvpAppCompatActivity implements OptionsView
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Timber.e("OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.options_layout);
         ButterKnife.bind(this);

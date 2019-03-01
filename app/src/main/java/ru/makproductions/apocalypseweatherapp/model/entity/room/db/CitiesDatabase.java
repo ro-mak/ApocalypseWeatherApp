@@ -10,7 +10,7 @@ import ru.makproductions.apocalypseweatherapp.model.entity.room.RoomCityWeather;
 import ru.makproductions.apocalypseweatherapp.model.entity.room.dao.CitiesDao;
 import ru.makproductions.apocalypseweatherapp.model.entity.room.dao.WeatherDao;
 
-@Database(entities = {RoomCity.class, RoomCityWeather.class}, version = 1)
+@Database(entities = {RoomCity.class, RoomCityWeather.class}, version = 2)
 public abstract class CitiesDatabase extends RoomDatabase {
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String DB_NAME = "ApocalypseDatabase.db";
