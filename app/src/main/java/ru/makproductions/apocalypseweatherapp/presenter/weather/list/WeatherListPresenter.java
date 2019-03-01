@@ -27,8 +27,15 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
     ICityWeatherRepo cityWeatherRepo;
 
     public WeatherListPresenter(Scheduler scheduler) {
-        this.cityListPresenter = new CityListPresenter();
+        Timber.d("WeatherListPresenter Constructor");
         this.scheduler = scheduler;
+    }
+
+    @Override
+    public void attachView(WeatherListView view) {
+        super.attachView(view);
+        this.cityListPresenter = new CityListPresenter();
+        getViewState().init();
     }
 
     public CityListPresenter getCityListPresenter() {
@@ -53,22 +60,36 @@ public class WeatherListPresenter extends MvpPresenter<WeatherListView> {
 
                 @Override
                 public void onSuccess(WeatherResult weatherResult) {
-                    String cityName = weatherResult.getCityName();
-                    double temp = weatherResult.getTemperature();
-                    String description = weatherResult.getWeatherDescription();
-                    cityWeatherRepo.saveCity(new City(cityName));
-                    cityWeatherRepo.saveCityWeather(new CityWeather(cityName, temp, description));
-                    getViewState().onListItemClick(weatherResult);
+                    if (weatherResult != null
+                            && weatherResult.getCityName() != null
+                            && weatherResult.getWeatherDescription() != null) {
+                        String cityName = weatherResult.getCityName();
+                        double temp = weatherResult.getTemperature();
+                        String description = weatherResult.getWeatherDescription();
+                        cityWeatherRepo.saveCity(new City(cityName));
+                        cityWeatherRepo.saveCityWeather(new CityWeather(cityName, temp, description));
+                        getViewState().onListItemClick(weatherResult);
+                    } else {
+                        onError(new NullPointerException("Weather result is empty"));
+                    }
                 }
 
                 @Override
                 public void onError(Throwable e) {
+                    onLoadFailed();
                     Timber.e(e);
                 }
             };
+            Timber.d("cityWeatherRepo=" + cityWeatherRepo);
+            Timber.d("scheduler=" + scheduler);
+            Timber.d("observer=" + singleObserver);
             cityWeatherRepo.loadWeather(townSelectedToShow, locale)
                     .observeOn(scheduler)
                     .subscribe(singleObserver);
+        }
+
+        public void onLoadFailed() {
+            getViewState().onLoadFailed();
         }
 
         @Override

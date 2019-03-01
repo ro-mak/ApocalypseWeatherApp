@@ -9,5 +9,8 @@ import ru.makproductions.apocalypseweatherapp.model.entity.WeatherResult;
 
 @StateStrategyType(value = AddToEndSingleStrategy.class)
 public interface WeatherListView extends MvpView {
+    void init();
     void onListItemClick(WeatherResult result);
+
+    void onLoadFailed();
 }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -87,10 +88,7 @@ public class WeatherListFragment extends MvpAppCompatFragment implements Weather
         //RecyclerView init
         View rootView = inflater.inflate(R.layout.weather_list_fragment, container, false);
         ButterKnife.bind(this, rootView);
-        initRecycler();
-        initAnimation();
         loadPrefs(savedInstanceState);
-        loadFonts();
         return rootView;
     }
 
@@ -133,8 +131,20 @@ public class WeatherListFragment extends MvpAppCompatFragment implements Weather
     }
 
     @Override
+    public void init() {
+        initRecycler();
+        initAnimation();
+        loadFonts();
+    }
+
+    @Override
     public void onListItemClick(WeatherResult result) {
         showWeather(result);
+    }
+
+    @Override
+    public void onLoadFailed() {
+        Snackbar.make(weatherRecyclerView, "Load Failed", Snackbar.LENGTH_SHORT);
     }
 
     public void showWeather(WeatherResult result) {

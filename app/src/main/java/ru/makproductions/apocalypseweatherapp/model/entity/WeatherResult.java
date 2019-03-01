@@ -17,7 +17,6 @@ public class WeatherResult implements Parcelable {
             return new WeatherResult[size];
         }
     };
-    private static WeatherResult instance;
     private String weatherDescription;
     private double pressure;
     private double temperature;
@@ -25,7 +24,7 @@ public class WeatherResult implements Parcelable {
     private String tomorrowForecast;
     private List<String> weekForecast;
 
-    private WeatherResult(Parcel in) {
+    public WeatherResult(Parcel in) {
         cityName = in.readString();
         weatherDescription = in.readString();
         temperature = in.readDouble();
@@ -35,7 +34,13 @@ public class WeatherResult implements Parcelable {
         in.readList(weekForecast, null);
     }
 
-    private WeatherResult() {
+    public WeatherResult() {
+    }
+
+    public WeatherResult(double temperature, String cityName, String weatherDescription) {
+        this.temperature = temperature;
+        this.cityName = cityName;
+        this.weatherDescription = weatherDescription;
     }
 
     public double getTemperature() {
@@ -52,11 +57,6 @@ public class WeatherResult implements Parcelable {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
-    }
-
-    public static WeatherResult getInstance() {
-        if (instance == null) instance = new WeatherResult();
-        return instance;
     }
 
     @Override

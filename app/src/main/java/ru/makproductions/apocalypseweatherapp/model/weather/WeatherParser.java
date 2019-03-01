@@ -57,7 +57,7 @@ public class WeatherParser {
     }
 
     public static WeatherResult parseWeatherMap(WeatherMap weatherMap, int position, CitiesHandler citiesHandler) {
-        WeatherResult weatherResult = WeatherResult.getInstance();
+        WeatherResult weatherResult = new WeatherResult();
         String city = citiesHandler.getCitiesInEnglish().get(position).toLowerCase();
         UtilMethods.formatCityName(city);
         double temp = weatherMap.getMain().getTemp();
@@ -69,7 +69,7 @@ public class WeatherParser {
     }
 
     public static WeatherResult parseCityWeather(CityWeather cityWeather) {
-        WeatherResult weatherResult = WeatherResult.getInstance();
+        WeatherResult weatherResult = new WeatherResult();
         String city = cityWeather.getCityName();
         double temp = cityWeather.getTemperature();
         String description = cityWeather.getWeatherDescription();
