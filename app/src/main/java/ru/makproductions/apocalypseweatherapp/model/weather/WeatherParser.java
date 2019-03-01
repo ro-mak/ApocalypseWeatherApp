@@ -64,7 +64,7 @@ public class WeatherParser {
         String description = weatherMap.getWeather().get(WEATHER_ARRAY_INDEX).getDescription();
         weatherResult.setCityName(city);
         weatherResult.setTemperature(temp);
-        weatherResult.setWeatherDescription(city + " " + temp + " " + description);
+        weatherResult.setWeatherDescription(description);
         return weatherResult;
     }
 
